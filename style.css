@@ -1,0 +1,11 @@
+.button{
+	-fx-font-size: 10pt;
+	-fx-background-radius: 2;
+	-fx-background-color: linear-gradient(#43637c, #acaeaf);
+	-fx-font-family: "Didact Gothic";
+	-fx-text-fill: black;
+}
+.label {
+	-fx-font-family: "Didact Gothic";
+	-fx-text-fill: black;
+}

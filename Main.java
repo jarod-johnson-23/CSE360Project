@@ -80,15 +80,18 @@ public class Main extends Application {
 			//Doctor Home Page
 			GridPane doctorRoot = new GridPane();
 			Scene doctorHp = new Scene(doctorRoot, width, height);
+			doctorHp.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
 			
 			//Patient Home Page
 			BorderPane patHp = new BorderPane();
 			patHp.setBackground(defaultBg);
 			Scene patientHp = new Scene(patHp, width, height);
+			patientHp.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
 			
 			//Nurse Home Page
 			BorderPane nurseRoot = new BorderPane();
 			Scene nurseHp = new Scene(nurseRoot, width, height);
+			nurseHp.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
 			
 			
 			
@@ -115,12 +118,19 @@ public class Main extends Application {
 			
 			//Buttons on bottom of login screen
 			Button submit = new Button("Submit");
+			submit.setPrefWidth(162);
 			Button about = new Button("About");
+			about.setPrefWidth(150);
 			Button staff = new Button("Staff");
+			staff.setPrefWidth(150);
 			Button faq = new Button("FAQ's");
+			faq.setPrefWidth(150);
 			Button report = new Button("Report Bug");
+			report.setPrefWidth(150);
 			Button privacy = new Button("Privacy Policy");
+			privacy.setPrefWidth(150);
 			Button newAccount = new Button("Create an Account");
+			newAccount.setPrefWidth(162);
 			Button forgotPassword = new Button("Forgot Password?");
 			
 			//Login screen 
@@ -149,7 +159,7 @@ public class Main extends Application {
 			
 			//Login Screen Bottom Buttons Layout
 			HBox bottomScreen = new HBox();
-			bottomScreen.setSpacing(150);
+			bottomScreen.setSpacing(55);
 			bottomScreen.getChildren().addAll(about, staff, faq, report, privacy);
 			
 			//Login Screen Main Layout
@@ -162,6 +172,7 @@ public class Main extends Application {
 			
 			//Login scene
 			Scene logIn = new Scene(root,width,height);
+			logIn.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
 							
 			window.setTitle("https://www.totallyNormalDoctorsOffice.com");
 			window.setScene(logIn);
@@ -220,41 +231,6 @@ public class Main extends Application {
 			toggles.getChildren().addAll(practise, seuss);
 			
 			
-			submitInfo.setOnAction(e-> {
-				int added;
-				Doctor tempDr;
-				if(practise.isSelected()) {
-					tempDr = drPractise;
-				} else {
-					tempDr = drSeuss;
-				}
-				added = addPatient(field12.getText(), field13.getText(), field14.getText(), field20.getText(), 
-						field17.getText(), field18.getText(), field19.getText(), field15.getText(), field16.getText(),
-						field21.getText(), tempDr, field22.getText(), field23.getText());
-				field12.clear();
-				field13.clear();
-				field14.clear();
-				field15.clear();
-				field16.clear();
-				field17.clear();
-				field18.clear();
-				field19.clear();
-				field20.clear();
-				field21.clear();
-				field22.clear();
-				field23.clear();
-				
-				if(added == -1) {
-					failure.setText("Failed to Add Account");
-				}
-				if(added != -1) {
-					window.setScene(logIn);
-					success.setText("Account Created Successfully!");
-				}				
-			});
-			
-			
-			
 			GridPane createAccount = new GridPane();
 			createAccount.setPadding(new Insets(10, 10, 10, 10));
 			createAccount.setVgap(10);
@@ -294,12 +270,17 @@ public class Main extends Application {
 			createAccount.add(toggles, 1, 16);
 			
 			Scene newAccountPage = new Scene(createAccount, width, height);
+			newAccountPage.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
 			
 			Button logOut = new Button("Log Out");
 			Button vitals = new Button("Vitals");
+			vitals.setPrefWidth(150);
 			Button personalInfo = new Button("Personal Information");
+			personalInfo.setPrefWidth(150);
 			Button drNotes = new Button("Doctor's Notes");
+			drNotes.setPrefWidth(150);
 			Button makePrescription = new Button("Make Prescription");
+			makePrescription.setPrefWidth(150);
 			
 
 			Label welcomeDr = new Label("");
@@ -343,7 +324,16 @@ public class Main extends Application {
 			backToHome.setMinSize(tabs.getPrefWidth(), tabs.getPrefHeight());
 			
 			Label welcomePatient = new Label();
+			welcomePatient.setFont(titleFont);
 			Label summOnHp = new Label("Summary of Last Visit:");
+			Label summTextBox = new Label();
+			
+			
+			VBox mid = new VBox();
+			mid.setPadding(new Insets(20, 20, 20, 20));
+			mid.getChildren().addAll(welcomePatient, summOnHp, summTextBox);
+			
+			patHp.setCenter(mid);
 			
 			tabs.getChildren().addAll(info, messages, pastVisits, scheduleVisit, backToHome);
 			patHp.setLeft(tabs);		
@@ -358,6 +348,48 @@ public class Main extends Application {
 					items.clear();
 				}
 				loginIndex = -1;
+			});
+			
+			//logout of patient home page
+			backToHome.setOnAction(e -> {
+				window.setScene(logIn);
+				errorLabel.setText("");
+				success.setText("");
+				loginIndex = -1;
+			});
+			
+			//Submitting the new patient information
+			submitInfo.setOnAction(e-> {
+				int added;
+				Doctor tempDr;
+				if(practise.isSelected()) {
+					tempDr = drPractise;
+				} else {
+					tempDr = drSeuss;
+				}
+				added = addPatient(field12.getText(), field13.getText(), field14.getText(), field20.getText(), 
+						field17.getText(), field18.getText(), field19.getText(), field15.getText(), field16.getText(),
+						field21.getText(), tempDr, field22.getText(), field23.getText());
+				field12.clear();
+				field13.clear();
+				field14.clear();
+				field15.clear();
+				field16.clear();
+				field17.clear();
+				field18.clear();
+				field19.clear();
+				field20.clear();
+				field21.clear();
+				field22.clear();
+				field23.clear();
+				
+				if(added == -1) {
+					failure.setText("Failed to Add Account");
+				}
+				if(added != -1) {
+					window.setScene(logIn);
+					success.setText("Account Created Successfully!");
+				}				
 			});
 			
 			//Extracting Username/Password Data into inputUsername and inputPassword variables
@@ -396,6 +428,7 @@ public class Main extends Application {
 					window.setScene(nurseHp);
 				} else if(loginIndex >=0) {
 					window.setScene(patientHp);
+					welcomePatient.setText("Welcome, " + patients[loginIndex].getFName() + " " + patients[loginIndex].getLName());
 				}
 			});
 			

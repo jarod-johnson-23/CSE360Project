@@ -71,8 +71,11 @@ public class Main extends Application {
 			BackgroundFill logInBgFill = new BackgroundFill(Color.color(1, 0.7, 0.4, 0.75), new CornerRadii(30), new Insets(200, 0, 200, 0));
 			Background backing = new Background(logInBgFill);
 			//Square behind information text on main screen
-			BackgroundFill textFlowBgFill = new BackgroundFill(Color.color(1, 0.7, 0.4, 0.75), new CornerRadii(30), new Insets(328, 0, 250, -50));
+			BackgroundFill textFlowBgFill = new BackgroundFill(Color.color(1, 0.7, 0.4, 0.75), new CornerRadii(30), new Insets(328, 0, 215, -50));
 			Background textFlowBacking = new Background(textFlowBgFill);
+			//Patient homepage white background fill
+			BackgroundFill patHpBgFill = new BackgroundFill(Color.WHITESMOKE, new CornerRadii(10), new Insets(100, 200, 150, 10));
+			Background patHpBg = new Background(patHpBgFill);
 			
 			//Login screen grid
 			GridPane grid = new GridPane();
@@ -98,7 +101,7 @@ public class Main extends Application {
 			
 			Label title = new Label("Welcome to the Totally Normal Doctor's Office");
 			title.setFont(titleFont);
-			Label description = new Label("Our office specializes in top of the line Pediatric care with help from Dr. Mal Practise and Dr. Harold Seuss Jr.");
+			Label description = new Label("Our office specializes in top of the line Pediatric care with help from Dr. Mal Practise and Dr. Harold Seuss Jr. We \"Totally\" care that you have a \"Normal\" experience at our \"Doctor's Office\"");
 			description.setWrapText(true);
 			description.setMaxWidth(300);
 			description.setTextAlignment(TextAlignment.CENTER);
@@ -326,11 +329,15 @@ public class Main extends Application {
 			Label welcomePatient = new Label();
 			welcomePatient.setFont(titleFont);
 			Label summOnHp = new Label("Summary of Last Visit:");
-			Label summTextBox = new Label();
+			Label summTextBox = new Label("There is no record of your last visit at Totally Normal Doctor's Office....ekrjv wlkejnr vlwkej nrvlk wjenr lvkjnwe  lkjrnvl wkej  nrlvk wj enrlv xskwjenrv");
+			summTextBox.setWrapText(true);
+			summTextBox.setMaxWidth(550);
 			
 			
 			VBox mid = new VBox();
+			mid.setBackground(patHpBg);
 			mid.setPadding(new Insets(20, 20, 20, 20));
+			mid.setSpacing(20);
 			mid.getChildren().addAll(welcomePatient, summOnHp, summTextBox);
 			
 			patHp.setCenter(mid);
@@ -362,6 +369,7 @@ public class Main extends Application {
 			submitInfo.setOnAction(e-> {
 				int added;
 				Doctor tempDr;
+				errorLabel.setText("");
 				if(practise.isSelected()) {
 					tempDr = drPractise;
 				} else {
@@ -446,8 +454,8 @@ public class Main extends Application {
 		launch(args);
 	}
 	
-	//function checks if the login information is  a valid username. Returning 100 means it was a doctor, 
-	//	returning 101 means it was a nurse, returning a number 0-99 means it is a patient.
+	//function checks if the login information is  a valid username. Returning 100 means it was Dr. Practise,
+	//	 returning 101 means it was Dr. Seuss, returning >=102 means it is a nurse, returning a number 0-99 means it is a patient.
 	public int checkLogin(String username, String password) {
 		
 		if(username.equals(drPractise.getUsername()) && password.equals(drPractise.getPassword())) {

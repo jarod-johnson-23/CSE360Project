@@ -31,7 +31,7 @@ public class WelcomePage extends Application
 	
 	public void start(Stage primaryStage) throws FileNotFoundException
 	{		
-		// GUI CODE -------------------------------------------------------------
+		// GUI CODE --------------------------------------------------------------------------------------------------------------------------
 		// save primary stage
 		window = primaryStage;
 	
@@ -84,7 +84,7 @@ public class WelcomePage extends Application
 		window.setScene(welcomeLogin);
 		window.show();
 		
-		// DATA MANIPULATION CODE -------------------------------------------------------------
+		// DATA MANIPULATION CODE --------------------------------------------------------------------------------------------------------------------------
 		// define doctors
 		drPractise = new Doctor("Mal Practise", "#1doctor", "password", practisePatients, 100);
 		drSeuss = new Doctor("Harold Seuss", "#2doctor", "greeneggsandham", seussPatients, 101);

@@ -55,8 +55,8 @@ public class PersonalInfo extends GridPane
 		personalHistory.setFont(titleFont);
 
 		// define labels
-		allergies = new Label("Known allergies");
-		healthConcerns = new Label("Health Concerns");
+		allergies = new Label("Known allergies:");
+		healthConcerns = new Label("Health Concerns:");
 		name = new Label("Name: ");
 		age = new Label("Age: ");
 		birthday = new Label("Birthday: ");

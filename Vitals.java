@@ -44,11 +44,11 @@ public class Vitals extends GridPane
 		title.setFont(titleFont);
 
 		// define vital prompt labels
-		heartRate = new Label("Heart Rate");
-		weight = new Label("Weight");
-		temp = new Label("Body Temperature");
-		respRate = new Label("Respiration Rate");
-		bloodPressure = new Label("Blood Pressure");
+		heartRate = new Label("Heart Rate:");
+		weight = new Label("Weight:");
+		temp = new Label("Body Temperature:");
+		respRate = new Label("Respiration Rate:");
+		bloodPressure = new Label("Blood Pressure:");
 		
 		// define buttons
 		back = new Button("Back");
@@ -116,10 +116,12 @@ public class Vitals extends GridPane
 		{
 			if (submitEvent.getEventType() == MouseEvent.MOUSE_CLICKED)
 			{
-				// check if all fields full - TODO
+				// TODO - check if all fields full
 		
 				Scene empScene = WelcomePage.getEmployeeHome();
 				WelcomePage.getStage().setScene(empScene);
+				
+				// TODO - save information in patient object
 			}
 		}
 	}

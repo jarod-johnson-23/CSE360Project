@@ -1,11 +1,13 @@
 package application;
 
 import java.io.FileNotFoundException;
+import java.time.LocalDate;
 
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
@@ -28,7 +30,7 @@ public class DoctorNotes extends GridPane
 	private int height = 1000;
 	private Label title, subject, date, notes, signature;
 	private Button back, submit;
-	private TextField subjectBox, dateBox, notesBox, signatureBox;
+	private TextField subjectBox, notesBox, signatureBox;
 	
 	public DoctorNotes() throws FileNotFoundException
 	{
@@ -45,10 +47,16 @@ public class DoctorNotes extends GridPane
 		title.setFont(titleFont);
 
 		// define labels
-		subject = new Label("Subject");
-		date = new Label("Date");
-		notes = new Label("Notes");
-		signature = new Label("Signature");
+		subject = new Label("Subject:");
+		date = new Label("Date:");
+		notes = new Label("Notes:");
+		signature = new Label("Signature:");
+		
+		// define datePicker
+		DatePicker datePicker = new DatePicker();
+		
+		// set current date
+		datePicker.setValue(LocalDate.now());
 		
 		// define buttons
 		back = new Button("Back");
@@ -60,13 +68,12 @@ public class DoctorNotes extends GridPane
 		
 		// define textFields
 		subjectBox = new TextField();
-		dateBox = new TextField();
 		notesBox = new TextField();
 		signatureBox = new TextField();
 		
 		// set minimum size of notes textField
 		notesBox.setMinHeight(200);
-		notesBox.setMinWidth(339);
+		notesBox.setMinWidth(365);
 		
 		// define vBox
 		VBox subjectVBox = new VBox();
@@ -74,7 +81,7 @@ public class DoctorNotes extends GridPane
 		
 		// add elements to vBox
 		subjectVBox.getChildren().addAll(subject, subjectBox);
-		dateVBox.getChildren().addAll(date, dateBox);
+		dateVBox.getChildren().addAll(date, datePicker);
 		
 		// adjust vBox padding and spacing
 		subjectVBox.setPadding(new Insets(10, 0, 0, 0));

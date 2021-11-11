@@ -64,39 +64,60 @@ public class DoctorNotes extends GridPane
 		notesBox = new TextField();
 		signatureBox = new TextField();
 		
+		// set minimum size of notes textField
+		notesBox.setMinHeight(200);
+		notesBox.setMinWidth(339);
+		
+		// define vBox
+		VBox subjectVBox = new VBox();
+		VBox dateVBox = new VBox();
+		
+		// add elements to vBox
+		subjectVBox.getChildren().addAll(subject, subjectBox);
+		dateVBox.getChildren().addAll(date, dateBox);
+		
+		// adjust vBox padding and spacing
+		subjectVBox.setPadding(new Insets(10, 0, 0, 0));
+		subjectVBox.setSpacing(10);
+		dateVBox.setPadding(new Insets(10, 0, 0, 0));
+		dateVBox.setSpacing(10);
+	    
 		// define hBoxs
 		HBox line1 = new HBox();
 		HBox line2 = new HBox();
 		HBox line3 = new HBox();
 		HBox line4 = new HBox();
 		HBox line5 = new HBox();
-		HBox line6 = new HBox();
 		
 		// add elements to HBox
-		line1.getChildren().addAll(subject, date);
-		line2.getChildren().addAll(subjectBox, dateBox);
-		line3.getChildren().addAll(notes);
-		line4.getChildren().addAll(notesBox);
-		line5.getChildren().addAll(signature);
-		line6.getChildren().addAll(signatureBox);
+		line1.getChildren().addAll(subjectVBox, dateVBox);
+		line2.getChildren().addAll(notes);
+		line3.getChildren().addAll(notesBox);
+		line4.getChildren().addAll(signature);
+		line5.getChildren().addAll(signatureBox);
 		
-		// set spacing for HBoxs
+		// set spacing for hBoxs
 		line1.setSpacing(20);
 		line2.setSpacing(20);
 		line3.setSpacing(20);
 		line4.setSpacing(20);
 		line5.setSpacing(20);
-		line6.setSpacing(20);
 		
 		// define vBox
 		VBox box = new VBox();
 		
+		// add elements to vBox
+		box.getChildren().addAll(line1, line2, line3, line4, line5);
+		
 		// adjust vBox padding and spacing
+		box.setPadding(new Insets(10, 0, 0, 0));
+	    box.setSpacing(10);
 		
 		// add elements to gridPane
 		this.add(back, 0, 0);
 		this.add(title, 1, 1);
-		this.add(submit, 1, 12);
+		this.add(box, 1, 2);
+		this.add(submit, 1, 5);
 		
 		// adjust gridPane padding and spacing
 		this.setPadding(new Insets(10, 10, 10, 10));
@@ -134,6 +155,8 @@ public class DoctorNotes extends GridPane
 		
 				Scene empScene = WelcomePage.getEmployeeHome();
 				WelcomePage.getStage().setScene(empScene);
+				
+				// TODO - save information in patient object
 			}
 		}
 	}

@@ -16,6 +16,10 @@ import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
 import javafx.scene.text.TextFlow;
 
+//file import
+import java.io.*;
+import java.util.Scanner;
+
 
 public class Main extends Application {
 	private static int height = 700;
@@ -25,19 +29,19 @@ public class Main extends Application {
 	private Stage window;
 	private int loginIndex = -1;
 	private Patient[] patients = new Patient[20];
-	private Patient[] practisePatients = new Patient[10];
-	private Patient[] seussPatients = new Patient[10];
+	private Patient[] practisePatients = new Patient[20];
+	private Patient[] seussPatients = new Patient[20];
+	
 	
 	private Doctor drPractise;
 	private Doctor drSeuss;
 	private Doctor fakeDoctor;
 	
-
-	
-	
 	@Override
 	public void start(Stage primaryStage) {
 		try {
+			
+			
 			
 			window = primaryStage;
 			
@@ -48,12 +52,129 @@ public class Main extends Application {
 			
 			//Set all patient objects to null
 			for(int i = 0; i < patients.length; i++) {
-				patients[i] = new Patient(null, null, null, 0, null, null, null, null, null, null, null, fakeDoctor, null, null);
+				patients[i] = new Patient(null, null, null, 0, null, null, null, null, null, null, fakeDoctor, null, null);
 			}
 			for(int i = 0; i < practisePatients.length; i++) {
-				practisePatients[i] = new Patient(null, null, null, 0, null, null, null, null, null, null, null, drPractise, null, null);
-				seussPatients[i] = new Patient(null, null, null, 0, null, null, null, null, null, null, null, drSeuss, null, null);
+				practisePatients[i] = new Patient(null, null, null, 0, null, null, null, null, null, null, drPractise, null, null);
+				seussPatients[i] = new Patient(null, null, null, 0, null, null, null, null, null, null, drSeuss, null, null);
 			}
+			
+			//Inupt file initialized
+			File dataFile = new File("dataFile.txt");
+			Scanner scan = new Scanner(dataFile);
+			String tempStr;
+			int choice;
+			int importIndex = 0;
+			int stop = 0;
+			
+			/*
+			 * Each patient object is stored line-by-line in this order:
+			 * 1) A number to indicate if it is a patient object or not
+			 * 2) First name
+			 * 3) Middle name
+			 * 4) Last name
+			 * 5) Age
+			 * 6) Birthday
+			 * 7) gender
+			 * 8) address
+			 * 9) phone number
+			 * 10) email
+			 * 11) pharmacy
+			 * 12) a integer where 10 means the doctor is Dr.practise, and 20 means Dr. Seuss
+			 * 13) username
+			 * 14) password
+			 * 15) the rest of the lines are health concerns, the health concerns end when "end" is found
+			 * 
+			 */
+			if(dataFile.exists()) {
+				
+				System.out.println("File name: " + dataFile.getName());
+			    System.out.println("Writeable: " + dataFile.canWrite());
+			    System.out.println("Readable " + dataFile.canRead());
+			    System.out.println("File size in bytes " + dataFile.length());
+				do {
+					choice = Integer.parseInt(scan.nextLine());
+					
+					if(choice == 0) {
+						stop = 0;
+						tempStr = scan.nextLine();
+						if(tempStr.equals("null"))
+							tempStr = null;
+						patients[importIndex].setFName(tempStr);
+						tempStr = scan.nextLine();
+						if(tempStr.equals("null"))
+							tempStr = null;
+						patients[importIndex].setMName(tempStr);
+						tempStr = scan.nextLine();
+						if(tempStr.equals("null"))
+							tempStr = null;
+						patients[importIndex].setLName(tempStr);
+						patients[importIndex].setAge(Integer.parseInt(scan.nextLine()));
+						tempStr = scan.nextLine();
+						if(tempStr.equals("null"))
+							tempStr = null;
+						patients[importIndex].setBday(tempStr);
+						tempStr = scan.nextLine();
+						if(tempStr.equals("null"))
+							tempStr = null;
+						patients[importIndex].setGender(tempStr);
+						tempStr = scan.nextLine();
+						if(tempStr.equals("null"))
+							tempStr = null;
+						patients[importIndex].setAddr(tempStr);
+						tempStr = scan.nextLine();
+						if(tempStr.equals("null"))
+							tempStr = null;
+						patients[importIndex].setPhone(tempStr);
+						tempStr = scan.nextLine();
+						if(tempStr.equals("null"))
+							tempStr = null;
+						patients[importIndex].setEmail(tempStr);
+						tempStr = scan.nextLine();
+						if(tempStr.equals("null"))
+							tempStr = null;
+						patients[importIndex].setPharmacy(tempStr);
+						if(Integer.parseInt(scan.nextLine()) == 10) {
+							patients[importIndex].setDoctor(drPractise);
+						} else {
+							patients[importIndex].setDoctor(drSeuss);
+						}
+						tempStr = scan.nextLine();
+						if(tempStr.equals("null"))
+							tempStr = null;
+						patients[importIndex].setUsername(tempStr);
+						tempStr = scan.nextLine();
+						if(tempStr.equals("null"))
+							tempStr = null;
+						patients[importIndex].setPassword(tempStr);
+						do {
+							tempStr = scan.nextLine();
+
+							if(tempStr.equals("end") == false) {
+								
+								patients[importIndex].addIssue(tempStr);
+								
+							}
+						} while(tempStr.equals("end") == false);
+						
+					} 
+					if(patients[importIndex].getDoctor() == drPractise) {
+						drPractise.addPatient(patients[importIndex]);
+					} else {
+						drSeuss.addPatient(patients[importIndex]);
+					}
+					
+					importIndex++;
+				} while(scan.hasNextLine());
+							
+			} else {
+				System.out.println("Doesnt exist");
+			}
+			System.out.println(patients[0].getIssue(0));
+			System.out.println(patients[0].getIssue(1));
+			System.out.println(patients[0].getIssue(2));
+			System.out.println(patients[0].getIssue(3));
+			scan.close();
 			
 			
 			//Font for title text
@@ -154,6 +275,9 @@ public class Main extends Application {
 			grid.add(success, 2, 3);
 			grid.add(forgotPassword, 2, 5);
 			grid.setBackground(backing);
+			
+			Button exit = new Button("exit");
+			grid.add(exit, 0, 6);
 			
 			//Login Screen Text Box Layout
 			TextFlow textFlow = new TextFlow();
@@ -345,6 +469,53 @@ public class Main extends Application {
 			tabs.getChildren().addAll(info, messages, pastVisits, scheduleVisit, backToHome);
 			patHp.setLeft(tabs);		
 			patHp.getLeft().setStyle("-fx-background-color: darkgrey");
+			
+			
+			//Exit button saves input to the dataFile
+			exit.setOnAction(e -> {
+				try {
+					FileWriter outFile = new FileWriter("dataFile.txt");
+					BufferedWriter output = new BufferedWriter(outFile);
+					
+					
+					
+					for(int i = 0; i < patients.length; i++) {
+						int index = 0;
+						
+						output.write("0\n");
+						output.write(patients[i].getFName() + "\n");
+						output.write(patients[i].getMName() + "\n");
+						output.write(patients[i].getLName() + "\n");
+						output.write(patients[i].getAge() + "\n");
+						output.write(patients[i].getBday() + "\n");
+						output.write(patients[i].getGender() + "\n");
+						output.write(patients[i].getAddress() + "\n");
+						output.write(patients[i].getPhoneNumber() + "\n");
+						output.write(patients[i].getEmail() + "\n");
+						output.write(patients[i].getPharmacy() + "\n");
+						if(patients[i].getDoctor() == drPractise) {
+							output.write("10\n");
+						} else {
+							output.write("20\n");
+						}
+						output.write(patients[i].getUsername() + "\n");
+						output.write(patients[i].getPassword() + "\n");
+						while(patients[i].getIssue(index) != null) {
+							output.write(patients[i].getIssue(index) + "\n");
+							index++;
+						}
+						
+						output.write("end\n");
+						
+					}
+					
+					output.close();
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
+				
+				window.close();
+			});
 				
 			//Go back to login screen
 			logOut.setOnAction(e -> {
@@ -497,6 +668,7 @@ public class Main extends Application {
 		patients[i].setUsername(uName);
 		patients[i].setPassword(pWord);
 		patients[i].addIssue(issues);
+		System.out.println(issues);
 		patients[i].setDoctor(aDoctor);
 		
 		int j = 0;

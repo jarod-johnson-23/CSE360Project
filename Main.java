@@ -52,11 +52,11 @@ public class Main extends Application {
 			
 			//Set all patient objects to null
 			for(int i = 0; i < patients.length; i++) {
-				patients[i] = new Patient(null, null, null, 0, null, null, null, null, null, null, fakeDoctor, null, null);
+				patients[i] = new Patient(null, null, null, 0, null, null, null, null, null, null, null, fakeDoctor, null, null);
 			}
 			for(int i = 0; i < practisePatients.length; i++) {
-				practisePatients[i] = new Patient(null, null, null, 0, null, null, null, null, null, null, drPractise, null, null);
-				seussPatients[i] = new Patient(null, null, null, 0, null, null, null, null, null, null, drSeuss, null, null);
+				practisePatients[i] = new Patient(null, null, null, 0, null, null, null, null, null, null, null, drPractise, null, null);
+				seussPatients[i] = new Patient(null, null, null, 0, null, null, null, null, null, null, null, drSeuss, null, null);
 			}
 			
 			//Inupt file initialized

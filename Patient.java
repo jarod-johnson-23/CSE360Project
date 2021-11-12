@@ -14,7 +14,6 @@ public class Patient {
 	private String email;
 	private String pharmacy;
 	private List<Prescription> prescriptions;
-	private String healthIssues[] = new String[10];
 	private String medications[] = new String[10];
 	private String vaccines[] = new String[10];
 	private String allergies[] = new String[10];
@@ -25,7 +24,7 @@ public class Patient {
 	
 	public Patient(String fName, String mName, String lName, int age, String birthday, String gender,
 						String address, String phoneNumber, String email, String pharmacy, List<Prescription> p_list,
-					    String[] healthConcerns, Doctor doctor, String username, String password)
+					    Doctor doctor, String username, String password)
 	{
 		this.fName = fName;
 		this.mName= mName;
@@ -38,137 +37,109 @@ public class Patient {
 		this.email = email;
 		this.pharmacy = pharmacy;
 		this.prescriptions = p_list;
-		this.healthConcerns = healthConcerns;
 		this.doctor = doctor;
 		this.username = username;
 		this.password = password;
 	}
 	
 	//Getter methods
-	public String getUsername() 
-	{
+	public String getUsername() {
 		return username;
 	}	
-	public String getPassword() 
-	{
+	public String getPassword() {
 		return password;
 	}
-	public String getFName() 
-	{
+	public String getFName() {
 		return fName;
 	}
-	public String getMName() 
-	{
+	public String getMName() {
 		return mName;
 	}
-	public String getLName() 
-	{
+	public String getLName() {
 		return lName;
 	}
-	public int getAge() 
-	{
+	public int getAge() {
 		return age;
 	}
-	public String getBday() 
-	{
+	public String getBday() {
 		return birthday;
 	}
-	public String getGender() 
-	{
+	public String getGender() {
 		return gender;
 	}
-	public String getAddress() 
-	{
+	public String getAddress() {
 		return address;
 	}
-	public String getPhoneNumber() 
-	{
+	public String getPhoneNumber() {
 		return phoneNumber;
 	}
-	public String getEmail() 
-	{
+	public String getEmail() {
 		return email;
 	}
-	public String getPharmacy() 
-	{
+	public String getPharmacy() {
 		return pharmacy;
+	}
+	public Doctor getDoctor() {
+		return doctor;
+	}
+	
+	public String getIssue(int index) {
+		return healthConcerns[index];
 	}
 	public List<Prescription> getPrescriptions()
 	{
 		return prescriptions;
 	}
-	public Doctor getDoctor() 
-	{
-		return doctor;
-	}
+	
 	
 	//Setter methods
-	public void setUsername(String u) 
-	{
+	public void setUsername(String u) {
 		username = u;
 	}
-	public void setPassword(String p) 
-	{
+	public void setPassword(String p) {
 		password = p;
 	}
-	public void setFName(String n) 
-	{
+	public void setFName(String n) {
 		fName = n;
 	}	
-	public void setMName(String n) 
-	{
+	public void setMName(String n) {
 		mName = n;
 	}
-	public void setLName(String n) 
-	{
+	public void setLName(String n) {
 		lName = n;
 	}
-	public void setAge(int a) 
-	{
+	public void setAge(int a) {
 		age = a;
 	}
-	public void setBday(String d) 
-	{
+	public void setBday(String d) {
 		birthday = d;
 	}
-	public void setGender(String g) 
-	{
+	public void setGender(String g) {
 		gender = g;
 	}
-	public void setAddr(String a) 
-	{
+	public void setAddr(String a) {
 		address = a;
 	}
-	public void setPhone(String p) 
-	{
+	public void setPhone(String p) {
 		phoneNumber = p;
 	}
-	public void setEmail(String e) 
-	{
+	public void setEmail(String e) {
 		email = e;
 	}
-	public void setPharmacy(String p) 
-	{
+	public void setPharmacy(String p) {
 		pharmacy = p;
 	}
-	public void addIssue(String iss) 
-	{
+	
+	public void addIssue(String iss) {
 		int i = 0;
-		while(healthIssues[i] != null) 
-		{
+		while(healthConcerns[i] != null) {
 			i++;
 		}
-		healthIssues[i] = iss;
-	}
-	public void setDoctor(Doctor aDoctor) 
-	{
-		doctor = aDoctor;
+		healthConcerns[i] = iss;
 	}
 	
-	// other methods
-	public void addPrescription(Prescription p)
-	{
-		prescriptions.add(p);
+	public void setDoctor(Doctor aDoctor) {
+		doctor = aDoctor;
 	}
 	
 	public String concatenateNames()
@@ -180,6 +151,10 @@ public class Patient {
 		return secondHalf;
 	}
 	
+	// other methods
+		public void addPrescription(Prescription p)
+		{
+			prescriptions.add(p);
+		}
 }
-
 

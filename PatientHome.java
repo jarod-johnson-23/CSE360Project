@@ -65,7 +65,7 @@ public class PatientHome extends BorderPane
 		backToHome.setMinSize(tabs.getPrefWidth(), tabs.getPrefHeight());
 
 		// define labels
-		welcomePatient = new Label();
+		welcomePatient = new Label("Welcome!");
 		summOnHp = new Label("Summary of Last Visit:");
 		summTextBox = new Label("There is no record of your last visit at Totally Normal Doctor's Office....ekrjv wlkejnr vlwkej nrvlk wjenr lvkjnwe  lkjrnvl wkej  nrlvk wj enrlv xskwjenrv");
 		
@@ -87,7 +87,7 @@ public class PatientHome extends BorderPane
 		// add elements to tabs
 		tabs.getChildren().addAll(info, messages, pastVisits, scheduleVisit, backToHome);
 		
-		// set elements in borderPane
+		// set elements to borderPane
 		this.setLeft(tabs);	
 		
 		// set style of background
@@ -95,7 +95,10 @@ public class PatientHome extends BorderPane
 		
 		// link source nodes with handler objects
 		backToHome.setOnMouseClicked(new LogoutHandler());
-		
+		info.setOnMouseClicked(new InfoHandler());
+		//messages.setOnMouseClicked(new MessagesHandler());
+		//pastVisits.setOnMouseClicked(new PastVisitsHandler());
+		//scheduleVisit.setOnMouseClicked(new ScheduleVisitHandler());
 	}
 	
 	// information
@@ -105,6 +108,17 @@ public class PatientHome extends BorderPane
 	// past visits
 	
 	// schedule a visit
+	private class InfoHandler implements EventHandler<MouseEvent>
+	{
+		public void handle(MouseEvent infoEvent)
+		{
+			if (infoEvent.getEventType() == MouseEvent.MOUSE_CLICKED)
+			{
+				//Scene infoScene = WelcomePage.getPatientInfo();
+				//WelcomePage.getStage().setScene(loginScene);
+			}
+		}
+	}
 	
 	// logout
 	private class LogoutHandler implements EventHandler<MouseEvent>

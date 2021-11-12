@@ -86,20 +86,20 @@ public class WelcomePage extends Application
 		
 		// DATA MANIPULATION CODE --------------------------------------------------------------------------------------------------------------------------
 		// define doctors
-		drPractise = new Doctor("Mal Practise", "#1doctor", "password", practisePatients, 100);
-		drSeuss = new Doctor("Harold Seuss", "#2doctor", "greeneggsandham", seussPatients, 101);
-		fakeDoctor = new Doctor("fakeDoctor", "fake", "doctor", patients, 200);
+		drPractise = new Doctor("Mal Practise", "#1doctor", "password", practisePatients, 100, null);
+		drSeuss = new Doctor("Harold Seuss", "#2doctor", "greeneggsandham", seussPatients, 101, null);
+		fakeDoctor = new Doctor("fakeDoctor", "fake", "doctor", patients, 200, null);
 		
 		// set all patient objects to null
 		for(int i = 0; i < patients.length; i++) 
 		{
-			patients[i] = new Patient(null, null, null, 0, null, null, null, null, null, null, null, fakeDoctor, null, null);
+			patients[i] = new Patient(null, null, null, 0, null, null, null, null, null, null, null, null, fakeDoctor, null, null);
 		}
 		
 		for(int i = 0; i < practisePatients.length; i++) 
 		{
-			practisePatients[i] = new Patient(null, null, null, 0, null, null, null, null, null, null, null, drPractise, null, null);
-			seussPatients[i] = new Patient(null, null, null, 0, null, null, null, null, null, null, null, drSeuss, null, null);
+			practisePatients[i] = new Patient(null, null, null, 0, null, null, null, null, null, null, null, null, drPractise, null, null);
+			seussPatients[i] = new Patient(null, null, null, 0, null, null, null, null, null, null, null, null, drSeuss, null, null);
 		}
 		
 	}

@@ -10,14 +10,20 @@ public class Doctor {
 	private int loginIndex;
 	private List<Message> messages;
 	
-	// constructor
-	public Doctor(String name2, String username2, String password2, Patient[] patients2, int loginIndex2, List<Message> messages) {
+	// Constructor
+	public Doctor(String name2, String username2, String password2, int size, int loginIndex2, Doctor drObject, List<Message> messages) {
 		this.name = name2;
 		this.username = username2;
 		this.password = password2;
-		this.patients = patients2;
+		this.patients = new Patient[size];
 		this.loginIndex = loginIndex2;
 		this.messages = messages;
+		
+		// Sets the array of Patients to null and doctor of patients
+		for(int i = 0; i < patients.length; i++)
+		{
+			patients[i] = new Patient(null, null, null, 0, null, null, null, null, null, null, null, null, drObject, null, null);
+		}
 	}
 
 	public void addPatient(Patient newPatient) 
@@ -58,6 +64,33 @@ public class Doctor {
 	public void addMessage(Message message)
 	{
 		messages.add(message);
+	}
+	
+	//---------------------------------------------------------------------------------------------------
+	// NEW CODE
+
+	// Allows a doctor to enter a issue of patient
+	public void enterPhysical(String patientFirstName, String issue)
+	{
+		for (int i = 0; i < patients.length; i++)
+		{
+			if (patients[i].getFName().equals(patientFirstName))
+			{
+				patients[i].addIssue(issue);
+			}
+		}
+	}
+
+	// Allows a doctor to enter a prescription for a patient
+	public void enterPrescription(String patientFirstName, Prescription p)
+	{
+		for (int i = 0; i < patients.length; i++)
+		{
+			if (patients[i].getFName().equals(patientFirstName))
+			{
+				patients[i].addPrescription(p);
+			}
+		}
 	}
 }
 

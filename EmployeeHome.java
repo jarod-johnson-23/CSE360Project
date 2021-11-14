@@ -61,7 +61,7 @@ public class EmployeeHome extends GridPane {
 		makePrescription.setPrefWidth(150);
 
 		// define labels
-		welcomeDr = new Label("Welcome!");
+		welcomeDr = new Label(WelcomePage.getName());
 		pats = new Label("Patients");
 		actions = new Label("Please choose an action");
 		
@@ -69,8 +69,9 @@ public class EmployeeHome extends GridPane {
 		welcomeDr.setFont(titleFont);
 		
 		// get list of patients - FIXME
-		ListView<String> patientNames = new ListView<String>();
-		patientNames.getItems().addAll("John Doe", "Mary Sue", "Bob Thomas");
+		ListView<String> patientNames = WelcomePage.getPatientNamesInEmp();
+		//ObservableList<String> items = FXCollections.<String>observableArrayList();
+		//patientNames.getItems().addAll("John Doe", "Mary Sue", "Bob Thomas");
 
 		// add elements to gridPane
 		this.add(logOut, 0, 0);
@@ -106,8 +107,7 @@ public class EmployeeHome extends GridPane {
 		{
 			if (logoutEvent.getEventType() == MouseEvent.MOUSE_CLICKED)
 			{
-				Scene loginScene = WelcomePage.getWelcomeLogin();
-				WelcomePage.getStage().setScene(loginScene);
+				WelcomePage.logoutEmp();
 			}
 		}
 	}

@@ -65,7 +65,7 @@ public class PatientHome extends BorderPane
 		backToHome.setMinSize(tabs.getPrefWidth(), tabs.getPrefHeight());
 
 		// define labels
-		welcomePatient = new Label("Welcome!");
+		welcomePatient = new Label(WelcomePage.getName());
 		summOnHp = new Label("Summary of Last Visit:");
 		summTextBox = new Label("There is no record of your last visit at Totally Normal Doctor's Office....ekrjv wlkejnr vlwkej nrvlk wjenr lvkjnwe  lkjrnvl wkej  nrlvk wj enrlv xskwjenrv");
 		

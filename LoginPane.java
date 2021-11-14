@@ -1,6 +1,9 @@
 package application;
 
+import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -35,7 +38,7 @@ public class LoginPane extends BorderPane
 	private int height = 1000;
 	private Label title, description, label1, label2, label3, success, error;
 	private TextField usernameText, passwordText;
-	private Button submit, about, staff, faq, report, privacy, newAccount, forgotPassword;
+	private Button submit, about, staff, faq, report, privacy, newAccount, forgotPassword, exit;
 	private TextFlow textFlow;
 	
 	public LoginPane() throws FileNotFoundException
@@ -100,6 +103,7 @@ public class LoginPane extends BorderPane
 		newAccount = new Button("Create an Account");
 		newAccount.setPrefWidth(162);
 		forgotPassword = new Button("Forgot Password?");
+		exit = new Button("Exit");
 		
 		// define gridPane
 		GridPane grid = new GridPane();
@@ -121,7 +125,9 @@ public class LoginPane extends BorderPane
 		grid.add(newAccount, 1, 5);
 		grid.add(success, 2, 3);
 		grid.add(forgotPassword, 2, 5);
+		grid.add(exit, 0, 6);
 		grid.setBackground(backing);
+		
 		
 		// create textFlow
 		textFlow = new TextFlow();
@@ -143,6 +149,7 @@ public class LoginPane extends BorderPane
 		// link source nodes with handler objects
 		newAccount.setOnMouseClicked(new CreateHandler());
 		submit.setOnMouseClicked(new SubmitHandler());
+		exit.setOnMouseClicked(new ExitHandler());
 	}
 	
 	// create
@@ -165,11 +172,146 @@ public class LoginPane extends BorderPane
 		{
 			if (submitEvent.getEventType() == MouseEvent.MOUSE_CLICKED)
 			{
-				// TODO - check user name and password
-				// scene is dependent on whether doctor/nurse/patient is logging in
+				// declare variables
+				int index;
+				Patient[] practisePatients = WelcomePage.getPractisePatients();
+				Patient[] seussPatients = WelcomePage.getSeussPatients();
+				Patient[] patients = WelcomePage.getPatients();
+				
+				// get inputed user name and password
+				String inputUsername = usernameText.getText();
+				String inputPassword = passwordText.getText();
+				
+				// get login index
+				index = WelcomePage.checkLogin(inputUsername, inputPassword);
+				
+				// adjust login index in welcomePage to new index
+				WelcomePage.changeLoginIndex(index);
+				
+				// analyze user login
+				if(index == -1) 
+				{
+					// display error message
+					error.setText("Incorrect Username or Password");
+					
+				} 
+				else if(index == 100 || index == 101) 
+				{
+					if(index == 100) 
+					{
+						// set name
+						WelcomePage.saveName("Welcome Dr. Practise");
+					} 
+					else if(index == 101) 
+					{
+						// set name
+						WelcomePage.saveName("Welcome Dr. Seuss");
+					}
+					if(index == 100) 
+					{
+						// set patient list
+						for(int i = 0; i < practisePatients.length; i++) 
+						{
+							if(practisePatients[i].getFName() != null) 
+							{
+								WelcomePage.addItemsToPList(practisePatients[i].getFName() + " " + practisePatients[i].getLName());
+							}
+						}
+						
+					} 
+					else if(index == 101) 
+					{
+						// set patient list
+						for(int i = 0; i < seussPatients.length; i++) 
+						{
+							if(seussPatients[i].getFName() != null) 
+							{
+								WelcomePage.addItemsToPList(seussPatients[i].getFName() + " " + seussPatients[i].getLName());
+							}
+						}
+						
+					}
+					
+					// set patient list
+					WelcomePage.setPatientNamesInEmp(WelcomePage.getItemsFromEmpPage());
+					
+					// go to employee home screen 
+					Scene submitScene = WelcomePage.getEmployeeHome();
+					WelcomePage.getStage().setScene(submitScene);
+					
+				} 
+				else if(index >= 102) 
+				{
+					// set name
+					WelcomePage.saveName("Welcome Nurse!");
+					
+					// go to employee home screen
+					Scene submitScene = WelcomePage.getEmployeeHome();
+					WelcomePage.getStage().setScene(submitScene);
+				} 
+				else if(index >=0) 
+					
+				{
+					// go to patient home screen
+					Scene submitScene = WelcomePage.getPatientHome();
+					WelcomePage.getStage().setScene(submitScene);
+					
+					WelcomePage.saveName("Welcome, " + patients[index].getFName() + " " + patients[index].getLName());
+				}
+				
+			}
+		}
+	}
+	
+	// exit
+	private class ExitHandler implements EventHandler<MouseEvent>
+	{
+		public void handle(MouseEvent exitEvent)
+		{
+			if (exitEvent.getEventType() == MouseEvent.MOUSE_CLICKED)
+			{
+				Patient[] patients = WelcomePage.getPatients();
+				
+				try {
+					FileWriter outFile = new FileWriter("dataFile.txt");
+					BufferedWriter output = new BufferedWriter(outFile);
 
-				Scene submitScene = WelcomePage.getEmployeeHome();
-				WelcomePage.getStage().setScene(submitScene);
+					for(int i = 0; i < patients.length; i++) {
+						int index = 0;
+
+						output.write("0\n");
+						output.write(patients[i].getFName() + "\n");
+						output.write(patients[i].getMName() + "\n");
+						output.write(patients[i].getLName() + "\n");
+						output.write(patients[i].getAge() + "\n");
+						output.write(patients[i].getBday() + "\n");
+						output.write(patients[i].getGender() + "\n");
+						output.write(patients[i].getAddress() + "\n");
+						output.write(patients[i].getPhoneNumber() + "\n");
+						output.write(patients[i].getEmail() + "\n");
+						output.write(patients[i].getPharmacy() + "\n");
+						if(patients[i].getDoctor() == WelcomePage.getSeuss()) {
+							output.write("10\n");
+						} else {
+							output.write("20\n");
+						}
+						output.write(patients[i].getUsername() + "\n");
+						output.write(patients[i].getPassword() + "\n");
+						while(patients[i].getIssue(index) != null) {
+							output.write(patients[i].getIssue(index) + "\n");
+							index++;
+						}
+
+						output.write("end\n");
+
+					}
+
+					output.close();
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
+
+				WelcomePage.closeWindow();
 				
 			}
 		}

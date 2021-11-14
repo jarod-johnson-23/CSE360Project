@@ -38,7 +38,7 @@ public class PharmacyManagement {
 
 	public String get_pharmacy(Patient patient)
 	{
-		// return  pharmacy
+		// return pharmacy
 		return patient.getPharmacy();
 	}
 

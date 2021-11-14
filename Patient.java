@@ -21,7 +21,6 @@ public class Patient {
 	private Doctor doctor;
 	private String username;
 	private String password;
-	private DoctorNote[] doctorNoteArray = new DoctorNote[10];	// Array of doctor notes for patient
 	
 	public Patient(String fName, String mName, String lName, int age, String birthday, String gender,
 						String address, String phoneNumber, String email, String pharmacy, List<Prescription> p_list,
@@ -154,17 +153,7 @@ public class Patient {
 	
 	// other methods
 		public void addPrescription(Prescription p)
-	{
-		prescriptions.add(p);
-	}
-	
-	public void setPatientDocNote (String subject, String date, String docNote, String signature) {
-		int i = 0;
-		while(doctorNoteArray[i].getSignature() != null)
 		{
-			i++;
+			prescriptions.add(p);
 		}
-		this.doctorNoteArray[i].setDocNote(subject, date, docNote, signature);
-	}
 }
-

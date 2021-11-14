@@ -32,6 +32,7 @@ public class CreateAccount extends GridPane
 	private Font titleFont;
 	private int width = 1500;
 	private int height = 1000;
+	private RadioButton practise, seuss;
 	
 	public CreateAccount() throws FileNotFoundException
 	{	
@@ -94,8 +95,8 @@ public class CreateAccount extends GridPane
 		final ToggleGroup doctorGroup = new ToggleGroup();
 		
 		// create radio buttons
-		RadioButton practise = new RadioButton("Dr. Practise");
-		RadioButton seuss = new RadioButton("Dr. Seuss");
+		practise = new RadioButton("Dr. Practise");
+		seuss = new RadioButton("Dr. Seuss");
 		
 		// add radio buttons to toggle group & toggles to vBox
 		practise.setToggleGroup(doctorGroup);
@@ -169,8 +170,34 @@ public class CreateAccount extends GridPane
 		{
 			if (submitEvent.getEventType() == MouseEvent.MOUSE_CLICKED)
 			{
-				Scene patientScene = WelcomePage.getPatientHome();
-				WelcomePage.getStage().setScene(patientScene);
+				// declare variables
+				int added;
+				Doctor tempDr;
+				
+				// get doctors from radioButtons
+				if (practise.isSelected())
+				{
+					tempDr = WelcomePage.getPractise();
+				}
+				else
+				{
+					tempDr = WelcomePage.getSeuss();
+				}
+				
+				added = WelcomePage.addPatient(field1.getText(), field2.getText(), field3.getText(), field9.getText(), field6.getText(), field7.getText(), field8.getText(), field4.getText(), field5.getText(), field10.getText(), tempDr, field11.getText(), field12.getText());
+				
+				// display error if needed
+				if (added == -1)
+				{
+					failure.setText("Failed to add account.");
+				} 
+				// move to patient home if login successful
+				if (added != -1)
+				{
+					Scene patientScene = WelcomePage.getPatientHome();
+					WelcomePage.getStage().setScene(patientScene);
+				}
+				
 			}
 		}
 	}

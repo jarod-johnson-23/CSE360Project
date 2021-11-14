@@ -19,7 +19,7 @@ public class Prescription {
 		dosage_per_day = d_per_day;
 		notes = n;
 	}
-
+ 
 	public boolean send_prescription(String pharmacy_n)
 	{
 		if(pharmacy_n == pharmacy_name)

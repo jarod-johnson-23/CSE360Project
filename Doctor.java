@@ -11,14 +11,14 @@ public class Doctor {
 	private List<Message> messages;
 	
 	// Constructor
-	public Doctor(String name2, String username2, String password2, int size, int loginIndex2, Doctor drObject, List<Message> messages) {
+	public Doctor(String name2, String username2, String password2, int numPatients, int loginIndex2, Doctor drObject, List<Message> messages) {
 		this.name = name2;
 		this.username = username2;
 		this.password = password2;
-		this.patients = new Patient[size];
+		this.patients = new Patient[numPatients];
 		this.loginIndex = loginIndex2;
 		this.messages = messages;
-		
+
 		// Sets the array of Patients to null and doctor of patients
 		for(int i = 0; i < patients.length; i++)
 		{

@@ -7,7 +7,7 @@ public class Appointment {
 	private Patient patient;
 	private String reason;
 	
-	public Appointment(int time, int date, Patient p, String reason)
+	public Appointment(int time, int date, Patient patient, String reason)
 	{
 		this.time = time;
 		this.date = date;

@@ -12,22 +12,22 @@ public class Doctor {
 	private int patientArraySize;
 
 	// Constructor
-	public Doctor(String name2, String username2, String password2, int numPatients, int loginIndex2, List<Message> messages) {
+	public Doctor(String name2, String username2, String password2, Patient[] patients2,int loginIndex2, List<Message> messages) {
 		this.name = name2;
 		this.username = username2;
 		this.password = password2;
-		this.patients = new Patient[numPatients];
 		this.loginIndex = loginIndex2;
 		this.messages = messages;
-		this.patientArraySize = numPatients;
+		this.patientArraySize = patients2.length;
+		this.patients = new Patient[patientArraySize];
 
 		for(int i = 0; i < patientArraySize; i++) {
-			patients[i] = new Patient();
+			patients[i] = patients2[i];
 		}
 	}
 
 	// Assigns a patient to doctor
-	public void addPatient(Patient newPatient)
+	public void addPatient(Patient newPatient, Doctor doctor)
 	{
 		int i = 0;
 		while(patients[i].getFName() != null)
@@ -35,7 +35,6 @@ public class Doctor {
 			i++;
 		}
 		this.patients[i] = newPatient;
-		newPatient.setDoctor(this.name);
 	}
 
 	// GETTERS
@@ -99,49 +98,22 @@ public class Doctor {
 	public void enterDocNote(Patient patient, String subject, String date, String doctorNote, String signature)
 	{
 		patient.setPatientDocNote(subject, date, doctorNote, signature);
-		for (int i = 0; i < patientArraySize; i++)
-		{
-			if (patients[i].getFName() == patient.getFName())
-			{
-				patients[i].setPatientDocNote(subject, date, doctorNote, signature);
-			}
-		}
 	}
 
 	// Gets doctors note of specific patient
 	public String getDocNoteSub(Patient patient,String date) {
-		for (int i = 0; i < patientArraySize; i++) {
-			if (patients[i].getPatDocNote(date) == patient.getPatDocNote(date)) {
-				return patients[i].getPatDocNoteSub(date);
-			}
-		}
-		return "";
+		return patient.getPatDocNoteSub(date);
 	}
 
 	public String getDocNote(Patient patient,String date) {
-		for (int i = 0; i < patientArraySize; i++) {
-			if (patients[i].getPatDocNote(date) == patient.getPatDocNote(date)) {
-				return patients[i].getPatDocNote(date);
-			}
-		}
-		return "";
+		return patient.getPatDocNote(date);
 	}
 
 	public String getDocNoteDate(Patient patient,String date) {
-		for (int i = 0; i < patientArraySize; i++) {
-			if (patients[i].getPatDocNote(date) == patient.getPatDocNote(date)) {
-				return patients[i].getPatDocNoteDate(date);
-			}
-		}
-		return "";
+		return patient.getPatDocNoteDate(date);
 	}
 
 	public String getDocNoteSig(Patient patient,String date) {
-		for (int i = 0; i < patientArraySize; i++) {
-			if (patients[i].getPatDocNote(date) == patient.getPatDocNote(date)) {
-				return patients[i].getPatDocNoteSig(date);
-			}
-		}
-		return "";
+		return patient.getPatDocNoteSig(date);
 	}
 }

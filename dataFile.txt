@@ -36,7 +36,7 @@ end
 Phillip
 Paul
 Pearson
-0
+23
 12/02/1998
 Male
 5428 S State St.
@@ -49,19 +49,38 @@ password2
 Wears Socks Inside-out
 end
 0
-null
-null
-null
+Albert
+Leo
+Sons
+45
+03/21/1976
+Male
+7612 E. Central Ave.
+623-332-4561
+albertsons@hotmail.com
+Average Pharm Co.
+10
+username3
+password3
+Mole on Big Toe
+2nd degree burns
+end
 0
-null
-null
-null
-null
-null
-null
+Seighf
+Adrian
+Wei
+32
+04/27/1989
+Male
+56 N. Piston Blvd.
+623-782-7856
+seighfway1223@gmail.com
+Pills Palace
 20
-null
-null
+username4
+password4
+Fractured Ankle
+Abrasions to the knees and hands
 end
 0
 null
@@ -288,18 +307,13 @@ null
 null
 null
 end
-0
-null
-null
-null
-0
-null
-null
-null
-null
-null
-null
-20
-null
-null
-end
+1
+Dr. Practise
+Weird Mole
+Hello Dr. Practise, I seem to have found a weird mole on my big toe the other day. It is shaped like a triangle and sticking my foot in a microwave on the popcorn setting did, in fact, not solve anything. I will be be awaiting your response. Love, your favorite patient.
+Albert Sons
+1
+Dr. Seuss
+Broken Ankle
+Hi Dr. Seuss, I was sunbathing on my roof the other day and it only took 7 beers to improve my eyesight enough to spot a penny on my driveway. Unfortunately, I learned pencil-diving is not the most efficient on concrete. See you tomorrow. Best regards, Seighf
+Seighf Wei

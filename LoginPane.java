@@ -273,7 +273,7 @@ public class LoginPane extends BorderPane
 		{
 			if(exitEvent.getEventType() == MouseEvent.MOUSE_CLICKED)
 			{
-				Main.saveData();
+				WelcomePage.saveData();
 			}
 		}
 	}

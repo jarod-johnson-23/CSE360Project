@@ -20,7 +20,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
-public class WelcomePage extends Application
+public class Main extends Application
 {	
 	// variables for GUI
 	private static Stage window;
@@ -34,6 +34,7 @@ public class WelcomePage extends Application
 	private static Patient[] patients = new Patient[20];
 	private static Patient[] practisePatients = new Patient[20];
 	private static Patient[] seussPatients = new Patient[20];
+	private static Nurse[] nurses = new Nurse[20];
 	private static Doctor drPractise;
 	private static Doctor drSeuss;
 	private Doctor fakeDoctor;
@@ -117,6 +118,10 @@ public class WelcomePage extends Application
 			seussPatients[i] = new Patient(null, null, null, 0, null, null, null, null, null, null, null, drSeuss, null, null);
 		}
 		
+		for(int i = 0; i < nurses.length; i++) {
+			nurses[i] = new Nurse(null, null, null, null, null, null);
+		}
+		
 		// input file initialized
 		File dataFile = new File("dataFile.txt");
 		Scanner scan = new Scanner(dataFile);
@@ -127,7 +132,7 @@ public class WelcomePage extends Application
 		String body;
 		int choice;
 		int importIndex = 0;
-		int stop;
+		int nurseIndex = 0;
 
 		/*
 		 * Each patient object is stored line-by-line in this order:
@@ -154,6 +159,14 @@ public class WelcomePage extends Application
 		 * 4) A body of text
 		 * 5) The sender of the email
 		 * 
+		 * Each nurse object is stored like so:
+		 * 1) A 2 to indicate it is a nurse
+		 * 2) First name
+		 * 3) Last name
+		 * 4) username
+		 * 5) password
+		 * 6) email
+		 * 
 		 */
 		
 		if (dataFile.exists()) 
@@ -168,7 +181,6 @@ public class WelcomePage extends Application
 				choice = Integer.parseInt(scan.nextLine());
 
 				if(choice == 0) {
-					stop = 0;
 					tempStr = scan.nextLine();
 					if(tempStr.equals("null"))
 						tempStr = null;
@@ -252,6 +264,29 @@ public class WelcomePage extends Application
 					if(patIndex != 999) {
 						messages.add(new Message(reciever, subject, body, patients[patIndex]));
 					}
+				} else if(choice == 2) {
+					tempStr = scan.nextLine();
+					if(tempStr.equals("null"))
+						tempStr = null;
+					nurses[nurseIndex].setFName(tempStr);
+					tempStr = scan.nextLine();
+					if(tempStr.equals("null"))
+						tempStr = null;
+					nurses[nurseIndex].setLName(tempStr);
+					tempStr = scan.nextLine();
+					if(tempStr.equals("null"))
+						tempStr = null;
+					nurses[nurseIndex].setUsername(tempStr);
+					tempStr = scan.nextLine();
+					if(tempStr.equals("null"))
+						tempStr = null;
+					nurses[nurseIndex].setPassword(tempStr);
+					tempStr = scan.nextLine();
+					if(tempStr.equals("null"))
+						tempStr = null;
+					nurses[nurseIndex].setEmail(tempStr);
+					
+					nurseIndex++;
 				}
 				
 			} while(scan.hasNextLine());
@@ -259,7 +294,8 @@ public class WelcomePage extends Application
 		} else {
 			System.out.println("Doesnt exist");
 		}
-		
+		System.out.println(nurses[0].getPassword());
+		System.out.println(nurses[1].getPassword());
 		
 		scan.close();
 

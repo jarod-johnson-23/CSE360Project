@@ -45,5 +45,13 @@ public class Message {
 	{
 		return text;
 	}
+	public String get_reciever()
+	{
+		return message_receiver;
+	}
+	public String get_subject()
+	{
+		return subject_line;
+	}
 
 }

@@ -27,7 +27,7 @@ public class WelcomePage extends Application
 {	
 	// variables for GUI
 	private static Stage window;
-	private static Scene welcomeLogin, createAccount, employeeHome, patientHome, vitals, personalInfo, physicalExam, doctorNotes, makePrescription;
+	private static Scene welcomeLogin, createAccount, employeeHome, patientHome, vitals, personalInfo, physicalExam, doctorNotes, makePrescription, information, messagePortal, pastVisits, scheduleAVisit;
 	
 	// variables for data manipulation
 	private String inputUsername;
@@ -44,7 +44,11 @@ public class WelcomePage extends Application
 	private static ObservableList<String> items = FXCollections.<String>observableArrayList();
 	private static ListView<String> patientNames = new ListView<String>();
 	private static List<Message> messages = new ArrayList<Message>();
-		
+	private static Patient patientLoggedIn = new Patient("", "", "", 0, "", "", "", "", "", "", null, null, "", "");
+	private static Nurse nurseLoggedIn = new Nurse(null, null, null, null, null, null);
+	private static Doctor doctorLoggedIn = new Doctor("Mal Practise", "#1doctor", "password", practisePatients, 100, null);
+;
+	
 	public void start(Stage primaryStage) throws FileNotFoundException
 	{		
 		// GUI CODE --------------------------------------------------------------------------------------------------------------------------
@@ -59,8 +63,6 @@ public class WelcomePage extends Application
 		window.setWidth(bounds.getWidth());
 		window.setHeight(bounds.getHeight());
 		
-		
-		
 		// declare panes
 		LoginPane pane1 = new LoginPane();
 		CreateAccount pane2 = new CreateAccount();
@@ -71,6 +73,10 @@ public class WelcomePage extends Application
 		PhysicalExamination pane7 = new PhysicalExamination();
 		DoctorNotes pane8 = new DoctorNotes();
 		MakePrescription pane9 = new MakePrescription();
+		PatientInformation pane10 = new PatientInformation();
+		PatientMessages pane11 = new PatientMessages();
+		PatientPastVisits pane12 = new PatientPastVisits();
+		PatientScheduleVisit pane13 = new PatientScheduleVisit();
 		
 		// add each pane to scene
 		welcomeLogin = new Scene(pane1, 700, 1000);
@@ -82,9 +88,12 @@ public class WelcomePage extends Application
 		physicalExam = new Scene(pane7, 700, 1000);
 		doctorNotes = new Scene(pane8, 700, 1000);
 		makePrescription = new Scene(pane9, 700, 1000);
+		information = new Scene(pane10, 700, 1000);
+		messagePortal = new Scene(pane11, 700, 1000);
+		pastVisits = new Scene(pane12, 700, 1000);
+		scheduleAVisit = new Scene(pane13, 700, 1000);
 		
 		// add css stylesheet to each scene
-		
 		welcomeLogin.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
 		createAccount.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
 		employeeHome.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
@@ -94,7 +103,10 @@ public class WelcomePage extends Application
 		physicalExam.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
 		doctorNotes.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
 		makePrescription.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
-		
+		information.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
+		messagePortal.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
+		pastVisits.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
+		scheduleAVisit.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
 		
 		// set title of window
 		window.setTitle("https://www.totallyNormalDoctorsOffice.com");
@@ -370,6 +382,31 @@ public class WelcomePage extends Application
 		return makePrescription;
 	}
 	
+	// get patient info scene
+	public static Scene getInformation()
+	{
+		return information;
+	}
+	
+	// get patient messages scene
+	public static Scene getMessagePortal()
+	{
+		return messagePortal;
+	}
+	
+	// get patient past visits scene
+	public static Scene getPastVisits()
+	{
+		return pastVisits;
+	}
+	
+	// get patient schedule a visit scene
+	public static Scene getScheduleAVisit()
+	{
+		return scheduleAVisit;
+	}
+	
+	
 	// get patients array
 	public static Patient[] getPatients()
 	{
@@ -597,9 +634,9 @@ public class WelcomePage extends Application
 			
 			for(int i = 0; i < messages.size(); i++) {
 				output.write("1\n");
-				output.write(messages.get(i).get_reciever() + "\n");
-				output.write(messages.get(i).get_subject() + "\n");
-				output.write(messages.get(i).get_text() + "\n");
+				output.write(messages.get(i).getMessage_receiver() + "\n");
+				output.write(messages.get(i).getSubject_line() + "\n");
+				output.write(messages.get(i).getText() + "\n");
 				output.write(messages.get(i).get_sender().concatenateNames() + "\n");
 				
 			}
@@ -620,6 +657,79 @@ public class WelcomePage extends Application
 		}
 		
 		window.close();
+	}
+	
+	// save logged in doctor
+	public static void saveLoggedInDoctor(Doctor doctor)
+	{
+		doctorLoggedIn = doctor;
+	}
+	
+	// save logged in nurse
+	public static void saveLoggedInNurse(Nurse nurse)
+	{
+		nurseLoggedIn = nurse;
+	}
+	
+	// save logged in patient
+	public static void saveLoggedInPatient(Patient patient)
+	{
+		patientLoggedIn = patient;
+	}
+	
+	// get logged in doctor
+	public static Doctor getLoggedInDoctor()
+	{
+		return doctorLoggedIn;
+	}
+	
+	// get logged in nurse
+	public static Nurse getLoggedInNurse()
+	{
+		return nurseLoggedIn;
+	}
+	
+	// get logged in patient
+	public static Patient getLoggedInPatient()
+	{
+		return patientLoggedIn;
+	}
+		
+	// get patient info from user name and password
+	public static Patient getPatientInfo(String username, String password)
+	{
+		// declare variables
+		Patient patient = new Patient(null, null, null, 0, null, null, null, null, null, null, null, null, null, null);
+
+		// check patient information 
+		for (int i = 0; i < patients.length; i++)
+		{
+			if (patients[i].getUsername().equals(username) && patients[i].getPassword().equals(password))
+			{
+				return patients[i];
+			}
+		}
+		
+		return patient;
+		
+	}
+	
+	// get nurse info from user name and password
+	public static Nurse getNurseInfo(String username, String password)
+	{
+		// declare variables
+		Nurse nurseTemp = new Nurse(null, null, null, null, null, null);
+
+		// check nurse information
+		for (int i = 0; i < nurses.length; i++)
+		{
+			if (nurses[i].getUsername().equals(username) && nurses[i].getPassword().equals(password)) 
+			{
+				return nurses[i];
+			}
+		}
+		
+		return nurseTemp;
 	}
 	
 }

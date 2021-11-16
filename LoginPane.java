@@ -203,11 +203,17 @@ public class LoginPane extends BorderPane
 					{
 						// set name
 						WelcomePage.saveName("Welcome Dr. Practise");
+						
+						// save doctor
+						WelcomePage.saveLoggedInDoctor(WelcomePage.getPractise());
 					} 
 					else if(index == 101) 
 					{
 						// set name
 						WelcomePage.saveName("Welcome Dr. Seuss");
+						
+						// save doctor 
+						WelcomePage.saveLoggedInDoctor(WelcomePage.getSeuss());
 					}
 					if(index == 100) 
 					{
@@ -237,6 +243,8 @@ public class LoginPane extends BorderPane
 					// set patient list
 					WelcomePage.setPatientNamesInEmp(WelcomePage.getItemsFromEmpPage());
 					
+					System.out.println("Doctor Logged In = " + WelcomePage.getLoggedInDoctor().getName());
+
 					// go to employee home screen 
 					Scene submitScene = WelcomePage.getEmployeeHome();
 					WelcomePage.getStage().setScene(submitScene);
@@ -247,9 +255,15 @@ public class LoginPane extends BorderPane
 					// set name
 					WelcomePage.saveName("Welcome Nurse!");
 					
+					// save nurse
+					WelcomePage.saveLoggedInNurse(WelcomePage.getNurseInfo(inputUsername, inputPassword));
+					
 					// go to employee home screen
 					Scene submitScene = WelcomePage.getEmployeeHome();
 					WelcomePage.getStage().setScene(submitScene);
+					
+					System.out.println("Nurse Logged In = " + WelcomePage.getLoggedInNurse().getFName());
+
 				} 
 				else if(index >=0) 
 					
@@ -258,7 +272,13 @@ public class LoginPane extends BorderPane
 					Scene submitScene = WelcomePage.getPatientHome();
 					WelcomePage.getStage().setScene(submitScene);
 					
+					// set name
 					WelcomePage.saveName("Welcome, " + patients[index].getFName() + " " + patients[index].getLName());
+					
+					// save patient
+					WelcomePage.saveLoggedInPatient(WelcomePage.getPatientInfo(inputUsername, inputPassword));
+					
+					System.out.println("Patient Logged In = " + WelcomePage.getLoggedInPatient().concatenateNames());
 				}
 				
 			}
@@ -277,9 +297,3 @@ public class LoginPane extends BorderPane
 		}
 	}
 }
-
-
-
-
-
-

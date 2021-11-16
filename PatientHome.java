@@ -96,29 +96,64 @@ public class PatientHome extends BorderPane
 		// link source nodes with handler objects
 		backToHome.setOnMouseClicked(new LogoutHandler());
 		info.setOnMouseClicked(new InfoHandler());
-		//messages.setOnMouseClicked(new MessagesHandler());
-		//pastVisits.setOnMouseClicked(new PastVisitsHandler());
-		//scheduleVisit.setOnMouseClicked(new ScheduleVisitHandler());
+		messages.setOnMouseClicked(new MessagesHandler());
+		pastVisits.setOnMouseClicked(new PastVisitsHandler());
+		scheduleVisit.setOnMouseClicked(new ScheduleVisitHandler());
 	}
 	
 	// information
-	
-	// messages
-	
-	// past visits
-	
-	// schedule a visit
 	private class InfoHandler implements EventHandler<MouseEvent>
 	{
 		public void handle(MouseEvent infoEvent)
 		{
 			if (infoEvent.getEventType() == MouseEvent.MOUSE_CLICKED)
 			{
-				//Scene infoScene = WelcomePage.getPatientInfo();
-				//WelcomePage.getStage().setScene(loginScene);
+				Scene infoScene = WelcomePage.getInformation();
+				WelcomePage.getStage().setScene(infoScene);
 			}
 		}
 	}
+	
+	// messages
+	private class MessagesHandler implements EventHandler<MouseEvent>
+	{
+		public void handle(MouseEvent messageEvent)
+		{
+			if (messageEvent.getEventType() == MouseEvent.MOUSE_CLICKED)
+			{
+				Scene messageScene = WelcomePage.getMessagePortal();
+				WelcomePage.getStage().setScene(messageScene);
+			}
+		}
+	}
+	
+	// past visits
+	private class PastVisitsHandler implements EventHandler<MouseEvent>
+	{
+		public void handle(MouseEvent visitEvent)
+		{
+			if (visitEvent.getEventType() == MouseEvent.MOUSE_CLICKED)
+			{
+				Scene visitScene = WelcomePage.getPastVisits();
+				WelcomePage.getStage().setScene(visitScene);
+			}
+		}
+	}
+	
+	
+	// schedule a visit
+	private class ScheduleVisitHandler implements EventHandler<MouseEvent>
+	{
+		public void handle(MouseEvent scheduleEvent)
+		{
+			if (scheduleEvent.getEventType() == MouseEvent.MOUSE_CLICKED)
+			{
+				Scene scheduleScene = WelcomePage.getScheduleAVisit();
+				WelcomePage.getStage().setScene(scheduleScene);
+			}
+		}
+	}
+	
 	
 	// logout
 	private class LogoutHandler implements EventHandler<MouseEvent>

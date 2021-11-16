@@ -1,5 +1,7 @@
 package application;
 
-public class PatientMessages {
+import javafx.scene.layout.GridPane;
+
+public class PatientMessages extends GridPane {
 
 }

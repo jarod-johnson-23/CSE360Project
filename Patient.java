@@ -206,9 +206,9 @@ public class Patient {
 	}
 
 	public String concatenateNames() {
-		String firstHalf = this.fName.concat(" ");
+		String firstHalf = fName.concat(" ");
 
-		String secondHalf = firstHalf.concat(this.lName);
+		String secondHalf = firstHalf.concat(lName);
 
 		return secondHalf;
 	}

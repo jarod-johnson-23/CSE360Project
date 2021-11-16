@@ -35,4 +35,24 @@ public class Nurse {
 	{
 		return password;
 	}
+	
+	public void setFName(String f) {
+		fName = f;
+	}
+	
+	public void setLName(String l) {
+		lName = l;
+	}
+	
+	public void setUsername(String u) {
+		username = u;
+	}
+	
+	public void setPassword(String p) {
+		password = p;
+	}
+	
+	public void setEmail(String e) {
+		email = e;
+	}
 }

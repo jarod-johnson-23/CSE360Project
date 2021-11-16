@@ -10,6 +10,7 @@ public class Doctor {
 	private int loginIndex;	// DIFFERENT
 	private List<Message> messages;	// DIFFERENT
 	private int patientArraySize;
+	private int patientArrayCounter = 0;
 
 	// Constructor
 	public Doctor(String name2, String username2, String password2, Patient[] patients2,int loginIndex2, List<Message> messages) {
@@ -27,14 +28,15 @@ public class Doctor {
 	}
 
 	// Assigns a patient to doctor
-	public void addPatient(Patient newPatient, Doctor doctor)
-	{
-		int i = 0;
-		while(patients[i].getFName() != null)
+	public void addPatient(Patient newPatient)
+	{	
+		if (patientArrayCounter < patientArraySize)
 		{
-			i++;
+			this.patients[patientArrayCounter] = newPatient;
+			patientArrayCounter++;
+
 		}
-		this.patients[i] = newPatient;
+		
 	}
 
 	// GETTERS

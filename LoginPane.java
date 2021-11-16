@@ -38,7 +38,7 @@ public class LoginPane extends BorderPane
 	private int height = 1000;
 	private Label title, description, label1, label2, label3, success, error;
 	private TextField usernameText, passwordText;
-	private Button submit, about, staff, faq, report, privacy, newAccount, forgotPassword, exit;
+	private Button submit, about, staff, faq, report, privacy, newAccount, forgotPassword, exitButton;
 	private TextFlow textFlow;
 	
 	public LoginPane() throws FileNotFoundException
@@ -66,7 +66,8 @@ public class LoginPane extends BorderPane
 		// define description label
 		description = new Label("Our office specializes in top of the line Pediatric care with help from Dr. Mal Practise and Dr. Harold Seuss Jr. We \"Totally\" care that you have a \"Normal\" experience at our \"Doctor's Office\"");
 		description.setWrapText(true);
-		description.setMaxWidth(300);
+		description.setMaxWidth(450);
+		description.setMinHeight(100);
 		description.setTextAlignment(TextAlignment.CENTER);
 		description.setTranslateX(-27);
 		description.setTranslateY(350);
@@ -103,7 +104,9 @@ public class LoginPane extends BorderPane
 		newAccount = new Button("Create an Account");
 		newAccount.setPrefWidth(162);
 		forgotPassword = new Button("Forgot Password?");
-		exit = new Button("Exit");
+		exitButton = new Button("Exit Software");
+		exitButton.setPrefWidth(150);
+		exitButton.setPrefHeight(75);
 		
 		// define gridPane
 		GridPane grid = new GridPane();
@@ -131,7 +134,7 @@ public class LoginPane extends BorderPane
 		
 		// create textFlow
 		textFlow = new TextFlow();
-		textFlow.getChildren().addAll(description);
+		textFlow.getChildren().addAll(description, exitButton);
 		textFlow.setBackground(textFlowBacking);
 		
 		// define hBox for bottom buttons
@@ -149,7 +152,7 @@ public class LoginPane extends BorderPane
 		// link source nodes with handler objects
 		newAccount.setOnMouseClicked(new CreateHandler());
 		submit.setOnMouseClicked(new SubmitHandler());
-		exit.setOnMouseClicked(new ExitHandler());
+		exitButton.setOnMouseClicked(new ExitHandler());
 	}
 	
 	// create
@@ -268,51 +271,9 @@ public class LoginPane extends BorderPane
 	{
 		public void handle(MouseEvent exitEvent)
 		{
-			if (exitEvent.getEventType() == MouseEvent.MOUSE_CLICKED)
+			if(exitEvent.getEventType() == MouseEvent.MOUSE_CLICKED)
 			{
-				Patient[] patients = WelcomePage.getPatients();
-				
-				try {
-					FileWriter outFile = new FileWriter("dataFile.txt");
-					BufferedWriter output = new BufferedWriter(outFile);
-
-					for(int i = 0; i < patients.length; i++) {
-						int index = 0;
-
-						output.write("0\n");
-						output.write(patients[i].getFName() + "\n");
-						output.write(patients[i].getMName() + "\n");
-						output.write(patients[i].getLName() + "\n");
-						output.write(patients[i].getAge() + "\n");
-						output.write(patients[i].getBday() + "\n");
-						output.write(patients[i].getGender() + "\n");
-						output.write(patients[i].getAddress() + "\n");
-						output.write(patients[i].getPhoneNumber() + "\n");
-						output.write(patients[i].getEmail() + "\n");
-						output.write(patients[i].getPharmacy() + "\n");
-						if(patients[i].getDoctor() == WelcomePage.getSeuss()) {
-							output.write("10\n");
-						} else {
-							output.write("20\n");
-						}
-						output.write(patients[i].getUsername() + "\n");
-						output.write(patients[i].getPassword() + "\n");
-						while(patients[i].getIssue(index) != null) {
-							output.write(patients[i].getIssue(index) + "\n");
-							index++;
-						}
-
-						output.write("end\n");
-
-					}
-
-					output.close();
-				} catch (IOException e1) {
-					e1.printStackTrace();
-				}
-
-				WelcomePage.closeWindow();
-				
+				Main.saveData();
 			}
 		}
 	}

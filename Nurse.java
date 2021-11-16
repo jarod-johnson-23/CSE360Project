@@ -36,6 +36,21 @@ public class Nurse {
 		return password;
 	}
 	
+	public String getFName()
+	{
+		return fName;
+	}
+	
+	public String getLName()
+	{
+		return lName;
+	}
+	
+	public String getEmail()
+	{
+		return email;
+	}
+	
 	public void setFName(String f) {
 		fName = f;
 	}

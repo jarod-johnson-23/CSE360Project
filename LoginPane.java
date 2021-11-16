@@ -128,7 +128,6 @@ public class LoginPane extends BorderPane
 		grid.add(newAccount, 1, 5);
 		grid.add(success, 2, 3);
 		grid.add(forgotPassword, 2, 5);
-		grid.add(exit, 0, 6);
 		grid.setBackground(backing);
 		
 		

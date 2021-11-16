@@ -1,8 +1,11 @@
 package application;
 
 
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -20,7 +23,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
-public class Main extends Application
+public class WelcomePage extends Application
 {	
 	// variables for GUI
 	private static Stage window;
@@ -554,6 +557,69 @@ public class Main extends Application
 	public static ListView<String> getPatientNamesInEmp()
 	{
 		return patientNames;
+	}
+	
+	public static void saveData() 
+	{
+		try {
+			FileWriter outFile = new FileWriter("dataFile.txt");
+			BufferedWriter output = new BufferedWriter(outFile);
+			
+			for(int i = 0; i < patients.length; i++) {
+				int index = 0;
+				
+				output.write("0\n");
+				output.write(patients[i].getFName() + "\n");
+				output.write(patients[i].getMName() + "\n");
+				output.write(patients[i].getLName() + "\n");
+				output.write(patients[i].getAge() + "\n");
+				output.write(patients[i].getBday() + "\n");
+				output.write(patients[i].getGender() + "\n");
+				output.write(patients[i].getAddress() + "\n");
+				output.write(patients[i].getPhoneNumber() + "\n");
+				output.write(patients[i].getEmail() + "\n");
+				output.write(patients[i].getPharmacy() + "\n");
+				if(patients[i].getDoctor() == drPractise) {
+					output.write("10\n");
+				} else {
+					output.write("20\n");
+				}
+				output.write(patients[i].getUsername() + "\n");
+				output.write(patients[i].getPassword() + "\n");
+				while(patients[i].getIssue(index) != null) {
+					output.write(patients[i].getIssue(index) + "\n");
+					index++;
+				}
+				
+				output.write("end\n");
+				
+			}
+			
+			for(int i = 0; i < messages.size(); i++) {
+				output.write("1\n");
+				output.write(messages.get(i).get_reciever() + "\n");
+				output.write(messages.get(i).get_subject() + "\n");
+				output.write(messages.get(i).get_text() + "\n");
+				output.write(messages.get(i).get_sender().concatenateNames() + "\n");
+				
+			}
+			
+			for(int i = 0; i < nurses.length; i++) {
+				output.write("2\n");
+				output.write(nurses[i].getFName() + "\n");
+				output.write(nurses[i].getLName() + "\n");
+				output.write(nurses[i].getUsername() + "\n");
+				output.write(nurses[i].getPassword() + "\n");
+				output.write(nurses[i].getEmail() + "\n");
+				
+			}
+			
+			output.close();
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+		
+		window.close();
 	}
 	
 }

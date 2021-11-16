@@ -41,5 +41,9 @@ public class Message {
 	{
 		return this.sender;
 	}
+	public String get_text()
+	{
+		return text;
+	}
 
 }

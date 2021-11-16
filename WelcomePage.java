@@ -1,8 +1,12 @@
 package application;
 
+
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
+
 
 import javafx.application.Application;
 import javafx.collections.FXCollections;
@@ -35,6 +39,7 @@ public class WelcomePage extends Application
 	private Doctor fakeDoctor;
 	private static ObservableList<String> items = FXCollections.<String>observableArrayList();
 	private static ListView<String> patientNames = new ListView<String>();
+	private static List<Message> messages = new ArrayList<Message>();
 		
 	public void start(Stage primaryStage) throws FileNotFoundException
 	{		
@@ -49,6 +54,8 @@ public class WelcomePage extends Application
 		window.setY(bounds.getMinY());
 		window.setWidth(bounds.getWidth());
 		window.setHeight(bounds.getHeight());
+		
+		
 		
 		// declare panes
 		LoginPane pane1 = new LoginPane();
@@ -73,6 +80,7 @@ public class WelcomePage extends Application
 		makePrescription = new Scene(pane9, 700, 1000);
 		
 		// add css stylesheet to each scene
+		
 		welcomeLogin.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
 		createAccount.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
 		employeeHome.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
@@ -82,6 +90,7 @@ public class WelcomePage extends Application
 		physicalExam.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
 		doctorNotes.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
 		makePrescription.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
+		
 		
 		// set title of window
 		window.setTitle("https://www.totallyNormalDoctorsOffice.com");
@@ -112,13 +121,17 @@ public class WelcomePage extends Application
 		File dataFile = new File("dataFile.txt");
 		Scanner scan = new Scanner(dataFile);
 		String tempStr;
+		String reciever;
+		String sender;
+		String subject;
+		String body;
 		int choice;
 		int importIndex = 0;
-		int stop = 0;
+		int stop;
 
 		/*
 		 * Each patient object is stored line-by-line in this order:
-		 * 1) A number to indicate if it is a patient object or not
+		 * 1) A 0 to indicate it is a patient object
 		 * 2) First name
 		 * 3) Middle name
 		 * 4) Last name
@@ -133,6 +146,13 @@ public class WelcomePage extends Application
 		 * 13) user name
 		 * 14) password
 		 * 15) the rest of the lines are health concerns, the health concerns end when "end" is found
+		 * 
+		 * Each message object is stored like so:
+		 * 1) A 1 to indicate it is a message
+		 * 2) The recipient of the message
+		 * 3) The subject line
+		 * 4) A body of text
+		 * 5) The sender of the email
 		 * 
 		 */
 		
@@ -208,24 +228,39 @@ public class WelcomePage extends Application
 
 						}
 					} while(tempStr.equals("end") == false);
+					if(patients[importIndex].getDoctor() == drPractise) {
+						drPractise.addPatient(patients[importIndex]);
+					} else {
+						drSeuss.addPatient(patients[importIndex]);
+					}
+					
+					importIndex++;
 
-				} 
-				if(patients[importIndex].getDoctor() == drPractise) {
-					drPractise.addPatient(patients[importIndex]);
-				} else {
-					drSeuss.addPatient(patients[importIndex]);
+				} else if(choice == 1) {
+					reciever = scan.nextLine();
+					subject = scan.nextLine();
+					body = scan.nextLine();
+					sender = scan.nextLine();
+					int patIndex = 999;
+					for(int i = 0; i < patients.length; i++) {
+						if(patients[i].getFName() != null) {
+							if(patients[i].concatenateNames().equalsIgnoreCase(sender)) {
+								patIndex = i;
+							}
+						}
+					}
+					if(patIndex != 999) {
+						messages.add(new Message(reciever, subject, body, patients[patIndex]));
+					}
 				}
-
-				importIndex++;
+				
 			} while(scan.hasNextLine());
 
 		} else {
 			System.out.println("Doesnt exist");
 		}
-		System.out.println(patients[0].getIssue(0));
-		System.out.println(patients[0].getIssue(1));
-		System.out.println(patients[0].getIssue(2));
-		System.out.println(patients[0].getIssue(3));
+		
+		
 		scan.close();
 
 	}

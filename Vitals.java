@@ -29,12 +29,13 @@ public class Vitals extends GridPane
 	private Button back, submit;
 	private TextField hRate, bWeight, bTemp, rRate, bPressure;
 	private Patient patient;
+	private String patName;
 	
-	public Vitals(Patient patient) throws FileNotFoundException
+	public Vitals(String patName) throws FileNotFoundException
 	{
 		// define font
 		titleFont = new Font("Cambria", 24);
-		this.patient = patient;
+		this.patName = patName;
 
 		// define background image
 		Image defaultBgPic = new Image("file:iu-9.jpeg", width, height, false, false);
@@ -105,8 +106,8 @@ public class Vitals extends GridPane
 		{
 			if (backEvent.getEventType() == MouseEvent.MOUSE_CLICKED)
 			{
-				Scene empScene = Main.getEmployeeHome();
-				Main.getStage().setScene(empScene);
+				Scene empScene = WelcomePage.getEmployeeHome();
+				WelcomePage.getStage().setScene(empScene);
 			}
 		}
 	}
@@ -122,8 +123,8 @@ public class Vitals extends GridPane
 		
 				VitalsObject newVitals = new VitalsObject(hRate.getText(), bWeight.getText(), bTemp.getText(), bPressure.getText(), patient);
 				
-				Scene empScene = Main.getEmployeeHome();
-				Main.getStage().setScene(empScene);
+				Scene empScene = WelcomePage.getEmployeeHome();
+				WelcomePage.getStage().setScene(empScene);
 				
 				
 			}

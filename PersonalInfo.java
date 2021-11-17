@@ -119,8 +119,18 @@ public class PersonalInfo extends GridPane
 		{
 			if (backEvent.getEventType() == MouseEvent.MOUSE_CLICKED)
 			{
-				Scene empScene = WelcomePage.getEmployeeHome();
-				WelcomePage.getStage().setScene(empScene);
+				// go to employee home screen 
+				EmployeeHome newPane;
+				try 
+				{
+					newPane = new EmployeeHome();
+					Scene newScene = new Scene(newPane, 700, 1000);
+					newScene.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
+					WelcomePage.getStage().setScene(newScene);
+				} catch (FileNotFoundException e) 
+				{
+					e.printStackTrace();
+				}
 			}
 		}
 	}
@@ -134,10 +144,22 @@ public class PersonalInfo extends GridPane
 			{
 				// TODO - check if all fields full
 		
-				Scene empScene = WelcomePage.getEmployeeHome();
-				WelcomePage.getStage().setScene(empScene);
+				// save information in patient object
+
 				
-				// TODO - save information in patient object
+				// go to employee home screen 
+				EmployeeHome newPane;
+				try 
+				{
+					newPane = new EmployeeHome();
+					Scene newScene = new Scene(newPane, 700, 1000);
+					newScene.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
+					WelcomePage.getStage().setScene(newScene);
+				} catch (FileNotFoundException e) 
+				{
+					e.printStackTrace();
+				}
+				
 			}
 		}
 	}

@@ -186,6 +186,8 @@ public class CreateAccount extends GridPane
 						&& !field5.getText().isEmpty()&& !field6.getText().isEmpty() && !field7.getText().isEmpty() && !field8.getText().isEmpty()
 						&& !field9.getText().isEmpty() && !field10.getText().isEmpty() && (practise.isSelected() || seuss.isSelected())) 
 				{	
+					// TO-DO - save patient info
+					
 					// go to patient home screen 
 					PatientHome newPane;
 					try 

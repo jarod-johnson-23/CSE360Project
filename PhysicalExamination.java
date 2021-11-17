@@ -2,6 +2,7 @@ package application;
 
 import java.io.FileNotFoundException;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -31,6 +32,7 @@ public class PhysicalExamination extends GridPane
 	private Label title, patient, date, findings, signature;
 	private Button back, save;
 	private TextField patientBox, findingsBox, signatureBox;
+	private DatePicker datePicker;
 	
 	public PhysicalExamination() throws FileNotFoundException
 	{
@@ -53,7 +55,7 @@ public class PhysicalExamination extends GridPane
 		signature = new Label("Signature:");
 				
 		// define datePicker
-		DatePicker datePicker = new DatePicker();
+		datePicker = new DatePicker();
 		
 		// set current date
 		datePicker.setValue(LocalDate.now());
@@ -170,9 +172,10 @@ public class PhysicalExamination extends GridPane
 			{
 				// TODO - check if all fields full
 		
-				// TODO - save information in patient object
+				// save information in patient object
+				PhysicalExaminationObject newPhysExam = new PhysicalExaminationObject(WelcomePage.getPatientSelected(), datePicker.getValue().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")), findingsBox.getText(), signatureBox.getText());
+				WelcomePage.getPatientSelected().storePhysExam(newPhysExam);
 				
-
 				// go to employee home screen 
 				EmployeeHome newPane;
 				try 

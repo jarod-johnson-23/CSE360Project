@@ -6,7 +6,7 @@ public class Prescription {
 	private String pharmacy_name;
 	private String medication;
 	private String dosage;
-	private double dosage_per_day;
+	private String dosage_per_day;
 	private String notes;
 
 	// Default Constructor
@@ -16,12 +16,12 @@ public class Prescription {
 		pharmacy_name = "";
 		medication = "";
 		dosage = "";
-		dosage_per_day = 0;
-		notes = null;
+		dosage_per_day = "";
+		notes = "";
 	}
 
 	// Constructor
-	public Prescription(Patient p, String p_name, String m, String d, double d_per_day, String n)
+	public Prescription(Patient p, String p_name, String m, String d, String d_per_day, String n)
 	{
 		patient = p;
 		pharmacy_name = p_name;
@@ -66,7 +66,7 @@ public class Prescription {
 	}
 
 	// Gets patients the dosage patient receives per day
-	public double getDosage_per_day() {
+	public String getDosage_per_day() {
 		return dosage_per_day;
 	}
 

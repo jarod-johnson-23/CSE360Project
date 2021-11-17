@@ -830,15 +830,16 @@ public class WelcomePage extends Application
 	{
 		return selectedPatientEmp;
 	}
+	
 	public static void setPatientNamesInEmp(ObservableList<String> itemsFromEmpPage) {
 		// TODO Auto-generated method stub
-		
+
 	}
-	
+
 	public static int getLoginID() {
 		return loginIndex;
 	}
-	
+
 	public static Doctor getDoctor(int docIndex) {
 		if(docIndex == 100) {
 			return drPractise;
@@ -846,5 +847,6 @@ public class WelcomePage extends Application
 			return drSeuss;
 		}
 	}
+	
 	
 }

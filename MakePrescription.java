@@ -121,9 +121,18 @@ public class MakePrescription extends GridPane
 		{
 			if (backEvent.getEventType() == MouseEvent.MOUSE_CLICKED)
 			{
-				// go to employee home scene
-				Scene empScene = WelcomePage.getEmployeeHome();
-				WelcomePage.getStage().setScene(empScene);
+				// go to employee home screen 
+				EmployeeHome newPane;
+				try 
+				{
+					newPane = new EmployeeHome();
+					Scene newScene = new Scene(newPane, 700, 1000);
+					newScene.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
+					WelcomePage.getStage().setScene(newScene);
+				} catch (FileNotFoundException e) 
+				{
+					e.printStackTrace();
+				}
 			}
 		}
 	}
@@ -142,9 +151,18 @@ public class MakePrescription extends GridPane
 				Prescription p = new Prescription(selectedPatient, selectedPatient.getPharmacy(), medsBox.getText(), (Double)dosageChoices.getValue(), (Double)dosagePerDayChoices.getValue(), notesBox.getText());
 				selectedPatient.addPrescription(p);
 				
-				// go to employee home scene
-				Scene empScene = WelcomePage.getEmployeeHome();
-				WelcomePage.getStage().setScene(empScene);
+				// go to employee home screen 
+				EmployeeHome newPane;
+				try 
+				{
+					newPane = new EmployeeHome();
+					Scene newScene = new Scene(newPane, 700, 1000);
+					newScene.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
+					WelcomePage.getStage().setScene(newScene);
+				} catch (FileNotFoundException e) 
+				{
+					e.printStackTrace();
+				}
 			
 			}
 		}

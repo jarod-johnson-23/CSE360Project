@@ -70,18 +70,18 @@ public class EmployeeHome extends GridPane {
 		
 		// set font
 		welcomeDr.setFont(titleFont);
-		
+				
 		// get list of patients
 		patientNames = new ListView<String>();
 		items = FXCollections.<String>observableArrayList();
 		
 		setPatItems();
-
+		
 		// add elements to gridPane
 		this.add(logOut, 0, 0);
 		this.add(welcomeDr, 1, 1, 3, 1);
 		this.add(pats, 1, 2);
-		this.add(patientNames, 1, 3, 2, 3); 
+		this.add(patientNames, 1, 3, 2, 3);
 		this.add(actions, 1, 6);
 		this.add(vitals, 1, 7, 2, 1);
 		this.add(personalInfo, 1, 8, 2, 1);
@@ -111,8 +111,11 @@ public class EmployeeHome extends GridPane {
 		{
 			if (logoutEvent.getEventType() == MouseEvent.MOUSE_CLICKED)
 			{
+				// go to welcome page screen 
 				Scene loginScene = WelcomePage.getWelcomeLogin();
 				WelcomePage.getStage().setScene(loginScene);
+				
+				WelcomePage.logoutEmp();
 			}
 		}
 	}
@@ -124,9 +127,18 @@ public class EmployeeHome extends GridPane {
 		{
 			if (vitalsEvent.getEventType() == MouseEvent.MOUSE_CLICKED)
 			{
-				
-				Scene vitalsScene = WelcomePage.getVitals();
-				WelcomePage.getStage().setScene(vitalsScene);
+				// go to vitals screen 
+				Vitals newPane;
+				try 
+				{
+					newPane = new Vitals();
+					Scene newScene = new Scene(newPane, 700, 1000);
+					newScene.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
+					WelcomePage.getStage().setScene(newScene);
+				} catch (FileNotFoundException e) 
+				{
+					e.printStackTrace();
+				}
 			}
 		}
 	}
@@ -138,8 +150,18 @@ public class EmployeeHome extends GridPane {
 		{
 			if (personalInfoEvent.getEventType() == MouseEvent.MOUSE_CLICKED)
 			{
-				Scene personalInfoScene = WelcomePage.getPersonalInfo();
-				WelcomePage.getStage().setScene(personalInfoScene);
+				// go to personal info screen 
+				PersonalInfo newPane;
+				try 
+				{
+					newPane = new PersonalInfo();
+					Scene newScene = new Scene(newPane, 700, 1000);
+					newScene.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
+					WelcomePage.getStage().setScene(newScene);
+				} catch (FileNotFoundException e) 
+				{
+					e.printStackTrace();
+				}
 			}
 		}
 	}
@@ -151,7 +173,18 @@ public class EmployeeHome extends GridPane {
 		{
 			if (physicalEvent.getEventType() == MouseEvent.MOUSE_CLICKED)
 			{
-				Scene physicalScene = WelcomePage.getPhysical();
+				// go to physical examination screen 
+				PhysicalExamination newPane;
+				try 
+				{
+					newPane = new PhysicalExamination();
+					Scene newScene = new Scene(newPane, 700, 1000);
+					newScene.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
+					WelcomePage.getStage().setScene(newScene);
+				} catch (FileNotFoundException e) 
+				{
+					e.printStackTrace();
+				}
 			}
 		}
 	}
@@ -163,8 +196,18 @@ public class EmployeeHome extends GridPane {
 		{
 			if (notesEvent.getEventType() == MouseEvent.MOUSE_CLICKED)
 			{
-				Scene notesScene = WelcomePage.getDoctorNotes();
-				WelcomePage.getStage().setScene(notesScene);
+				// go to doctor notes screen 
+				DoctorNotes newPane;
+				try 
+				{
+					newPane = new DoctorNotes();
+					Scene newScene = new Scene(newPane, 700, 1000);
+					newScene.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
+					WelcomePage.getStage().setScene(newScene);
+				} catch (FileNotFoundException e) 
+				{
+					e.printStackTrace();
+				}
 			}
 		}
 	}
@@ -176,15 +219,26 @@ public class EmployeeHome extends GridPane {
 		{
 			if (prescriptionEvent.getEventType() == MouseEvent.MOUSE_CLICKED)
 			{
-				Scene prescriptionScene = WelcomePage.getMakePrescription();
-				WelcomePage.getStage().setScene(prescriptionScene);
+				// go to make prescription screen 
+				MakePrescription newPane;
+				try 
+				{
+					newPane = new MakePrescription();
+					Scene newScene = new Scene(newPane, 700, 1000);
+					newScene.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
+					WelcomePage.getStage().setScene(newScene);
+				} catch (FileNotFoundException e) 
+				{
+					e.printStackTrace();
+				}
 			}
 		}
 	}
 	
+	// set patient items
 	public void setPatItems() {
 		this.patients = WelcomePage.getPatients();
-		
+
 		int tempNum = WelcomePage.getLoginID();
 		System.out.println(tempNum);
 		if(tempNum == 100) {

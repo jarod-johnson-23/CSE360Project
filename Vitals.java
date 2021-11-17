@@ -28,11 +28,13 @@ public class Vitals extends GridPane
 	private Label title, heartRate, weight, temp, respRate, bloodPressure;
 	private Button back, submit;
 	private TextField hRate, bWeight, bTemp, rRate, bPressure;
+	private Patient patient;
 	
-	public Vitals() throws FileNotFoundException
+	public Vitals(Patient patient) throws FileNotFoundException
 	{
 		// define font
 		titleFont = new Font("Cambria", 24);
+		this.patient = patient;
 
 		// define background image
 		Image defaultBgPic = new Image("file:iu-9.jpeg", width, height, false, false);
@@ -103,8 +105,8 @@ public class Vitals extends GridPane
 		{
 			if (backEvent.getEventType() == MouseEvent.MOUSE_CLICKED)
 			{
-				Scene empScene = WelcomePage.getEmployeeHome();
-				WelcomePage.getStage().setScene(empScene);
+				Scene empScene = Main.getEmployeeHome();
+				Main.getStage().setScene(empScene);
 			}
 		}
 	}
@@ -118,10 +120,12 @@ public class Vitals extends GridPane
 			{
 				// TODO - check if all fields full
 		
-				Scene empScene = WelcomePage.getEmployeeHome();
-				WelcomePage.getStage().setScene(empScene);
+				VitalsObject newVitals = new VitalsObject(hRate.getText(), bWeight.getText(), bTemp.getText(), bPressure.getText(), patient);
 				
-				// TODO - save information in patient object
+				Scene empScene = Main.getEmployeeHome();
+				Main.getStage().setScene(empScene);
+				
+				
 			}
 		}
 	}

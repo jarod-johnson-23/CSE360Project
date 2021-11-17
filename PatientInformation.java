@@ -147,8 +147,18 @@ public class PatientInformation extends GridPane
 		{
 			if (backEvent.getEventType() == MouseEvent.MOUSE_CLICKED)
 			{
-				Scene patScene = WelcomePage.getPatientHome();
-				WelcomePage.getStage().setScene(patScene);
+				// go to patient home screen 
+				PatientHome newPane;
+				try 
+				{
+					newPane = new PatientHome();
+					Scene newScene = new Scene(newPane, 700, 1000);
+					newScene.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
+					WelcomePage.getStage().setScene(newScene);
+				} catch (FileNotFoundException e) 
+				{
+					e.printStackTrace();
+				}
 			}
 		}
 	}

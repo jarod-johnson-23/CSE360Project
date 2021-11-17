@@ -32,9 +32,7 @@ public class CreateAccount extends GridPane
 	private Font titleFont;
 	private int width = 1500;
 	private int height = 1000;
-	// create radio buttons
-	RadioButton practise = new RadioButton("Dr. Practise");
-	RadioButton seuss = new RadioButton("Dr. Seuss");
+	private RadioButton practise = new RadioButton("Dr. Practise"), seuss = new RadioButton("Dr. Seuss");
 	
 	public CreateAccount() throws FileNotFoundException
 	{	
@@ -69,14 +67,15 @@ public class CreateAccount extends GridPane
 		failure = new Label("");
 		instructions = new Label("(Please separate individual conditions with \",\" e.g. Asthma,Diabetes)");
 		error = new Label("");
-		error.setTextFill(Color.RED);
-		
+				
 		// set title label font
 		label1.setFont(titleFont);
 		label2.setFont(titleFont);
 		
 		// set label color
 		failure.setTextFill(Color.RED);
+		error.setTextFill(Color.RED);
+
 		
 		// create textFields
 		field1 = new TextField();
@@ -159,8 +158,18 @@ public class CreateAccount extends GridPane
 		{
 			if (returnEvent.getEventType() == MouseEvent.MOUSE_CLICKED)
 			{
-				Scene loginScene = WelcomePage.getWelcomeLogin();
-				WelcomePage.getStage().setScene(loginScene);
+				// go to login screen 
+				LoginPane newPane;
+				try 
+				{
+					newPane = new LoginPane();
+					Scene newScene = new Scene(newPane, 700, 1000);
+					newScene.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
+					WelcomePage.getStage().setScene(newScene);
+				} catch (FileNotFoundException e) 
+				{
+					e.printStackTrace();
+				}
 				
 			}
 		}
@@ -175,9 +184,20 @@ public class CreateAccount extends GridPane
 			{
 				if(!field1.getText().isEmpty() && !field2.getText().isEmpty() && !field3.getText().isEmpty() && !field4.getText().isEmpty()
 						&& !field5.getText().isEmpty()&& !field6.getText().isEmpty() && !field7.getText().isEmpty() && !field8.getText().isEmpty()
-						&& !field9.getText().isEmpty() && !field10.getText().isEmpty() && (practise.isSelected() || seuss.isSelected())) {
-					Scene patientScene = WelcomePage.getPatientHome();
-					WelcomePage.getStage().setScene(patientScene);
+						&& !field9.getText().isEmpty() && !field10.getText().isEmpty() && (practise.isSelected() || seuss.isSelected())) 
+				{	
+					// go to patient home screen 
+					PatientHome newPane;
+					try 
+					{
+						newPane = new PatientHome();
+						Scene newScene = new Scene(newPane, 700, 1000);
+						newScene.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
+						WelcomePage.getStage().setScene(newScene);
+					} catch (FileNotFoundException e) 
+					{
+						e.printStackTrace();
+					}
 				} else {
 					error.setText("Please fill out all fields and/or select a doctor");
 				}

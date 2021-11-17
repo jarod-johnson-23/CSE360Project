@@ -108,8 +108,18 @@ public class PatientHome extends BorderPane
 		{
 			if (infoEvent.getEventType() == MouseEvent.MOUSE_CLICKED)
 			{
-				Scene infoScene = WelcomePage.getInformation();
-				WelcomePage.getStage().setScene(infoScene);
+				// go to information screen 
+				PatientInformation newPane;
+				try 
+				{
+					newPane = new PatientInformation();
+					Scene newScene = new Scene(newPane, 700, 1000);
+					newScene.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
+					WelcomePage.getStage().setScene(newScene);
+				} catch (FileNotFoundException e) 
+				{
+					e.printStackTrace();
+				}
 			}
 		}
 	}
@@ -121,8 +131,18 @@ public class PatientHome extends BorderPane
 		{
 			if (messageEvent.getEventType() == MouseEvent.MOUSE_CLICKED)
 			{
-				Scene messageScene = WelcomePage.getMessagePortal();
-				WelcomePage.getStage().setScene(messageScene);
+				// go to messages screen 
+				PatientMessages newPane;
+				try 
+				{
+					newPane = new PatientMessages();
+					Scene newScene = new Scene(newPane, 700, 1000);
+					newScene.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
+					WelcomePage.getStage().setScene(newScene);
+				} catch (FileNotFoundException e) 
+				{
+					e.printStackTrace();
+				}
 			}
 		}
 	}
@@ -134,8 +154,18 @@ public class PatientHome extends BorderPane
 		{
 			if (visitEvent.getEventType() == MouseEvent.MOUSE_CLICKED)
 			{
-				Scene visitScene = WelcomePage.getPastVisits();
-				WelcomePage.getStage().setScene(visitScene);
+				// go to past visits screen 
+				PatientPastVisits newPane;
+				try 
+				{
+					newPane = new PatientPastVisits();
+					Scene newScene = new Scene(newPane, 700, 1000);
+					newScene.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
+					WelcomePage.getStage().setScene(newScene);
+				} catch (FileNotFoundException e) 
+				{
+					e.printStackTrace();
+				}
 			}
 		}
 	}
@@ -148,8 +178,18 @@ public class PatientHome extends BorderPane
 		{
 			if (scheduleEvent.getEventType() == MouseEvent.MOUSE_CLICKED)
 			{
-				Scene scheduleScene = WelcomePage.getScheduleAVisit();
-				WelcomePage.getStage().setScene(scheduleScene);
+				// go to schedule a visit screen 
+				PatientScheduleVisit newPane;
+				try 
+				{
+					newPane = new PatientScheduleVisit();
+					Scene newScene = new Scene(newPane, 700, 1000);
+					newScene.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
+					WelcomePage.getStage().setScene(newScene);
+				} catch (FileNotFoundException e) 
+				{
+					e.printStackTrace();
+				}
 			}
 		}
 	}
@@ -162,8 +202,18 @@ public class PatientHome extends BorderPane
 		{
 			if (logoutEvent.getEventType() == MouseEvent.MOUSE_CLICKED)
 			{
-				Scene loginScene = WelcomePage.getWelcomeLogin();
-				WelcomePage.getStage().setScene(loginScene);
+				// go to login screen 
+				LoginPane newPane;
+				try 
+				{
+					newPane = new LoginPane();
+					Scene newScene = new Scene(newPane, 700, 1000);
+					newScene.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
+					WelcomePage.getStage().setScene(newScene);
+				} catch (FileNotFoundException e) 
+				{
+					e.printStackTrace();
+				}
 			}
 		}
 	}

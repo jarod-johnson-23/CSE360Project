@@ -2,6 +2,7 @@ package application;
 
 import java.io.FileNotFoundException;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -31,6 +32,7 @@ public class DoctorNotes extends GridPane
 	private Label title, subject, date, notes, signature;
 	private Button back, submit;
 	private TextField subjectBox, notesBox, signatureBox;
+	private DatePicker datePicker;
 	
 	public DoctorNotes() throws FileNotFoundException
 	{
@@ -53,7 +55,7 @@ public class DoctorNotes extends GridPane
 		signature = new Label("Signature:");
 		
 		// define datePicker
-		DatePicker datePicker = new DatePicker();
+		datePicker = new DatePicker();
 		
 		// set current date
 		datePicker.setValue(LocalDate.now());
@@ -145,8 +147,18 @@ public class DoctorNotes extends GridPane
 		{
 			if (backEvent.getEventType() == MouseEvent.MOUSE_CLICKED)
 			{
-				Scene empScene = WelcomePage.getEmployeeHome();
-				WelcomePage.getStage().setScene(empScene);
+				// go to employee home screen 
+				EmployeeHome newPane;
+				try 
+				{
+					newPane = new EmployeeHome();
+					Scene newScene = new Scene(newPane, 700, 1000);
+					newScene.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
+					WelcomePage.getStage().setScene(newScene);
+				} catch (FileNotFoundException e) 
+				{
+					e.printStackTrace();
+				}
 			}
 		}
 	}
@@ -159,11 +171,14 @@ public class DoctorNotes extends GridPane
 			if (submitEvent.getEventType() == MouseEvent.MOUSE_CLICKED)
 			{
 				// TODO -  check if all fields full
-		
+	
+				// save information in patient object
+				Patient selectedPatient = WelcomePage.getPatientSelected();
+				selectedPatient.setPatientDocNote(subjectBox.getText(), datePicker.getValue().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")), notesBox.getText(),signatureBox.getText());
+				
+				// go to employee home scene
 				Scene empScene = WelcomePage.getEmployeeHome();
 				WelcomePage.getStage().setScene(empScene);
-				
-				// TODO - save information in patient object
 			}
 		}
 	}

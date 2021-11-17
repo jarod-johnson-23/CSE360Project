@@ -1,8 +1,6 @@
 package application;
 
 import java.io.FileNotFoundException;
-
-
 import javafx.collections.FXCollections;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;

@@ -31,7 +31,7 @@ public class EmployeeHome extends GridPane {
 	private Font titleFont;
 	private Button logOut, vitals, personalInfo, physicalExamination, drNotes, makePrescription;
 	private Label welcomeDr, pats, actions;
-	ListView<String> patientNames;
+	private ListView<String> patientNames = new ListView<String>();
 	
 	public EmployeeHome() throws FileNotFoundException
 	{
@@ -62,17 +62,41 @@ public class EmployeeHome extends GridPane {
 		makePrescription.setPrefWidth(150);
 
 		// define labels
-		welcomeDr = new Label("Welcome!");
+		welcomeDr = new Label(WelcomePage.getName());
 		pats = new Label("Patients");
 		actions = new Label("Please choose an action");
 		
 		// set font
 		welcomeDr.setFont(titleFont);
+				
+		// get list of patients for logged in doctor
+		if (WelcomePage.getLoginFlag() == 1)
+		{
+			System.out.println("Login flag == 1");
+			System.out.println(WelcomePage.getLoggedInDoctor().getName());
+			patientNames = WelcomePage.getPatientNamesInEmpDoc(WelcomePage.getLoggedInDoctor());
+		}
+		// get list of patients for logged in nurse
+		else if (WelcomePage.getLoginFlag() == 2)
+		{		
+			System.out.println("Login flag == 2");
+			patientNames = WelcomePage.getPatientNamesInEmpNurse(WelcomePage.getLoggedInNurse());
+		}
+		// get empty list when first loading gui
+		else if (WelcomePage.getLoginFlag() == 3)
+		{
+			System.out.println("Login flag == 3");
+			patientNames.getItems().addAll("John Doe", "Mary Sue", "Bob Thomas");
+		}
 		
-		// get list of patients - FIXME
-		ListView<String> patientNames = new ListView<String>();
-		patientNames.getItems().addAll("John Doe", "Mary Sue", "Bob Thomas");
-
+		// set default selected patient when gui starts
+		patientNames.getSelectionModel().select(0);
+		
+		System.out.println(patientNames.getSelectionModel().getSelectedItem());
+		
+		// save selected patients 
+		WelcomePage.setPatientSelection(patientNames.getSelectionModel().getSelectedItem());
+		
 		// add elements to gridPane
 		this.add(logOut, 0, 0);
 		this.add(welcomeDr, 1, 1, 3, 1);
@@ -107,8 +131,20 @@ public class EmployeeHome extends GridPane {
 		{
 			if (logoutEvent.getEventType() == MouseEvent.MOUSE_CLICKED)
 			{
-				Scene loginScene = WelcomePage.getWelcomeLogin();
-				WelcomePage.getStage().setScene(loginScene);
+				// go to welcome page screen 
+				LoginPane welcomePane;
+				try 
+				{
+					welcomePane = new LoginPane();
+					Scene welcomeScene = new Scene(welcomePane, 700, 1000);
+					welcomeScene.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
+					WelcomePage.getStage().setScene(welcomeScene);
+				} catch (FileNotFoundException e) 
+				{
+					e.printStackTrace();
+				}
+				
+				WelcomePage.logoutEmp();
 			}
 		}
 	}
@@ -120,14 +156,18 @@ public class EmployeeHome extends GridPane {
 		{
 			if (vitalsEvent.getEventType() == MouseEvent.MOUSE_CLICKED)
 			{
-				
-				try {
-					Scene vitalsScene = WelcomePage.getVitals(patientNames.getSelectionModel().getSelectedItem());
-					WelcomePage.getStage().setScene(vitalsScene);
-				} catch (FileNotFoundException e) {
+				// go to vitals screen 
+				Vitals newPane;
+				try 
+				{
+					newPane = new Vitals();
+					Scene newScene = new Scene(newPane, 700, 1000);
+					newScene.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
+					WelcomePage.getStage().setScene(newScene);
+				} catch (FileNotFoundException e) 
+				{
 					e.printStackTrace();
-				} 
-				
+				}
 			}
 		}
 	}
@@ -139,8 +179,18 @@ public class EmployeeHome extends GridPane {
 		{
 			if (personalInfoEvent.getEventType() == MouseEvent.MOUSE_CLICKED)
 			{
-				Scene personalInfoScene = WelcomePage.getPersonalInfo();
-				WelcomePage.getStage().setScene(personalInfoScene);
+				// go to personal info screen 
+				PersonalInfo newPane;
+				try 
+				{
+					newPane = new PersonalInfo();
+					Scene newScene = new Scene(newPane, 700, 1000);
+					newScene.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
+					WelcomePage.getStage().setScene(newScene);
+				} catch (FileNotFoundException e) 
+				{
+					e.printStackTrace();
+				}
 			}
 		}
 	}
@@ -152,7 +202,18 @@ public class EmployeeHome extends GridPane {
 		{
 			if (physicalEvent.getEventType() == MouseEvent.MOUSE_CLICKED)
 			{
-				Scene physicalScene = WelcomePage.getPhysical();
+				// go to physical examination screen 
+				PhysicalExamination newPane;
+				try 
+				{
+					newPane = new PhysicalExamination();
+					Scene newScene = new Scene(newPane, 700, 1000);
+					newScene.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
+					WelcomePage.getStage().setScene(newScene);
+				} catch (FileNotFoundException e) 
+				{
+					e.printStackTrace();
+				}
 			}
 		}
 	}
@@ -164,8 +225,18 @@ public class EmployeeHome extends GridPane {
 		{
 			if (notesEvent.getEventType() == MouseEvent.MOUSE_CLICKED)
 			{
-				Scene notesScene = WelcomePage.getDoctorNotes();
-				WelcomePage.getStage().setScene(notesScene);
+				// go to doctor notes screen 
+				DoctorNotes newPane;
+				try 
+				{
+					newPane = new DoctorNotes();
+					Scene newScene = new Scene(newPane, 700, 1000);
+					newScene.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
+					WelcomePage.getStage().setScene(newScene);
+				} catch (FileNotFoundException e) 
+				{
+					e.printStackTrace();
+				}
 			}
 		}
 	}
@@ -177,8 +248,18 @@ public class EmployeeHome extends GridPane {
 		{
 			if (prescriptionEvent.getEventType() == MouseEvent.MOUSE_CLICKED)
 			{
-				Scene prescriptionScene = WelcomePage.getMakePrescription();
-				WelcomePage.getStage().setScene(prescriptionScene);
+				// go to make prescription screen 
+				MakePrescription newPane;
+				try 
+				{
+					newPane = new MakePrescription();
+					Scene newScene = new Scene(newPane, 700, 1000);
+					newScene.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
+					WelcomePage.getStage().setScene(newScene);
+				} catch (FileNotFoundException e) 
+				{
+					e.printStackTrace();
+				}
 			}
 		}
 	}

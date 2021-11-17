@@ -28,15 +28,12 @@ public class Vitals extends GridPane
 	private Label title, heartRate, weight, temp, respRate, bloodPressure;
 	private Button back, submit;
 	private TextField hRate, bWeight, bTemp, rRate, bPressure;
-	private Patient patient;
-	private String patName;
 	
-	public Vitals(String patName) throws FileNotFoundException
+	public Vitals() throws FileNotFoundException
 	{
 		// define font
 		titleFont = new Font("Cambria", 24);
-		this.patName = patName;
-
+				
 		// define background image
 		Image defaultBgPic = new Image("file:iu-9.jpeg", width, height, false, false);
 		BackgroundImage defaultImage = new BackgroundImage(defaultBgPic, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT);
@@ -106,8 +103,18 @@ public class Vitals extends GridPane
 		{
 			if (backEvent.getEventType() == MouseEvent.MOUSE_CLICKED)
 			{
-				Scene empScene = WelcomePage.getEmployeeHome();
-				WelcomePage.getStage().setScene(empScene);
+				// go to employee home screen 
+				EmployeeHome newPane;
+				try 
+				{
+					newPane = new EmployeeHome();
+					Scene newScene = new Scene(newPane, 700, 1000);
+					newScene.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
+					WelcomePage.getStage().setScene(newScene);
+				} catch (FileNotFoundException e) 
+				{
+					e.printStackTrace();
+				}
 			}
 		}
 	}
@@ -121,12 +128,13 @@ public class Vitals extends GridPane
 			{
 				// TODO - check if all fields full
 		
-				VitalsObject newVitals = new VitalsObject(hRate.getText(), bWeight.getText(), bTemp.getText(), bPressure.getText(), patient);
+				VitalsObject newVitals = new VitalsObject(hRate.getText(), bWeight.getText(), bTemp.getText(), rRate.getText(), bPressure.getText(), WelcomePage.getPatientSelected());
+
+				WelcomePage.getLoggedInPatient().storeVitals(newVitals);
 				
+				// go to employee home scene
 				Scene empScene = WelcomePage.getEmployeeHome();
 				WelcomePage.getStage().setScene(empScene);
-				
-				
 			}
 		}
 	}

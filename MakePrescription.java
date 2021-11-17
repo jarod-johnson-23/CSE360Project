@@ -121,6 +121,7 @@ public class MakePrescription extends GridPane
 		{
 			if (backEvent.getEventType() == MouseEvent.MOUSE_CLICKED)
 			{
+				// go to employee home scene
 				Scene empScene = WelcomePage.getEmployeeHome();
 				WelcomePage.getStage().setScene(empScene);
 			}
@@ -136,10 +137,15 @@ public class MakePrescription extends GridPane
 			{
 				// TODO - check if all fields full
 		
+				// save prescription info in patient object and send to pharmacy
+				Patient selectedPatient = WelcomePage.getPatientSelected();
+				Prescription p = new Prescription(selectedPatient, selectedPatient.getPharmacy(), medsBox.getText(), (Double)dosageChoices.getValue(), (Double)dosagePerDayChoices.getValue(), notesBox.getText());
+				selectedPatient.addPrescription(p);
+				
+				// go to employee home scene
 				Scene empScene = WelcomePage.getEmployeeHome();
 				WelcomePage.getStage().setScene(empScene);
-				
-				// TODO - save prescription info in patient object and send to pharmacy
+			
 			}
 		}
 	}

@@ -63,6 +63,12 @@ public class Doctor {
 	{
 		return patients[index];
 	}
+	
+	// Get patients
+	public Patient[] getPatients()
+	{
+		return patients;
+	}
 
 	// Gets the doctor's login index
 	public int getIndex()

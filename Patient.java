@@ -16,6 +16,7 @@ public class Patient {
     private String email;
     private String pharmacy;
     private List<Prescription> prescriptions;
+    private List<VitalsObject> vitals;
     private int prescrListSize;
     private String medications[] = new String[10];
     private String vaccines[] = new String[10];
@@ -39,6 +40,7 @@ public class Patient {
         this.email = null;
         this.pharmacy = null;
         this.prescriptions = new ArrayList<Prescription>();
+        this.vitals = new ArrayList<VitalsObject>();
         this.prescrListSize = 0;
         this.doctor = null;
         this.username = null;
@@ -57,7 +59,7 @@ public class Patient {
 
     // Constructor
     public Patient(String fName, String mName, String lName, int age, String birthday, String gender,
-                   String address, String phoneNumber, String email, String pharmacy, List<Prescription> p_list,
+                   String address, String phoneNumber, String email, String pharmacy, List<Prescription> p_list, List<VitalsObject> v_list,
                    Doctor doctor, String username, String password) {
         this.fName = fName;
         this.mName = mName;
@@ -70,6 +72,7 @@ public class Patient {
         this.email = email;
         this.pharmacy = pharmacy;
         this.prescriptions = new ArrayList<Prescription>();
+        this.vitals = new ArrayList<VitalsObject>();
         this.prescrListSize = prescriptions.size();
         this.doctor = doctor;
         this.username = username;
@@ -179,7 +182,7 @@ public class Patient {
     
     // Get vaccine list
     public String[] getVaccines() {
-    	return vaccines;
+    	return this.vaccines;
     }
 
     //---------------------------------------------------------------------------------------------------
@@ -264,6 +267,7 @@ public class Patient {
         doctor = aDoctor;
     }
 
+    // Concatenate first and last name
     public String concatenateNames() {
         String firstHalf = this.fName.concat(" ");
 
@@ -284,12 +288,13 @@ public class Patient {
     // Sets the patients doctor note in their doctor note array
     public void setPatientDocNote(String subject, String date, String docNote, String signature) {
         int i = 0;
-        while (i <  doctorNoteArray.length) {
+        while (i < doctorNoteArray.length) {
             if (doctorNoteArray[i].getDate() == null) {
                 break;
             }
             i++;
         }
+        
         doctorNoteArray[i].setDocNote(subject, date, docNote, signature);
     }
 
@@ -333,6 +338,7 @@ public class Patient {
         return "";
     }
 
+    // print patient information
     public void printPatient() {
         System.out.println("First Name: " + fName +
                 ", Middle Name: " + mName +
@@ -361,5 +367,19 @@ public class Patient {
             doctorNoteArray[i].printDoctorNote();
         }
         System.out.println("---------------------------------------------------------------------------------------------------------");
+    }
+    
+    // store vitals information
+    public void storeVitals(String heartRate, String weight, String bodyTemp, String respRate, String bloodPressure)
+    {
+    	VitalsObject newVitals = new VitalsObject(heartRate, weight, bodyTemp, respRate, bloodPressure);
+    	
+    	vitals.add(newVitals);
+    }
+    
+    // store vitals information
+    public void storeVitals(VitalsObject newVitals)
+    {
+    	vitals.add(newVitals);
     }
 }

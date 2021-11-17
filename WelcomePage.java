@@ -32,7 +32,7 @@ public class WelcomePage extends Application
 	// variables for data manipulation
 	private String inputUsername;
 	private String inputPassword;
-	private static String nameToSave, empty;
+	private static String nameToSave;
 	private static int loginIndex = -1;
 	private static Patient[] patients = new Patient[20];
 	private static Patient[] practisePatients = new Patient[20];
@@ -44,22 +44,17 @@ public class WelcomePage extends Application
 	private static ObservableList<String> items = FXCollections.<String>observableArrayList();
 	private static ListView<String> patientNames = new ListView<String>();
 	private static List<Message> messages = new ArrayList<Message>();
-	private static Patient patientLoggedIn = new Patient("", "", "", 0, "", "", "", "", "", "", null, null, "", "");
+	private static Patient patientLoggedIn = new Patient("", "", "", 0, "", "", "", "", "", "", null, null, null, "", "");
 	private static Nurse nurseLoggedIn = new Nurse(null, null, null, null, null, null);
 	private static Doctor doctorLoggedIn = new Doctor("Mal Practise", "#1doctor", "password", practisePatients, 100, null);
-	
-	private static Vitals pane5;
-	private static PersonalInfo pane6;
-	private static PhysicalExamination pane7;
-	private static DoctorNotes pane8;
-	private static MakePrescription pane9;
+	private static int loginFlag = 3; // 0 for patient, 1 for doctor, 2 for nurse, 3 for startup
+	private static Patient selectedPatientEmp;
 	
 	public void start(Stage primaryStage) throws FileNotFoundException
 	{		
 		// GUI CODE --------------------------------------------------------------------------------------------------------------------------
 		// save primary stage
 		window = primaryStage;
-		empty = "";
 	
 		// maximize screen
 		Screen screen = Screen.getPrimary();
@@ -74,11 +69,11 @@ public class WelcomePage extends Application
 		CreateAccount pane2 = new CreateAccount();
 		EmployeeHome pane3 = new EmployeeHome();
 		PatientHome pane4 = new PatientHome();
-		pane5 = new Vitals(empty);
-		pane6 = new PersonalInfo();
-		pane7 = new PhysicalExamination();
-		pane8 = new DoctorNotes();
-		pane9 = new MakePrescription();
+		Vitals pane5 = new Vitals();
+		PersonalInfo pane6 = new PersonalInfo();
+		PhysicalExamination pane7 = new PhysicalExamination();
+		DoctorNotes pane8 = new DoctorNotes();
+		MakePrescription pane9 = new MakePrescription();
 		PatientInformation pane10 = new PatientInformation();
 		PatientMessages pane11 = new PatientMessages();
 		PatientPastVisits pane12 = new PatientPastVisits();
@@ -130,17 +125,17 @@ public class WelcomePage extends Application
 		// set all patient objects to null
 		for(int i = 0; i < patients.length; i++) 
 		{
-			patients[i] = new Patient(null, null, null, 0, null, null, null, null, null, null, null, fakeDoctor, null, null);
-			}
+			patients[i] = new Patient("-", "-", "-", 0, "-", "-", "-", "-", "-", "-", null, null, fakeDoctor, "-", "-");
+		}
 		
 		for(int i = 0; i < practisePatients.length; i++) 
 		{
-			practisePatients[i] = new Patient(null, null, null, 0, null, null, null, null, null, null, null, drPractise, null, null);
-			seussPatients[i] = new Patient(null, null, null, 0, null, null, null, null, null, null, null, drSeuss, null, null);
+			practisePatients[i] = new Patient("-", "-", "-", 0, "-", "-", "-", "-", "-", "-", null, null, drPractise, "-", "-");
+			seussPatients[i] = new Patient("-", "-", "-", 0, "-", "-", "-", "-", "-", "-", null, null, drSeuss, "-", "-");
 		}
 		
 		for(int i = 0; i < nurses.length; i++) {
-			nurses[i] = new Nurse(null, null, null, null, null, null);
+			nurses[i] = new Nurse("-", "-", "-", "-", "-", null);
 		}
 		
 		// input file initialized
@@ -359,9 +354,8 @@ public class WelcomePage extends Application
 	}
 	
 	// get vitals scene
-	public static Scene getVitals(String patName) throws FileNotFoundException
+	public static Scene getVitals()
 	{
-		pane5 = new Vitals(patName);
 		return vitals;
 	}
 	
@@ -453,10 +447,10 @@ public class WelcomePage extends Application
 	// logout from employee account
 	public static void logoutEmp()
 	{
-		window.setScene(welcomeLogin);
+		//window.setScene(welcomeLogin);
 		
 		if(loginIndex >= 100) {
-			//items.clear();
+			items.clear();
 		}
 		
 		loginIndex = -1;
@@ -477,6 +471,7 @@ public class WelcomePage extends Application
 	{
 		Scanner parse = new Scanner(issues);
 		parse.useDelimiter(",");
+		
 		int i = 0;
 		
 		while(patients[i].getFName() != null) 
@@ -500,10 +495,10 @@ public class WelcomePage extends Application
 		patients[i].setPharmacy(pharm);
 		patients[i].setUsername(uName);
 		patients[i].setPassword(pWord);
+		
 		while(parse.hasNext()) {
 			patients[i].addIssue(parse.next());
 		}
-		
 		
 		System.out.println(issues);
 		
@@ -595,16 +590,48 @@ public class WelcomePage extends Application
 	{
 		return items;
 	}
-	
-	// set patient names in employee home page
-	public static void setPatientNamesInEmp(ObservableList<String> names)
+
+	// get patient names in employee home page for doctor
+	public static ListView<String> getPatientNamesInEmpDoc(Doctor doctor)
 	{
-		patientNames.setItems(names);
+		// reset list
+		items.clear();
+		
+		System.out.println("# of patients for doctor = " + doctor.getPatientArraySize());
+
+		// add patients to list
+		for (int i = 0; i < doctor.getPatients().length; i++)
+		{			
+			if (doctor.getPatients()[i] != null)
+			{
+				items.add(doctor.getPatients()[i].concatenateNames());
+			}
+			
+		}
+				
+		patientNames.getItems().clear();
+		patientNames.setItems(items);
+		
+		return patientNames;
 	}
 	
-	// get patient names in employee home page
-	public static ListView<String> getPatientNamesInEmp()
+	// get patient names in employee home page for doctor
+	public static ListView<String> getPatientNamesInEmpNurse(Nurse nurse)
 	{
+		// reset list
+			items.clear();
+			
+		// add patients to list
+		for (int i = 0; i < patients.length; i++)
+		{
+			if (patients[i].getFName() != null)
+			{
+				items.add(patients[i].concatenateNames());
+			}
+		}
+		
+		patientNames.setItems(items);
+		
 		return patientNames;
 	}
 	
@@ -675,18 +702,21 @@ public class WelcomePage extends Application
 	public static void saveLoggedInDoctor(Doctor doctor)
 	{
 		doctorLoggedIn = doctor;
+		loginFlag = 1;
 	}
 	
 	// save logged in nurse
 	public static void saveLoggedInNurse(Nurse nurse)
 	{
 		nurseLoggedIn = nurse;
+		loginFlag = 2;
 	}
 	
 	// save logged in patient
 	public static void saveLoggedInPatient(Patient patient)
 	{
 		patientLoggedIn = patient;
+		loginFlag = 0;
 	}
 	
 	// get logged in doctor
@@ -711,7 +741,7 @@ public class WelcomePage extends Application
 	public static Patient getPatientInfo(String username, String password)
 	{
 		// declare variables
-		Patient patient = new Patient(null, null, null, 0, null, null, null, null, null, null, null, null, null, null);
+		Patient patient = new Patient(null, null, null, 0, null, null, null, null, null, null, null, null, null, null, null);
 
 		// check patient information 
 		for (int i = 0; i < patients.length; i++)
@@ -743,5 +773,63 @@ public class WelcomePage extends Application
 		
 		return nurseTemp;
 	}
+	
+	// set login flag - 0 for patient, 1 for doctor, 2 for nurse
+	public static void setLoginFlag(int flag)
+	{
+		loginFlag = flag;
+	}
+	
+	// get login flag
+	public static int getLoginFlag()
+	{
+		return loginFlag;
+	}
+	
+	// set patient selected by doctor/nurse
+	public static void setPatientSelection(String names)
+	{
+		// declare variables
+		Doctor currentDoctor;
+		Nurse currentNurse;
+		
+		// get doctor/nurse that is currently logged in
+		if (loginFlag == 1)
+		{
+			currentDoctor = doctorLoggedIn;
+			
+			System.out.println("Current doctor = " + currentDoctor.getName());
+			
+			for (int i = 0; i < currentDoctor.getPatients().length; i++)
+			{				
+				if (currentDoctor.getPatients()[i] != null && currentDoctor.getPatients()[i].concatenateNames().equals(names))
+				{
+					selectedPatientEmp = currentDoctor.getPatients()[i];
+				}
+			}
+		}
+		else if (loginFlag == 2)
+		{
+			currentNurse = nurseLoggedIn;
+			
+			for (int i = 0; i < patients.length; i++)
+			{
+				if (patients[i] != null && patients[i].concatenateNames().equals(names))
+				{
+					selectedPatientEmp = patients[i];
+				}
+			}
+			
+		}
+		
+		
+	}
+	
+	// get patient selected by doctor/nurse
+	public static Patient getPatientSelected()
+	{
+		return selectedPatientEmp;
+	}
+	
 	
 }

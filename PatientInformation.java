@@ -46,12 +46,12 @@ public class PatientInformation extends GridPane
 		// format text
 		for (int i = 0; i < patient.getHealthConcerns().length; i++)
 		{
-			if (i == 0)
+			if (i == 0 && patient.getHealthConcerns()[i] != null)
 			{
 				healthConcernsFormatted = healthConcernsFormatted + patient.getHealthConcerns()[i];
 
 			}
-			else if (i != 0)
+			else if (i != 0 && patient.getHealthConcerns()[i] != null)
 			{
 				healthConcernsFormatted = healthConcernsFormatted + "," + patient.getHealthConcerns()[i];
 			}
@@ -59,30 +59,29 @@ public class PatientInformation extends GridPane
 		
 		for (int i = 0; i < patient.getPrescriptions().size(); i++)
 		{
-			if (i == 0)
+			if (i == 0 && patient.getSpecificPresc(i) != null)
 			{
-				prescriptionsFormatted = prescriptionsFormatted + patient.getSpecificPresc(i);
+				prescriptionsFormatted = prescriptionsFormatted + patient.getSpecificPresc(i).getMedication();
 
 			}
-			else if (i != 0)
+			else if (i != 0 && patient.getSpecificPresc(i) != null)
 			{
-				prescriptionsFormatted = prescriptionsFormatted + "," + patient.getSpecificPresc(i);
+				prescriptionsFormatted = prescriptionsFormatted + "," + patient.getSpecificPresc(i).getMedication();
 			}
 		}
 		
 		for (int i = 0; i < patient.getVaccines().length; i++)
 		{
-			if (i == 0)
+			if (i == 0 && patient.getVaccines()[i] != null)
 			{
 				vaccinesFormatted = vaccinesFormatted + patient.getVaccines()[i];
 
 			}
-			else if (i != 0)
+			else if (i != 0 && patient.getVaccines()[i] != null)
 			{
 				vaccinesFormatted = vaccinesFormatted + "," + patient.getVaccines()[i];
 			}
 		}
-		
 		
 		
 		// define font

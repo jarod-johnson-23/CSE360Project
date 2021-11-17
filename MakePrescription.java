@@ -46,16 +46,28 @@ public class MakePrescription extends GridPane
 		// define title label
 		title = new Label("Write a Prescription");
 		title.setFont(titleFont);
-
-		// define labels 
-		patient = new Label("Patient: [patient name]");
-		pharmacy = new Label("Pharmacy: [pharmacy name]");
-		meds = new Label("Name of Medication:");
-		dosage = new Label("Dosage:");
-		dosagePerDay = new Label("Dosages Per Day:");
-		notes = new Label("Additional Notes:");
 		
 		// TODO - fill in labels with patient information
+		if (WelcomePage.getPatientSelected() != null)
+		{
+			// define labels 
+			patient = new Label("Patient: " + WelcomePage.getPatientSelected().concatenateNames());
+			pharmacy = new Label("Pharmacy: " + WelcomePage.getPatientSelected().getPharmacy());
+			meds = new Label("Name of Medication:");
+			dosage = new Label("Dosage:");
+			dosagePerDay = new Label("Dosages Per Day:");
+			notes = new Label("Additional Notes:");
+		}
+		else
+		{
+			// define labels 
+			patient = new Label("Patient: ");
+			pharmacy = new Label("Pharmacy: ");
+			meds = new Label("Name of Medication:");
+			dosage = new Label("Dosage:");
+			dosagePerDay = new Label("Dosages Per Day:");
+			notes = new Label("Additional Notes:");
+		}
 		
 		// define buttons
 		back = new Button("Back");
@@ -148,7 +160,7 @@ public class MakePrescription extends GridPane
 		
 				// save prescription info in patient object and send to pharmacy
 				Patient selectedPatient = WelcomePage.getPatientSelected();
-				Prescription p = new Prescription(selectedPatient, selectedPatient.getPharmacy(), medsBox.getText(), (Double)dosageChoices.getValue(), (Double)dosagePerDayChoices.getValue(), notesBox.getText());
+				Prescription p = new Prescription(selectedPatient, selectedPatient.getPharmacy(), medsBox.getText(), dosageChoices.getSelectionModel().getSelectedItem().toString(), Double.parseDouble(dosagePerDayChoices.getSelectionModel().getSelectedItem().toString()), notesBox.getText());
 				selectedPatient.addPrescription(p);
 				
 				// go to employee home screen 

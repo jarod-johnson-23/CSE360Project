@@ -94,9 +94,7 @@ public class WelcomePage extends Application
 		pastVisits = new Scene(pane12, 700, 1000);
 		scheduleAVisit = new Scene(pane13, 700, 1000);
 		
-		
 		// add css stylesheet to each scene
-		
 		welcomeLogin.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
 		createAccount.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
 		employeeHome.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
@@ -110,7 +108,6 @@ public class WelcomePage extends Application
 		messagePortal.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
 		pastVisits.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
 		scheduleAVisit.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
-		
 		
 		// set title of window
 		window.setTitle("https://www.totallyNormalDoctorsOffice.com");
@@ -136,7 +133,6 @@ public class WelcomePage extends Application
 			practisePatients[i] = new Patient("-", "-", "-", 0, "-", "-", "-", "-", "-", "-", null, null, null, drPractise, "-", "-");
 			seussPatients[i] = new Patient("-", "-", "-", 0, "-", "-", "-", "-", "-", "-", null, null, null, drSeuss, "-", "-");
 		}
-		
 		
 		for(int i = 0; i < nurses.length; i++) {
 			nurses[i] = new Nurse("-", "-", "-", "-", "-", null);
@@ -203,40 +199,40 @@ public class WelcomePage extends Application
 				if(choice == 0) {
 					tempStr = scan.nextLine();
 					if(tempStr.equals("null"))
-						tempStr = "-";
+						tempStr = null;
 					patients[importIndex].setFName(tempStr);
 					tempStr = scan.nextLine();
 					if(tempStr.equals("null"))
-						tempStr = "-";
+						tempStr = null;
 					patients[importIndex].setMName(tempStr);
 					tempStr = scan.nextLine();
 					if(tempStr.equals("null"))
-						tempStr = "-";
+						tempStr = null;
 					patients[importIndex].setLName(tempStr);
 					patients[importIndex].setAge(Integer.parseInt(scan.nextLine()));
 					tempStr = scan.nextLine();
 					if(tempStr.equals("null"))
-						tempStr = "-";
+						tempStr = null;
 					patients[importIndex].setBday(tempStr);
 					tempStr = scan.nextLine();
 					if(tempStr.equals("null"))
-						tempStr = "-";
+						tempStr = null;
 					patients[importIndex].setGender(tempStr);
 					tempStr = scan.nextLine();
 					if(tempStr.equals("null"))
-						tempStr = "-";
+						tempStr = null;
 					patients[importIndex].setAddr(tempStr);
 					tempStr = scan.nextLine();
 					if(tempStr.equals("null"))
-						tempStr = "-";
+						tempStr = null;
 					patients[importIndex].setPhone(tempStr);
 					tempStr = scan.nextLine();
 					if(tempStr.equals("null"))
-						tempStr = "-";
+						tempStr = null;
 					patients[importIndex].setEmail(tempStr);
 					tempStr = scan.nextLine();
 					if(tempStr.equals("null"))
-						tempStr = "-";
+						tempStr = null;
 					patients[importIndex].setPharmacy(tempStr);
 					if(Integer.parseInt(scan.nextLine()) == 10) {
 						patients[importIndex].setDoctor(drPractise);
@@ -245,11 +241,11 @@ public class WelcomePage extends Application
 					}
 					tempStr = scan.nextLine();
 					if(tempStr.equals("null"))
-						tempStr = "-";
+						tempStr = null;
 					patients[importIndex].setUsername(tempStr);
 					tempStr = scan.nextLine();
 					if(tempStr.equals("null"))
-						tempStr = "-";
+						tempStr = null;
 					patients[importIndex].setPassword(tempStr);
 					do {
 						tempStr = scan.nextLine();
@@ -262,7 +258,7 @@ public class WelcomePage extends Application
 					} while(tempStr.equals("end") == false);
 					if(patients[importIndex].getDoctor() == drPractise) {
 						drPractise.addPatient(patients[importIndex]);
-					} else if(patients[importIndex].getDoctor() == drSeuss && patients[importIndex].getFName() != null){
+					} else {
 						drSeuss.addPatient(patients[importIndex]);
 					}
 					
@@ -314,6 +310,8 @@ public class WelcomePage extends Application
 		} else {
 			System.out.println("Doesnt exist");
 		}
+		System.out.println(nurses[0].getPassword());
+		System.out.println(nurses[1].getPassword());
 		
 		scan.close();
 
@@ -419,26 +417,12 @@ public class WelcomePage extends Application
 	// get practise patients array
 	public static Patient[] getPractisePatients()
 	{
-		int index1 = 0;
-		for(int i = 0; i < patients.length; i++) {
-			if(patients[i].getDoctor() == drPractise) {
-				practisePatients[index1] = patients[i];
-				index1++;
-			}
-		}
 		return practisePatients;
 	}
 	
 	// get seuss patients array
 	public static Patient[] getSeussPatients()
 	{
-		int index1 = 0;
-		for(int i = 0; i < patients.length; i++) {
-			if(patients[i].getDoctor() == drSeuss) {
-				seussPatients[index1] = patients[i];
-				index1++;
-			}
-		}
 		return seussPatients;
 	}
 	
@@ -846,15 +830,16 @@ public class WelcomePage extends Application
 	{
 		return selectedPatientEmp;
 	}
+	
 	public static void setPatientNamesInEmp(ObservableList<String> itemsFromEmpPage) {
 		// TODO Auto-generated method stub
-		
+
 	}
-	
+
 	public static int getLoginID() {
 		return loginIndex;
 	}
-	
+
 	public static Doctor getDoctor(int docIndex) {
 		if(docIndex == 100) {
 			return drPractise;
@@ -862,5 +847,6 @@ public class WelcomePage extends Application
 			return drSeuss;
 		}
 	}
+	
 	
 }

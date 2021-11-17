@@ -77,12 +77,12 @@ public class PersonalInfo extends GridPane
 			{
 				if (i == 0 && patient.getSpecificPresc(i) != null)
 				{
-					prescriptionsFormatted = prescriptionsFormatted + patient.getSpecificPresc(i);
+					prescriptionsFormatted = prescriptionsFormatted + patient.getSpecificPresc(i).getMedication();
 
 				}
 				else if (i != 0 && patient.getSpecificPresc(i) != null)
 				{
-					prescriptionsFormatted = prescriptionsFormatted + "," + patient.getSpecificPresc(i);
+					prescriptionsFormatted = prescriptionsFormatted + "," + patient.getSpecificPresc(i).getMedication();
 				}
 			}
 			

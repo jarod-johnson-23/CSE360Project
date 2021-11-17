@@ -40,6 +40,7 @@ public class LoginPane extends BorderPane
 	private TextField usernameText, passwordText;
 	private Button submit, about, staff, faq, report, privacy, newAccount, forgotPassword, exitButton;
 	private TextFlow textFlow;
+	private int index;
 	
 	public LoginPane() throws FileNotFoundException
 	{
@@ -55,7 +56,7 @@ public class LoginPane extends BorderPane
 		BackgroundFill logInBgFill = new BackgroundFill(Color.color(1, 0.7, 0.4, 0.75), new CornerRadii(30), new Insets(200, 0, 200, 0));
 		Background backing = new Background(logInBgFill);
 		
-		// create square behind information text on main screen
+		// create square behind information text on WelcomePage screen
 		BackgroundFill textFlowBgFill = new BackgroundFill(Color.color(1, 0.7, 0.4, 0.75), new CornerRadii(30), new Insets(328, 0, 215, -50));
 		Background textFlowBacking = new Background(textFlowBgFill);
 		
@@ -130,6 +131,7 @@ public class LoginPane extends BorderPane
 		grid.add(forgotPassword, 2, 5);
 		grid.setBackground(backing);
 		
+		
 		// create textFlow
 		textFlow = new TextFlow();
 		textFlow.getChildren().addAll(description, exitButton);
@@ -140,7 +142,7 @@ public class LoginPane extends BorderPane
 		bottomScreen.setSpacing(55);
 		bottomScreen.getChildren().addAll(about, staff, faq, report, privacy);
 		
-		// define main borderPane
+		// define WelcomePage borderPane
 		this.setRight(textFlow);
 		this.setLeft(grid);
 		this.setBottom(bottomScreen);
@@ -160,18 +162,8 @@ public class LoginPane extends BorderPane
 		{
 			if (createEvent.getEventType() == MouseEvent.MOUSE_CLICKED)
 			{
-				// go to create account screen 
-				CreateAccount newPane;
-				try 
-				{
-					newPane = new CreateAccount();
-					Scene createScene = new Scene(newPane, 700, 1000);
-					createScene.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
-					WelcomePage.getStage().setScene(createScene);
-				} catch (FileNotFoundException e) 
-				{
-					e.printStackTrace();
-				}
+				Scene createScene = WelcomePage.getCreateAccount();
+				WelcomePage.getStage().setScene(createScene);
 			}
 		}
 	}
@@ -179,12 +171,12 @@ public class LoginPane extends BorderPane
 	// submit
 	private class SubmitHandler implements EventHandler<MouseEvent> 
 	{
-		public void handle(MouseEvent submitEvent)
+		public void handle(MouseEvent submitEvent) 
 		{
 			if (submitEvent.getEventType() == MouseEvent.MOUSE_CLICKED)
 			{
 				// declare variables
-				int index;
+				
 				Patient[] practisePatients = WelcomePage.getPractisePatients();
 				Patient[] seussPatients = WelcomePage.getSeussPatients();
 				Patient[] patients = WelcomePage.getPatients();
@@ -196,7 +188,7 @@ public class LoginPane extends BorderPane
 				// get login index
 				index = WelcomePage.checkLogin(inputUsername, inputPassword);
 				
-				// adjust login index in welcomePage to new index
+				// adjust login index in WelcomePage to new index
 				WelcomePage.changeLoginIndex(index);
 				
 				// analyze user login
@@ -249,21 +241,15 @@ public class LoginPane extends BorderPane
 						
 					}
 					
+					// set patient list
+					WelcomePage.setPatientNamesInEmp(WelcomePage.getItemsFromEmpPage());
+					
 					System.out.println("Doctor Logged In = " + WelcomePage.getLoggedInDoctor().getName());
-					System.out.println("Login Flag = " + WelcomePage.getLoginFlag());
 
 					// go to employee home screen 
-					EmployeeHome newPane;
-					try 
-					{
-						newPane = new EmployeeHome();
-						Scene submitScene = new Scene(newPane, 700, 1000);
-						submitScene.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
-						WelcomePage.getStage().setScene(submitScene);
-					} catch (FileNotFoundException e) 
-					{
-						e.printStackTrace();
-					}
+					Scene submitScene = WelcomePage.getEmployeeHome();
+					WelcomePage.getStage().setScene(submitScene);
+					
 				} 
 				else if(index >= 102) 
 				{
@@ -273,18 +259,9 @@ public class LoginPane extends BorderPane
 					// save nurse
 					WelcomePage.saveLoggedInNurse(WelcomePage.getNurseInfo(inputUsername, inputPassword));
 					
-					// go to employee home screen 
-					EmployeeHome newPane;
-					try 
-					{
-						newPane = new EmployeeHome();
-						Scene submitScene = new Scene(newPane, 700, 1000);
-						submitScene.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
-						WelcomePage.getStage().setScene(submitScene);
-					} catch (FileNotFoundException e) 
-					{
-						e.printStackTrace();
-					}
+					// go to employee home screen
+					Scene submitScene = WelcomePage.getEmployeeHome();
+					WelcomePage.getStage().setScene(submitScene);
 					
 					System.out.println("Nurse Logged In = " + WelcomePage.getLoggedInNurse().getFName());
 
@@ -292,6 +269,10 @@ public class LoginPane extends BorderPane
 				else if(index >=0) 
 					
 				{
+					// go to patient home screen
+					Scene submitScene = WelcomePage.getPatientHome();
+					WelcomePage.getStage().setScene(submitScene);
+					
 					// set name
 					WelcomePage.saveName("Welcome, " + patients[index].getFName() + " " + patients[index].getLName());
 					
@@ -299,20 +280,6 @@ public class LoginPane extends BorderPane
 					WelcomePage.saveLoggedInPatient(WelcomePage.getPatientInfo(inputUsername, inputPassword));
 					
 					System.out.println("Patient Logged In = " + WelcomePage.getLoggedInPatient().concatenateNames());
-				
-					// go to patient home screen
-					PatientHome newPane;
-					try 
-					{
-						newPane = new PatientHome();
-						Scene submitScene = new Scene(newPane, 700, 1000);
-						submitScene.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
-						WelcomePage.getStage().setScene(submitScene);
-					} catch (FileNotFoundException e) 
-					{
-						e.printStackTrace();
-					}
-					
 				}
 				
 			}
@@ -331,4 +298,8 @@ public class LoginPane extends BorderPane
 		}
 	}
 	
+	public int getLoginIndex() {
+		WelcomePage.changeLoginIndex(index);
+		return WelcomePage.getLoginID();
+	}
 }

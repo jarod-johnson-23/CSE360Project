@@ -32,7 +32,7 @@ public class WelcomePage extends Application
 	// variables for data manipulation
 	private String inputUsername;
 	private String inputPassword;
-	private static String nameToSave;
+	private static String nameToSave, empty;
 	private static int loginIndex = -1;
 	private static Patient[] patients = new Patient[20];
 	private static Patient[] practisePatients = new Patient[20];
@@ -59,6 +59,7 @@ public class WelcomePage extends Application
 		// GUI CODE --------------------------------------------------------------------------------------------------------------------------
 		// save primary stage
 		window = primaryStage;
+		empty = "";
 	
 		// maximize screen
 		Screen screen = Screen.getPrimary();
@@ -73,7 +74,7 @@ public class WelcomePage extends Application
 		CreateAccount pane2 = new CreateAccount();
 		EmployeeHome pane3 = new EmployeeHome();
 		PatientHome pane4 = new PatientHome();
-		//pane5 = new Vitals();
+		pane5 = new Vitals(empty);
 		pane6 = new PersonalInfo();
 		pane7 = new PhysicalExamination();
 		pane8 = new DoctorNotes();

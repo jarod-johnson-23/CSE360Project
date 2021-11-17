@@ -35,7 +35,7 @@ public class PatientMessages extends BorderPane {
 	private Button back, info, messages, pastVisits, scheduleVisit, backToHome;
 
 	public PatientMessages() throws FileNotFoundException {
-		Patient patient = Main.getLoggedInPatient();
+		Patient patient = WelcomePage.getLoggedInPatient();
 		// set default background
 		Image defaultBgPic = new Image("file:iu-9.jpeg", width, height, false, false);
 		BackgroundImage defaultImage = new BackgroundImage(defaultBgPic, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT);
@@ -85,8 +85,8 @@ public class PatientMessages extends BorderPane {
 			{
 				if (infoEvent.getEventType() == MouseEvent.MOUSE_CLICKED)
 				{
-					Scene infoScene = Main.getInformation();
-					Main.getStage().setScene(infoScene);
+					Scene infoScene = WelcomePage.getInformation();
+					WelcomePage.getStage().setScene(infoScene);
 				}
 			}
 		}
@@ -98,8 +98,8 @@ public class PatientMessages extends BorderPane {
 			{
 				if (messageEvent.getEventType() == MouseEvent.MOUSE_CLICKED)
 				{
-					Scene messageScene = Main.getMessagePortal();
-					Main.getStage().setScene(messageScene);
+					Scene messageScene = WelcomePage.getMessagePortal();
+					WelcomePage.getStage().setScene(messageScene);
 				}
 			}
 		}
@@ -111,8 +111,8 @@ public class PatientMessages extends BorderPane {
 			{
 				if (visitEvent.getEventType() == MouseEvent.MOUSE_CLICKED)
 				{
-					Scene visitScene = Main.getPastVisits();
-					Main.getStage().setScene(visitScene);
+					Scene visitScene = WelcomePage.getPastVisits();
+					WelcomePage.getStage().setScene(visitScene);
 				}
 			}
 		}
@@ -125,8 +125,8 @@ public class PatientMessages extends BorderPane {
 			{
 				if (scheduleEvent.getEventType() == MouseEvent.MOUSE_CLICKED)
 				{
-					Scene scheduleScene = Main.getScheduleAVisit();
-					Main.getStage().setScene(scheduleScene);
+					Scene scheduleScene = WelcomePage.getScheduleAVisit();
+					WelcomePage.getStage().setScene(scheduleScene);
 				}
 			}
 		}
@@ -139,8 +139,8 @@ public class PatientMessages extends BorderPane {
 			{
 				if (logoutEvent.getEventType() == MouseEvent.MOUSE_CLICKED)
 				{
-					Scene loginScene = Main.getWelcomeLogin();
-					Main.getStage().setScene(loginScene);
+					Scene loginScene = WelcomePage.getWelcomeLogin();
+					WelcomePage.getStage().setScene(loginScene);
 				}
 			}
 		}

@@ -31,6 +31,7 @@ public class EmployeeHome extends GridPane {
 	private Font titleFont;
 	private Button logOut, vitals, personalInfo, physicalExamination, drNotes, makePrescription;
 	private Label welcomeDr, pats, actions;
+	ListView<String> patientNames;
 	
 	public EmployeeHome() throws FileNotFoundException
 	{
@@ -61,7 +62,7 @@ public class EmployeeHome extends GridPane {
 		makePrescription.setPrefWidth(150);
 
 		// define labels
-		welcomeDr = new Label(WelcomePage.getName());
+		welcomeDr = new Label("Welcome!");
 		pats = new Label("Patients");
 		actions = new Label("Please choose an action");
 		
@@ -69,9 +70,8 @@ public class EmployeeHome extends GridPane {
 		welcomeDr.setFont(titleFont);
 		
 		// get list of patients - FIXME
-		ListView<String> patientNames = WelcomePage.getPatientNamesInEmp();
-		//ObservableList<String> items = FXCollections.<String>observableArrayList();
-		//patientNames.getItems().addAll("John Doe", "Mary Sue", "Bob Thomas");
+		ListView<String> patientNames = new ListView<String>();
+		patientNames.getItems().addAll("John Doe", "Mary Sue", "Bob Thomas");
 
 		// add elements to gridPane
 		this.add(logOut, 0, 0);
@@ -107,7 +107,8 @@ public class EmployeeHome extends GridPane {
 		{
 			if (logoutEvent.getEventType() == MouseEvent.MOUSE_CLICKED)
 			{
-				WelcomePage.logoutEmp();
+				Scene loginScene = WelcomePage.getWelcomeLogin();
+				WelcomePage.getStage().setScene(loginScene);
 			}
 		}
 	}
@@ -119,8 +120,14 @@ public class EmployeeHome extends GridPane {
 		{
 			if (vitalsEvent.getEventType() == MouseEvent.MOUSE_CLICKED)
 			{
-				Scene vitalsScene = WelcomePage.getVitals();
-				WelcomePage.getStage().setScene(vitalsScene);
+				
+				try {
+					Scene vitalsScene = WelcomePage.getVitals(patientNames.getSelectionModel().getSelectedItem());
+					WelcomePage.getStage().setScene(vitalsScene);
+				} catch (FileNotFoundException e) {
+					e.printStackTrace();
+				} 
+				
 			}
 		}
 	}
@@ -146,7 +153,6 @@ public class EmployeeHome extends GridPane {
 			if (physicalEvent.getEventType() == MouseEvent.MOUSE_CLICKED)
 			{
 				Scene physicalScene = WelcomePage.getPhysical();
-				WelcomePage.getStage().setScene(physicalScene);
 			}
 		}
 	}

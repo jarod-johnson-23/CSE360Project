@@ -48,6 +48,11 @@ public class WelcomePage extends Application
 	private static Nurse nurseLoggedIn = new Nurse(null, null, null, null, null, null);
 	private static Doctor doctorLoggedIn = new Doctor("Mal Practise", "#1doctor", "password", practisePatients, 100, null);
 	
+	private static Vitals pane5;
+	private static PersonalInfo pane6;
+	private static PhysicalExamination pane7;
+	private static DoctorNotes pane8;
+	private static MakePrescription pane9;
 	
 	public void start(Stage primaryStage) throws FileNotFoundException
 	{		
@@ -68,11 +73,11 @@ public class WelcomePage extends Application
 		CreateAccount pane2 = new CreateAccount();
 		EmployeeHome pane3 = new EmployeeHome();
 		PatientHome pane4 = new PatientHome();
-		Vitals pane5 = new Vitals();
-		PersonalInfo pane6 = new PersonalInfo();
-		PhysicalExamination pane7 = new PhysicalExamination();
-		DoctorNotes pane8 = new DoctorNotes();
-		MakePrescription pane9 = new MakePrescription();
+		//pane5 = new Vitals();
+		pane6 = new PersonalInfo();
+		pane7 = new PhysicalExamination();
+		pane8 = new DoctorNotes();
+		pane9 = new MakePrescription();
 		PatientInformation pane10 = new PatientInformation();
 		PatientMessages pane11 = new PatientMessages();
 		PatientPastVisits pane12 = new PatientPastVisits();
@@ -353,8 +358,9 @@ public class WelcomePage extends Application
 	}
 	
 	// get vitals scene
-	public static Scene getVitals()
+	public static Scene getVitals(String patName) throws FileNotFoundException
 	{
+		pane5 = new Vitals(patName);
 		return vitals;
 	}
 	

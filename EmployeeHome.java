@@ -75,7 +75,36 @@ public class EmployeeHome extends GridPane {
 		patientNames = new ListView<String>();
 		items = FXCollections.<String>observableArrayList();
 		
-		setPatItems();
+		//this.patients = WelcomePage.getPatients();
+		
+		int tempNum = WelcomePage.getLoginID();
+		System.out.println(tempNum);
+		
+		if(tempNum == 100) {
+			this.patients = WelcomePage.getPractisePatients();
+			for(int i = 0; i < patients.length; i++) {
+				
+				items.add(patients[i].concatenateNames());
+				
+			}
+		} else if(tempNum == 101) {
+			this.patients = WelcomePage.getSeussPatients();
+			System.out.println(patients[0].concatenateNames());
+			for(int i = 0; i < patients.length; i++) {
+				
+					
+				items.add(patients[i].concatenateNames());
+					
+			
+			}
+		} else if(tempNum >= 102) {
+			this.patients = WelcomePage.getPatients();
+			for(int i = 0; i < patients.length; i++) {
+				items.add(patients[i].concatenateNames());
+			}
+		}
+		patientNames.getItems().clear();
+		patientNames.setItems(items);
 		
 		// add elements to gridPane
 		this.add(logOut, 0, 0);

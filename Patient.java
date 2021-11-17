@@ -17,6 +17,7 @@ public class Patient {
     private String pharmacy;
     private List<Prescription> prescriptions;
     private List<VitalsObject> vitals;
+    private List<PhysicalExaminationObject> physicalExams;
     private int prescrListSize;
     private String medications[] = new String[10];
     private String vaccines[] = new String[10];
@@ -41,6 +42,7 @@ public class Patient {
         this.pharmacy = null;
         this.prescriptions = new ArrayList<Prescription>();
         this.vitals = new ArrayList<VitalsObject>();
+        this.physicalExams = new ArrayList<PhysicalExaminationObject>();
         this.prescrListSize = 0;
         this.doctor = null;
         this.username = null;
@@ -60,7 +62,7 @@ public class Patient {
     // Constructor
     public Patient(String fName, String mName, String lName, int age, String birthday, String gender,
                    String address, String phoneNumber, String email, String pharmacy, List<Prescription> p_list, List<VitalsObject> v_list,
-                   Doctor doctor, String username, String password) {
+                   List<PhysicalExaminationObject> e_list, Doctor doctor, String username, String password) {
         this.fName = fName;
         this.mName = mName;
         this.lName = lName;
@@ -73,6 +75,7 @@ public class Patient {
         this.pharmacy = pharmacy;
         this.prescriptions = new ArrayList<Prescription>();
         this.vitals = new ArrayList<VitalsObject>();
+        this.physicalExams = new ArrayList<PhysicalExaminationObject>();
         this.prescrListSize = prescriptions.size();
         this.doctor = doctor;
         this.username = username;
@@ -381,5 +384,27 @@ public class Patient {
     public void storeVitals(VitalsObject newVitals)
     {
     	vitals.add(newVitals);
+    }
+    
+    // store new physical examination object
+    public void storePhysExam(PhysicalExaminationObject newExam)
+    {
+    	physicalExams.add(newExam);
+    }
+    
+    // get patient allergies
+    public String[] getAllergies()
+    {
+    	return allergies;
+    }
+    
+    // store new allergies
+    public void storeAllergies(String allergy)
+    {
+    	int i = 0;
+        while (allergies[i] != null) {
+            i++;
+        }
+        allergies[i] = allergy;
     }
 }

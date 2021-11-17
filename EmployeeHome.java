@@ -75,37 +75,15 @@ public class EmployeeHome extends GridPane {
 		patientNames = new ListView<String>();
 		items = FXCollections.<String>observableArrayList();
 		
-		//this.patients = WelcomePage.getPatients();
+		// set patient list
+		setPatItems();
 		
-		int tempNum = WelcomePage.getLoginID();
-		System.out.println(tempNum);
-		
-		if(tempNum == 100) {
-			this.patients = WelcomePage.getPractisePatients();
-			for(int i = 0; i < patients.length; i++) {
-				
-				items.add(patients[i].concatenateNames());
-				
-			}
-		} else if(tempNum == 101) {
-			this.patients = WelcomePage.getSeussPatients();
-			System.out.println(patients[0].concatenateNames());
-			for(int i = 0; i < patients.length; i++) {
-				
-					
-				items.add(patients[i].concatenateNames());
-					
-			
-			}
-		} else if(tempNum >= 102) {
-			this.patients = WelcomePage.getPatients();
-			for(int i = 0; i < patients.length; i++) {
-				items.add(patients[i].concatenateNames());
-			}
+		// set selection view to have selectedPatient selected
+		if (WelcomePage.getPatientSelected() != null)
+		{
+			patientNames.getSelectionModel().select(WelcomePage.getPatientSelected().concatenateNames());
 		}
-		patientNames.getItems().clear();
-		patientNames.setItems(items);
-		
+				
 		// add elements to gridPane
 		this.add(logOut, 0, 0);
 		this.add(welcomeDr, 1, 1, 3, 1);
@@ -131,6 +109,22 @@ public class EmployeeHome extends GridPane {
 		physicalExamination.setOnMouseClicked(new PhysicalHandler());
 		drNotes.setOnMouseClicked(new DrNotesHandler());
 		makePrescription.setOnMouseClicked(new MakePrescriptionHandler());
+		patientNames.setOnMouseClicked(new SavePatientHandler());
+		
+	}
+	
+	// save selected patient
+	private class SavePatientHandler implements EventHandler<MouseEvent>
+	{
+		public void handle(MouseEvent savePatEvent)
+		{
+			if (savePatEvent.getEventType() == MouseEvent.MOUSE_CLICKED)
+			{		 
+				// save patient selection
+				WelcomePage.setPatientSelection(patientNames.getSelectionModel().getSelectedItem());
+				
+			}
+		}
 	}
 	
 	// logout

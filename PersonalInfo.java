@@ -29,10 +29,12 @@ public class PersonalInfo extends GridPane
 	private Font titleFont;
 	private int width = 1500;
 	private int height = 1000;
-	private Label title, allergies, healthConcerns, personalHistory, name, age, birthday, issues, prevMeds, immunization;
+	private Label title, allergies, healthConcerns, personalHistory, name, age, birthday, healthIssues, prevMeds, historyOfImm;
 	private Button back, save;
 	private TextField knownAllergies, concerns;
-	
+	private String allergiesFormatted;
+	private String healthIssuesFormatted;
+	private String immunFormatted;
 	
 	public PersonalInfo() throws FileNotFoundException
 	{
@@ -48,22 +50,91 @@ public class PersonalInfo extends GridPane
 		BackgroundFill logInBgFill = new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY);
 		Background backing = new Background(logInBgFill);
 		
-		// define title labels
-		title = new Label("Personal Health");
-		title.setFont(titleFont);
-		personalHistory = new Label("Personal History");
-		personalHistory.setFont(titleFont);
+		// format text to fill in labels - fill in with patient info if not first time loading GUI
+		if (WelcomePage.getPatientSelected() != null)
+		{
+			Patient patient = WelcomePage.getPatientSelected();
+			String patient_age = String.valueOf(patient.getAge());
+			String healthConcernsFormatted = "";
+			String prescriptionsFormatted = "";
+			String vaccinesFormatted = "";
+			
+			// format text
+			for (int i = 0; i < patient.getHealthConcerns().length; i++)
+			{
+				if (i == 0 && patient.getHealthConcerns()[i] != null)
+				{
+					healthConcernsFormatted = healthConcernsFormatted + patient.getHealthConcerns()[i];
 
-		// define labels
-		allergies = new Label("Known allergies:");
-		healthConcerns = new Label("Health Concerns:");
-		name = new Label("Name: ");
-		age = new Label("Age: ");
-		birthday = new Label("Birthday: ");
-		issues = new Label("Issues: ");
-		prevMeds = new Label("Previous Medications:");
-		
-		// TODO - fill in labels using patient information
+				}
+				else if (i != 0 && patient.getHealthConcerns()[i] != null)
+				{
+					healthConcernsFormatted = healthConcernsFormatted + "," + patient.getHealthConcerns()[i];
+				}
+			}
+			
+			for (int i = 0; i < patient.getPrescriptions().size(); i++)
+			{
+				if (i == 0 && patient.getSpecificPresc(i) != null)
+				{
+					prescriptionsFormatted = prescriptionsFormatted + patient.getSpecificPresc(i);
+
+				}
+				else if (i != 0 && patient.getSpecificPresc(i) != null)
+				{
+					prescriptionsFormatted = prescriptionsFormatted + "," + patient.getSpecificPresc(i);
+				}
+			}
+			
+			for (int i = 0; i < patient.getVaccines().length; i++)
+			{
+				if (i == 0 && patient.getVaccines()[i] != null)
+				{
+					vaccinesFormatted = vaccinesFormatted + patient.getVaccines()[i];
+
+				}
+				else if (i != 0 && patient.getVaccines()[i] != null)
+				{
+					vaccinesFormatted = vaccinesFormatted + "," + patient.getVaccines()[i];
+				}
+			}
+			
+			// define title label
+			title = new Label("Patient Information");
+			title.setFont(titleFont);
+			personalHistory = new Label("Personal History");
+			personalHistory.setFont(titleFont);
+
+			// define labels 
+			allergies = new Label("Known allergies:");
+			healthConcerns = new Label("Health Concerns:");
+			name = new Label("Name: " + patient.concatenateNames());
+			age = new Label("Age: " + patient_age);
+			birthday = new Label("Birthday: " + patient.getBday());
+			healthIssues = new Label("Health Issues: " + healthConcernsFormatted);
+			prevMeds = new Label("Previous medications: " + prescriptionsFormatted);
+			historyOfImm = new Label("History of Immunization: " + vaccinesFormatted);
+
+		}
+		else
+		{
+			// define title labels
+			title = new Label("Personal Health");
+			title.setFont(titleFont);
+			personalHistory = new Label("Personal History");
+			personalHistory.setFont(titleFont);
+
+			// define labels
+			allergies = new Label("Known allergies:");
+			healthConcerns = new Label("Health Concerns:");
+			name = new Label("Name: ");
+			age = new Label("Age: ");
+			birthday = new Label("Birthday: ");
+			healthIssues = new Label("Issues: ");
+			prevMeds = new Label("Previous Medications: ");
+			historyOfImm = new Label("History of Immunization: ");
+			
+		}
 		
 		// define buttons
 		back = new Button("Back");
@@ -81,10 +152,10 @@ public class PersonalInfo extends GridPane
 		VBox left = new VBox();
 		left.getChildren().addAll(allergies, knownAllergies, healthConcerns, concerns);
 		VBox right = new VBox();
-		right.getChildren().addAll(name, age, birthday, issues, prevMeds);
+		right.getChildren().addAll(name, age, birthday, healthIssues, prevMeds, historyOfImm);
 		
 		// set background color of personal history
-		right.setBackground(backing);
+	    right.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
 		
 		// adjust vBox padding and spacing
 		left.setPadding(new Insets(10, 100, 0, 0));
@@ -145,7 +216,8 @@ public class PersonalInfo extends GridPane
 				// TODO - check if all fields full
 		
 				// save information in patient object
-
+				WelcomePage.getPatientSelected().storeAllergies(knownAllergies.getText());
+				WelcomePage.getPatientSelected().addIssue(concerns.getText());
 				
 				// go to employee home screen 
 				EmployeeHome newPane;

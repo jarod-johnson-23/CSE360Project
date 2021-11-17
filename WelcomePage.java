@@ -199,40 +199,40 @@ public class WelcomePage extends Application
 				if(choice == 0) {
 					tempStr = scan.nextLine();
 					if(tempStr.equals("null"))
-						tempStr = null;
+						tempStr = "-";
 					patients[importIndex].setFName(tempStr);
 					tempStr = scan.nextLine();
 					if(tempStr.equals("null"))
-						tempStr = null;
+						tempStr = "-";
 					patients[importIndex].setMName(tempStr);
 					tempStr = scan.nextLine();
 					if(tempStr.equals("null"))
-						tempStr = null;
+						tempStr = "-";
 					patients[importIndex].setLName(tempStr);
 					patients[importIndex].setAge(Integer.parseInt(scan.nextLine()));
 					tempStr = scan.nextLine();
 					if(tempStr.equals("null"))
-						tempStr = null;
+						tempStr = "-";
 					patients[importIndex].setBday(tempStr);
 					tempStr = scan.nextLine();
 					if(tempStr.equals("null"))
-						tempStr = null;
+						tempStr = "-";
 					patients[importIndex].setGender(tempStr);
 					tempStr = scan.nextLine();
 					if(tempStr.equals("null"))
-						tempStr = null;
+						tempStr = "-";
 					patients[importIndex].setAddr(tempStr);
 					tempStr = scan.nextLine();
 					if(tempStr.equals("null"))
-						tempStr = null;
+						tempStr = "-";
 					patients[importIndex].setPhone(tempStr);
 					tempStr = scan.nextLine();
 					if(tempStr.equals("null"))
-						tempStr = null;
+						tempStr = "-";
 					patients[importIndex].setEmail(tempStr);
 					tempStr = scan.nextLine();
 					if(tempStr.equals("null"))
-						tempStr = null;
+						tempStr = "-";
 					patients[importIndex].setPharmacy(tempStr);
 					if(Integer.parseInt(scan.nextLine()) == 10) {
 						patients[importIndex].setDoctor(drPractise);
@@ -241,11 +241,11 @@ public class WelcomePage extends Application
 					}
 					tempStr = scan.nextLine();
 					if(tempStr.equals("null"))
-						tempStr = null;
+						tempStr = "-";
 					patients[importIndex].setUsername(tempStr);
 					tempStr = scan.nextLine();
 					if(tempStr.equals("null"))
-						tempStr = null;
+						tempStr = "-";
 					patients[importIndex].setPassword(tempStr);
 					do {
 						tempStr = scan.nextLine();
@@ -258,7 +258,7 @@ public class WelcomePage extends Application
 					} while(tempStr.equals("end") == false);
 					if(patients[importIndex].getDoctor() == drPractise) {
 						drPractise.addPatient(patients[importIndex]);
-					} else {
+					} else if(patients[importIndex].getDoctor() == drSeuss && patients[importIndex].getFName() != null){
 						drSeuss.addPatient(patients[importIndex]);
 					}
 					
@@ -310,8 +310,6 @@ public class WelcomePage extends Application
 		} else {
 			System.out.println("Doesnt exist");
 		}
-		System.out.println(nurses[0].getPassword());
-		System.out.println(nurses[1].getPassword());
 		
 		scan.close();
 
@@ -417,12 +415,26 @@ public class WelcomePage extends Application
 	// get practise patients array
 	public static Patient[] getPractisePatients()
 	{
+		int index1 = 0;
+		for(int i = 0; i < patients.length; i++) {
+			if(patients[i].getDoctor() == drPractise) {
+				practisePatients[index1] = patients[i];
+				index1++;
+			}
+		}
 		return practisePatients;
 	}
 	
 	// get seuss patients array
 	public static Patient[] getSeussPatients()
 	{
+		int index1 = 0;
+		for(int i = 0; i < patients.length; i++) {
+			if(patients[i].getDoctor() == drSeuss) {
+				seussPatients[index1] = patients[i];
+				index1++;
+			}
+		}
 		return seussPatients;
 	}
 	

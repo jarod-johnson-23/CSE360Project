@@ -27,12 +27,14 @@ public class CreateAccount extends GridPane
 {
 	// declare variables 
 	private Button returnButton, submitInfo;
-	private Label label1, label2, label3, label4, label5, label6, label7, label8, label9, label10, label11, label12, label13, label14, label15, label16, failure;
+	private Label label1, label2, label3, label4, label5, label6, label7, label8, label9, label10, label11, label12, label13, label14, label15, label16, failure, instructions, error;
 	private TextField field1, field2, field3, field4, field5, field6, field7, field8, field9, field10, field11, field12, field13;
 	private Font titleFont;
 	private int width = 1500;
 	private int height = 1000;
-	private RadioButton practise, seuss;
+	// create radio buttons
+	RadioButton practise = new RadioButton("Dr. Practise");
+	RadioButton seuss = new RadioButton("Dr. Seuss");
 	
 	public CreateAccount() throws FileNotFoundException
 	{	
@@ -65,6 +67,9 @@ public class CreateAccount extends GridPane
 		label14 = new Label("Password");
 		label15 = new Label("Select a Doctor");
 		failure = new Label("");
+		instructions = new Label("(Please separate individual conditions with \",\" e.g. Asthma,Diabetes)");
+		error = new Label("");
+		error.setTextFill(Color.RED);
 		
 		// set title label font
 		label1.setFont(titleFont);
@@ -93,10 +98,6 @@ public class CreateAccount extends GridPane
 		
 		// create toggleGroup
 		final ToggleGroup doctorGroup = new ToggleGroup();
-		
-		// create radio buttons
-		practise = new RadioButton("Dr. Practise");
-		seuss = new RadioButton("Dr. Seuss");
 		
 		// add radio buttons to toggle group & toggles to vBox
 		practise.setToggleGroup(doctorGroup);
@@ -143,6 +144,8 @@ public class CreateAccount extends GridPane
 		this.add(failure, 3, 16);
 		this.add(label15, 1, 15);
 		this.add(toggles, 1, 16);
+		this.add(instructions, 4, 10);
+		this.add(error, 4, 15);
 		
 		// link source nodes with handler objects
 		returnButton.setOnMouseClicked(new ReturnHandler());
@@ -156,8 +159,8 @@ public class CreateAccount extends GridPane
 		{
 			if (returnEvent.getEventType() == MouseEvent.MOUSE_CLICKED)
 			{
-				Scene loginScene = WelcomePage.getWelcomeLogin();
-				WelcomePage.getStage().setScene(loginScene);
+				Scene loginScene = Main.getWelcomeLogin();
+				Main.getStage().setScene(loginScene);
 				
 			}
 		}
@@ -170,32 +173,13 @@ public class CreateAccount extends GridPane
 		{
 			if (submitEvent.getEventType() == MouseEvent.MOUSE_CLICKED)
 			{
-				// declare variables
-				int added;
-				Doctor tempDr;
-				
-				// get doctors from radioButtons
-				if (practise.isSelected())
-				{
-					tempDr = WelcomePage.getPractise();
-				}
-				else
-				{
-					tempDr = WelcomePage.getSeuss();
-				}
-				
-				added = WelcomePage.addPatient(field1.getText(), field2.getText(), field3.getText(), field9.getText(), field6.getText(), field7.getText(), field8.getText(), field4.getText(), field5.getText(), field10.getText(), tempDr, field11.getText(), field12.getText());
-				
-				// display error if needed
-				if (added == -1)
-				{
-					failure.setText("Failed to add account.");
-				} 
-				// move to patient home if login successful
-				if (added != -1)
-				{
-					Scene patientScene = WelcomePage.getPatientHome();
-					WelcomePage.getStage().setScene(patientScene);
+				if(!field1.getText().isEmpty() && !field2.getText().isEmpty() && !field3.getText().isEmpty() && !field4.getText().isEmpty()
+						&& !field5.getText().isEmpty()&& !field6.getText().isEmpty() && !field7.getText().isEmpty() && !field8.getText().isEmpty()
+						&& !field9.getText().isEmpty() && !field10.getText().isEmpty() && (practise.isSelected() || seuss.isSelected())) {
+					Scene patientScene = Main.getPatientHome();
+					Main.getStage().setScene(patientScene);
+				} else {
+					error.setText("Please fill out all fields and/or select a doctor");
 				}
 				
 			}

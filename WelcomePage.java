@@ -47,7 +47,7 @@ public class WelcomePage extends Application
 	private static Patient patientLoggedIn = new Patient("", "", "", 0, "", "", "", "", "", "", null, null, "", "");
 	private static Nurse nurseLoggedIn = new Nurse(null, null, null, null, null, null);
 	private static Doctor doctorLoggedIn = new Doctor("Mal Practise", "#1doctor", "password", practisePatients, 100, null);
-;
+	
 	
 	public void start(Stage primaryStage) throws FileNotFoundException
 	{		
@@ -468,6 +468,8 @@ public class WelcomePage extends Application
 			String addr, String number, String emailAddr, String pharm, String issues, Doctor aDoctor, 
 			String uName, String pWord) 
 	{
+		Scanner parse = new Scanner(issues);
+		parse.useDelimiter(",");
 		int i = 0;
 		
 		while(patients[i].getFName() != null) 
@@ -491,7 +493,10 @@ public class WelcomePage extends Application
 		patients[i].setPharmacy(pharm);
 		patients[i].setUsername(uName);
 		patients[i].setPassword(pWord);
-		patients[i].addIssue(issues);
+		while(parse.hasNext()) {
+			patients[i].addIssue(parse.next());
+		}
+		
 		
 		System.out.println(issues);
 		

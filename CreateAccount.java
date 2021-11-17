@@ -159,8 +159,8 @@ public class CreateAccount extends GridPane
 		{
 			if (returnEvent.getEventType() == MouseEvent.MOUSE_CLICKED)
 			{
-				Scene loginScene = Main.getWelcomeLogin();
-				Main.getStage().setScene(loginScene);
+				Scene loginScene = WelcomePage.getWelcomeLogin();
+				WelcomePage.getStage().setScene(loginScene);
 				
 			}
 		}
@@ -176,8 +176,8 @@ public class CreateAccount extends GridPane
 				if(!field1.getText().isEmpty() && !field2.getText().isEmpty() && !field3.getText().isEmpty() && !field4.getText().isEmpty()
 						&& !field5.getText().isEmpty()&& !field6.getText().isEmpty() && !field7.getText().isEmpty() && !field8.getText().isEmpty()
 						&& !field9.getText().isEmpty() && !field10.getText().isEmpty() && (practise.isSelected() || seuss.isSelected())) {
-					Scene patientScene = Main.getPatientHome();
-					Main.getStage().setScene(patientScene);
+					Scene patientScene = WelcomePage.getPatientHome();
+					WelcomePage.getStage().setScene(patientScene);
 				} else {
 					error.setText("Please fill out all fields and/or select a doctor");
 				}

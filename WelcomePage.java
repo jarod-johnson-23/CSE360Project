@@ -188,9 +188,9 @@ public class WelcomePage extends Application
 		if (dataFile.exists()) 
 		{
 			System.out.println("File name: " + dataFile.getName());
-		    System.out.println("Writeable: " + dataFile.canWrite());
-		    System.out.println("Readable " + dataFile.canRead());
-		    System.out.println("File size in bytes " + dataFile.length());
+			System.out.println("Writeable: " + dataFile.canWrite());
+			System.out.println("Readable: " + dataFile.canRead());
+			System.out.println("File size in bytes: " + dataFile.length());
 			
 		    do 
 		    {

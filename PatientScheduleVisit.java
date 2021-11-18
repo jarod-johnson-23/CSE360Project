@@ -2,6 +2,7 @@ package application;
 
 import java.io.FileNotFoundException;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 import javafx.collections.FXCollections;
 import javafx.event.EventHandler;
@@ -132,7 +133,7 @@ public class PatientScheduleVisit extends BorderPane {
 			{
 				LocalDate i = dateInput.getValue();
 				
-				PatientVisit newVisit = new PatientVisit(i.toString(), timeField.getText(), reasonField.getText(), WelcomePage.getLoggedInPatient().concatenateNames());
+				PatientVisit newVisit = new PatientVisit(dateInput.getValue().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")), timeField.getText(), reasonField.getText(), WelcomePage.getLoggedInPatient().concatenateNames());
 				WelcomePage.getLoggedInPatient().storeVisit(newVisit);
 				timeField.clear();
 				reasonField.clear();

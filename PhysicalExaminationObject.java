@@ -15,6 +15,7 @@ public class PhysicalExaminationObject {
 		this.findings = f;
 		this.signature = s;
 	}
+
 	public Patient getPatient() {
 		return patient;
 	}
@@ -27,5 +28,4 @@ public class PhysicalExaminationObject {
 	public String getSignature() {
 		return signature;
 	}
-
 }

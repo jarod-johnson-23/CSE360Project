@@ -160,7 +160,7 @@ public class MakePrescription extends GridPane
 		
 				// save prescription info in patient object and send to pharmacy
 				Patient selectedPatient = WelcomePage.getPatientSelected();
-				Prescription p = new Prescription(selectedPatient, selectedPatient.getPharmacy(), medsBox.getText(), dosageChoices.getSelectionModel().getSelectedItem().toString(), Double.parseDouble(dosagePerDayChoices.getSelectionModel().getSelectedItem().toString()), notesBox.getText());
+				Prescription p = new Prescription(selectedPatient, selectedPatient.getPharmacy(), medsBox.getText(), dosageChoices.getSelectionModel().getSelectedItem().toString(), dosagePerDayChoices.getSelectionModel().getSelectedItem().toString(), notesBox.getText());
 				selectedPatient.addPrescription(p);
 				
 				// go to employee home screen 

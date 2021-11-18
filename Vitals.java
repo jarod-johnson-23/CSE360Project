@@ -128,7 +128,7 @@ public class Vitals extends GridPane
 			{
 				// TODO - check if all fields full
 		
-		VitalsObject newVitals = new VitalsObject(hRate.getText(), bWeight.getText(), bTemp.getText(), rRate.getText(), bPressure.getText(), WelcomePage.getPatientSelected().concatenateNames());
+				VitalsObject newVitals = new VitalsObject(hRate.getText(), bWeight.getText(), bTemp.getText(), rRate.getText(), bPressure.getText(), WelcomePage.getPatientSelected().concatenateNames());
 
 				WelcomePage.getLoggedInPatient().storeVitals(newVitals);
 				

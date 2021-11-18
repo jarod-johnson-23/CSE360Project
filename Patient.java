@@ -287,7 +287,7 @@ public class Patient {
         prescriptions.add(p);
         prescrListSize++;
     }
-
+    
     // Sets the patients doctor note in their doctor note array
     public void setPatientDocNote(String subject, String date, String docNote, String signature) {
         int i = 0;
@@ -299,12 +299,14 @@ public class Patient {
         }
         
         doctorNoteArray[i].setDocNote(subject, date, docNote, signature);
+        
+        System.out.println("Note added");
     }
 
     // Gets the subject of patients doctor note
     public String getPatDocNoteSub(String date) {
         for (int i = 0; i < doctorNoteArray.length; i++) {
-            if (doctorNoteArray[i].getDate() == date) {
+            if (doctorNoteArray[i].getDate() != null && doctorNoteArray[i].getDate().equals(date)) {
                 return this.doctorNoteArray[i].getSubject();
             }
         }
@@ -314,7 +316,7 @@ public class Patient {
     // Gets the note of patients doctor note
     public String getPatDocNote(String date) {;
         for (int i = 0; i < doctorNoteArray.length; i++) {
-            if (doctorNoteArray[i].getDate() == date) {
+            if (doctorNoteArray[i].getDate() != null && doctorNoteArray[i].getDate().equals(date)) {
                 return this.doctorNoteArray[i].getNote();
             }
         }
@@ -324,8 +326,8 @@ public class Patient {
     // Gets the date of patients doctor note
     public String getPatDocNoteDate(String date) {
         for (int i = 0; i < doctorNoteArray.length; i++) {
-            if (doctorNoteArray[i].getDate() == date) {
-                return this.doctorNoteArray[i].getDate();
+            if (doctorNoteArray[i].getDate() != null && doctorNoteArray[i].getDate().equals(date)) {
+                return date;
             }
         }
         return "";
@@ -334,7 +336,7 @@ public class Patient {
     // Gets the signature of patients doctor note
     public String getPatDocNoteSig(String date) {
         for (int i = 0; i < doctorNoteArray.length; i++) {
-            if (doctorNoteArray[i].getDate() == date) {
+            if (doctorNoteArray[i].getDate() != null && doctorNoteArray[i].getDate().equals(date)) {
                 return this.doctorNoteArray[i].getSignature();
             }
         }
@@ -373,12 +375,12 @@ public class Patient {
     }
     
     // store vitals information
-    public void storeVitals(String heartRate, String weight, String bodyTemp, String respRate, String bloodPressure)
+    public void storeVitals(String heartRate, String weight, String bodyTemp, String respRate, String bloodPressure, Patient patient)
     {
-    	VitalsObject newVitals = new VitalsObject(heartRate, weight, bodyTemp, respRate, bloodPressure);
+    	VitalsObject newVitals = new VitalsObject(heartRate, weight, bodyTemp, respRate, bloodPressure, patient);
     	
     	vitals.add(newVitals);
-    }
+    } 
     
     // store vitals information
     public void storeVitals(VitalsObject newVitals)
@@ -386,10 +388,22 @@ public class Patient {
     	vitals.add(newVitals);
     }
     
+    // get vitals
+    public List<VitalsObject> getVitalReadings()
+    {
+    	return vitals;
+    }
+    
     // store new physical examination object
     public void storePhysExam(PhysicalExaminationObject newExam)
     {
     	physicalExams.add(newExam);
+    }
+    
+    // get physical exams
+    public List<PhysicalExaminationObject> getPhysicals()
+    {
+    	return physicalExams; 
     }
     
     // get patient allergies
@@ -407,7 +421,10 @@ public class Patient {
         }
         allergies[i] = allergy;
     }
+    
+    // get doc array
     public DoctorNote[] getDocNoteArray() {
     	return doctorNoteArray;
     }
+
 }

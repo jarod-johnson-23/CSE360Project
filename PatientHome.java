@@ -26,8 +26,8 @@ public class PatientHome extends BorderPane
 {
 	// declare variables
 	private Font titleFont;
-	private Button info, messages, pastVisits, scheduleVisit, backToHome;
-	private Label welcomePatient, summOnHp, summTextBox;
+	private Button home, info, messages, pastVisits, scheduleVisit, backToHome;
+	private Label welcomePatient; //summOnHp, summTextBox;
 	private int width = 1500;
 	private int height = 1000;
 	
@@ -51,6 +51,7 @@ public class PatientHome extends BorderPane
 		tabs.setPrefSize(200, 65);
 		
 		// define buttons
+		home = new Button("Home");
 		info = new Button("Information");
 		messages = new Button("Messages");
 		pastVisits = new Button("Past Visits");
@@ -58,6 +59,7 @@ public class PatientHome extends BorderPane
 		backToHome = new Button("Logout");
 		
 		// specify minimum size
+		home.setMinSize(tabs.getPrefWidth(), tabs.getPrefHeight());
 		info.setMinSize(tabs.getPrefWidth(), tabs.getPrefHeight());
 		messages.setMinSize(tabs.getPrefWidth(), tabs.getPrefHeight());
 		pastVisits.setMinSize(tabs.getPrefWidth(), tabs.getPrefHeight());
@@ -66,26 +68,26 @@ public class PatientHome extends BorderPane
 
 		// define labels
 		welcomePatient = new Label(WelcomePage.getName());
-		summOnHp = new Label("Summary of Last Visit:");
-		summTextBox = new Label("There is no record of your last visit at Totally Normal Doctor's Office....ekrjv wlkejnr vlwkej nrvlk wjenr lvkjnwe  lkjrnvl wkej  nrlvk wj enrlv xskwjenrv");
+		//summOnHp = new Label("Summary of Last Visit:");
+		//summTextBox = new Label("There is no record of your last visit at Totally Normal Doctor's Office....ekrjv wlkejnr vlwkej nrvlk wjenr lvkjnwe  lkjrnvl wkej  nrlvk wj enrlv xskwjenrv");
 		
 		// specify label format
 		welcomePatient.setFont(titleFont);
-		summTextBox.setWrapText(true);
-		summTextBox.setMaxWidth(550);
+		//summTextBox.setWrapText(true);
+		//summTextBox.setMaxWidth(550);
 		
 		// define vBox
 		VBox mid = new VBox();
 		mid.setBackground(patHpBg);
 		mid.setPadding(new Insets(20, 20, 20, 20));
 		mid.setSpacing(20);
-		mid.getChildren().addAll(welcomePatient, summOnHp, summTextBox);
+		mid.getChildren().addAll(welcomePatient /*summOnHp, summTextBox*/);
 		
 		// set elements in borderPane
 		this.setCenter(mid);
 		
 		// add elements to tabs
-		tabs.getChildren().addAll(info, messages, pastVisits, scheduleVisit, backToHome);
+		tabs.getChildren().addAll(home, info, messages, pastVisits, scheduleVisit, backToHome);
 		
 		// set elements to borderPane
 		this.setLeft(tabs);	
@@ -94,6 +96,7 @@ public class PatientHome extends BorderPane
 		this.getLeft().setStyle("-fx-background-color: darkgrey");
 		
 		// link source nodes with handler objects
+		home.setOnMouseClicked(new HomeHandler());
 		backToHome.setOnMouseClicked(new LogoutHandler());
 		info.setOnMouseClicked(new InfoHandler());
 		messages.setOnMouseClicked(new MessagesHandler());
@@ -101,6 +104,30 @@ public class PatientHome extends BorderPane
 		scheduleVisit.setOnMouseClicked(new ScheduleVisitHandler());
 	}
 	
+	// home
+	private class HomeHandler implements EventHandler<MouseEvent>
+	{
+		public void handle(MouseEvent homeEvent)
+		{
+			if (homeEvent.getEventType() == MouseEvent.MOUSE_CLICKED)
+			{
+				// go to home screen 
+				PatientHome newPane;
+				try 
+				{
+					newPane = new PatientHome();
+					Scene newScene = new Scene(newPane, 700, 1000);
+					newScene.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
+					WelcomePage.getStage().setScene(newScene);
+				} catch (FileNotFoundException e) 
+				{
+					e.printStackTrace();
+				}
+			}
+		}
+	}
+		
+
 	// information
 	private class InfoHandler implements EventHandler<MouseEvent>
 	{

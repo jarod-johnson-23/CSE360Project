@@ -176,9 +176,18 @@ public class DoctorNotes extends GridPane
 				Patient selectedPatient = WelcomePage.getPatientSelected();
 				selectedPatient.setPatientDocNote(subjectBox.getText(), datePicker.getValue().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")), notesBox.getText(),signatureBox.getText());
 				
-				// go to employee home scene
-				Scene empScene = WelcomePage.getEmployeeHome();
-				WelcomePage.getStage().setScene(empScene);
+				// go to employee home screen 
+				EmployeeHome newPane;
+				try 
+				{
+					newPane = new EmployeeHome();
+					Scene newScene = new Scene(newPane, 700, 1000);
+					newScene.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
+					WelcomePage.getStage().setScene(newScene);
+				} catch (FileNotFoundException e) 
+				{
+					e.printStackTrace();
+				}
 			}
 		}
 	}

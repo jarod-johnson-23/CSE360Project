@@ -9,8 +9,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-
-
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -182,8 +180,8 @@ public class WelcomePage extends Application
 		 * 13) user name
 		 * 14) password
 		 * 15) health concerns, the health concerns end when "end" is found
-		 * 16) allergies, the allergies end when "done" is found
-		 * 
+		 * 16) allergies, the allergies end when "done" is found		 * 
+		 
 		 * Each message object is stored like so:
 		 * 1) A 1 to indicate it is a message
 		 * 2) The recipient of the message
@@ -217,7 +215,7 @@ public class WelcomePage extends Application
 		 * 
 		 * Each prescription is stored like so:
 		 * 1) A 5 to indicate it is a prescription
-		 * 2)Pharmacy Name
+		 * 2) Pharmacy Name
 		 * 3) Medication
 		 * 4) Dosage
 		 * 5) Dosage Per Day
@@ -231,20 +229,16 @@ public class WelcomePage extends Application
 		 * 4) Body of text
 		 * 5) Doctor's signature
 		 */
-		
-		
-		
 		if (dataFile.exists()) 
 		{
 			System.out.println("File name: " + dataFile.getName());
 		    System.out.println("Writeable: " + dataFile.canWrite());
 		    System.out.println("Readable " + dataFile.canRead());
 		    System.out.println("File size in bytes " + dataFile.length());
-			
+
 		    do 
 		    {
 				choice = Integer.parseInt(scan.nextLine());
-
 				if(choice == 0) {
 					tempStr = scan.nextLine();
 					if(tempStr.equals("null"))
@@ -298,9 +292,7 @@ public class WelcomePage extends Application
 					patients[importIndex].setPassword(tempStr);
 					do {
 						tempStr = scan.nextLine();
-
 						if(tempStr.equals("end") == false) {
-
 							patients[importIndex].addIssue(tempStr);
 
 						}
@@ -319,9 +311,8 @@ public class WelcomePage extends Application
 					} else if(patients[importIndex].getDoctor() == drSeuss && patients[importIndex].getFName() != null){
 						drSeuss.addPatient(patients[importIndex]);
 					}
-					
-					importIndex++;
 
+					importIndex++;
 				} else if(choice == 1) {
 					reciever = scan.nextLine();
 					subject = scan.nextLine();
@@ -359,7 +350,7 @@ public class WelcomePage extends Application
 					if(tempStr.equals("null"))
 						tempStr = null;
 					nurses[nurseIndex].setEmail(tempStr);
-					
+
 					nurseIndex++;
 				} else if(choice == 3) {
 					hRate = scan.nextLine();
@@ -370,7 +361,7 @@ public class WelcomePage extends Application
 					fullName = scan.nextLine();
 					for(int i = 0; i < patients.length; i++) {
 						if(patients[i].concatenateNames().equals(fullName)) {
-							patients[i].storeVitals(hRate, bWeight, temperature, rRate, bPressure);
+							patients[i].storeVitals(hRate, bWeight, temperature, rRate, bPressure, patients[i]);
 						}
 					}
 				} else if(choice == 4) {
@@ -404,16 +395,18 @@ public class WelcomePage extends Application
 					for(int i = 0; i < patients.length; i++) {
 						if(patients[i].concatenateNames().equals(fullName)) {
 							patients[i].setPatientDocNote(subject, date, body, signature);
+							System.out.println("Note = " + patients[i].getPatDocNote(date));
+							System.out.println("Note Date = " + patients[i].getPatDocNoteDate(date));
 						}
 					}
 				}
-				
+
 			} while(scan.hasNextLine());
 
 		} else {
 			System.out.println("Doesnt exist");
 		}
-		
+
 		scan.close();
 
 	}
@@ -518,12 +511,26 @@ public class WelcomePage extends Application
 	// get practise patients array
 	public static Patient[] getPractisePatients()
 	{
+		int index1 = 0;
+		for(int i = 0; i < patients.length; i++) {
+			if(patients[i].getDoctor() == drPractise) {
+				practisePatients[index1] = patients[i];
+				index1++;
+			}
+		}
 		return practisePatients;
 	}
 	
 	// get seuss patients array
 	public static Patient[] getSeussPatients()
 	{
+		int index1 = 0;
+		for(int i = 0; i < patients.length; i++) {
+			if(patients[i].getDoctor() == drSeuss) {
+				seussPatients[index1] = patients[i];
+				index1++;
+			}
+		}
 		return seussPatients;
 	}
 	
@@ -575,17 +582,15 @@ public class WelcomePage extends Application
 		
 		int i = 0;
 		
-		
 		while(!patients[i].getFName().equals("-")) 
 		{
 			i++;
-			
-			if(i == patients.length - 1) 
+
+			if(i == patients.length - 1)  
 			{
 				return -1;
 			}
 		}
-		
 		
 		patients[i].setFName(first);
 		patients[i].setMName(middle);
@@ -603,14 +608,15 @@ public class WelcomePage extends Application
 			patients[i].addIssue(parse.next());
 		}
 		
+		System.out.println(issues);
+		
 		patients[i].setDoctor(aDoctor);
 		
 		int j = 0;
 		
 		if(aDoctor == drPractise) 
 		{
-			while(!practisePatients[j].getFName().equals("-")) 
-			{
+			while(!practisePatients[j].getFName().equals("-"))			{
 				j++;
 			}
 			
@@ -620,8 +626,7 @@ public class WelcomePage extends Application
 		} 
 		else 
 		{
-			while(!seussPatients[j].getFName().equals("-")) 
-			{
+			while(!seussPatients[j].getFName().equals("-")) 			{
 				j++;
 			}
 			
@@ -742,7 +747,7 @@ public class WelcomePage extends Application
 			FileWriter outFile = new FileWriter("dataFile.txt");
 			BufferedWriter output = new BufferedWriter(outFile);
 			String[] allergy;
-			
+
 			for(int i = 0; i < patients.length; i++) {
 				int index = 0;
 				
@@ -776,10 +781,10 @@ public class WelcomePage extends Application
 					index++;
 				}
 				output.write("done\n");
-				
-				
+
+
 			}
-			
+
 			for(int i = 0; i < messages.size(); i++) {
 				output.write("1\n");
 				output.write(messages.get(i).getMessage_receiver() + "\n");
@@ -796,7 +801,7 @@ public class WelcomePage extends Application
 				output.write(nurses[i].getUsername() + "\n");
 				output.write(nurses[i].getPassword() + "\n");
 				output.write(nurses[i].getEmail() + "\n");
-				
+
 			}
 			VitalsObject tempVital;
 			for(int i = 0; i < patients.length; i++) {
@@ -857,11 +862,10 @@ public class WelcomePage extends Application
 						output.write(tempNotes[j].getSignature() + "\n");
 						output.write(patients[i].concatenateNames() + "\n");
 					}
-					
+
 				}
 			}
-			
-			
+
 			output.close();
 		} catch (IOException e1) {
 			e1.printStackTrace();

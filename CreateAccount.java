@@ -183,21 +183,23 @@ public class CreateAccount extends GridPane
 			if (submitEvent.getEventType() == MouseEvent.MOUSE_CLICKED)
 			{
 				int test = 50;
+				
 				if(!field1.getText().isEmpty() && !field2.getText().isEmpty() && !field3.getText().isEmpty() && !field4.getText().isEmpty()
 						&& !field5.getText().isEmpty()&& !field6.getText().isEmpty() && !field7.getText().isEmpty() && !field8.getText().isEmpty()
 						&& !field9.getText().isEmpty() && !field10.getText().isEmpty() && (practise.isSelected() || seuss.isSelected())) 
 				{	
+					// save patient info
 					if(practise.isSelected()) {
 						test = WelcomePage.addPatient(field1.getText(), field2.getText(), field3.getText(), field9.getText(), field6.getText(),
 								field7.getText(), field8.getText(), field4.getText(), field5.getText(), field10.getText(), WelcomePage.getPractise(), 
 								field11.getText(), field12.getText());
-						
+
 					} else {
 						test = WelcomePage.addPatient(field1.getText(), field2.getText(), field3.getText(), field9.getText(), field6.getText(),
 								field7.getText(), field8.getText(), field4.getText(), field5.getText(), field10.getText(), WelcomePage.getPractise(), 
 								field11.getText(), field12.getText());
 					}
-					
+
 					field1.clear();
 					field2.clear();
 					field3.clear();

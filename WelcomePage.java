@@ -131,6 +131,9 @@ public class WelcomePage extends Application
 			practisePatients[i] = new Patient("-", "-", "-", 0, "-", "-", "-", "-", "-", "-", null, null, null, null, drPractise, "-", "-");
 			seussPatients[i] = new Patient("-", "-", "-", 0, "-", "-", "-", "-", "-", "-", null, null, null, null, drSeuss, "-", "-");
 		}
+		for(int i = 0; i < nurses.length; i++) {
+			nurses[i] = new Nurse(null, null, null, null, null, null);
+		}
 		
 		// input file initialized
 		File dataFile = new File("dataFile.txt");
@@ -343,24 +346,19 @@ public class WelcomePage extends Application
 					}
 				} else if(choice == 2) {
 					tempStr = scan.nextLine();
-					if(tempStr.equals("null"))
-						tempStr = null;
+					
 					nurses[nurseIndex].setFName(tempStr);
 					tempStr = scan.nextLine();
-					if(tempStr.equals("null"))
-						tempStr = null;
+					
 					nurses[nurseIndex].setLName(tempStr);
 					tempStr = scan.nextLine();
-					if(tempStr.equals("null"))
-						tempStr = null;
+					
 					nurses[nurseIndex].setUsername(tempStr);
 					tempStr = scan.nextLine();
-					if(tempStr.equals("null"))
-						tempStr = null;
+					
 					nurses[nurseIndex].setPassword(tempStr);
 					tempStr = scan.nextLine();
-					if(tempStr.equals("null"))
-						tempStr = null;
+					
 					nurses[nurseIndex].setEmail(tempStr);
 					
 					nurseIndex++;

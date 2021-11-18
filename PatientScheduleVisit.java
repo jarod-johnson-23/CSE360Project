@@ -1,6 +1,8 @@
 package application;
 
 import java.io.FileNotFoundException;
+import java.time.LocalDate;
+
 import javafx.collections.FXCollections;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -9,6 +11,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.control.DatePicker;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Background;
@@ -30,7 +33,14 @@ import javafx.scene.layout.GridPane;
 public class PatientScheduleVisit extends BorderPane {
 	private int width = 1500;
 	private int height = 1000;
-	private Button home, back, info, messages, pastVisits, scheduleVisit, backToHome;
+	private Button back, info, messages, pastVisits, scheduleVisit, backToHome, submit;
+	TextField timeField;
+	TextField reasonField;
+	DatePicker dateInput;
+	
+	
+	private Font titleFont;
+	
 
 	public PatientScheduleVisit() throws FileNotFoundException {
 		Patient patient = WelcomePage.getLoggedInPatient();
@@ -39,12 +49,21 @@ public class PatientScheduleVisit extends BorderPane {
 		BackgroundImage defaultImage = new BackgroundImage(defaultBgPic, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT);
 		Background defaultBg = new Background(defaultImage);
 		
+		timeField = new TextField();
+		reasonField = new TextField();
+		
+		Label title = new Label("Schedule A Visit");
+		Label date = new Label("Choose A Date:");
+		Label time = new Label("Choose A Time:");
+		Label reason = new Label("Reason For Visit:");
+		
+		titleFont = new Font("Cambria", 24);
+		
 		// define vBox
 		VBox tabs = new VBox();
 		tabs.setPadding(new Insets(20, 0 ,20, 20));
 		tabs.setPrefSize(200, 65);
 		
-		home = new Button("Home");
 		info = new Button("Information");
 		messages = new Button("Messages");
 		pastVisits = new Button("Past Visits");
@@ -52,7 +71,6 @@ public class PatientScheduleVisit extends BorderPane {
 		backToHome = new Button("Logout");
 		
 		// specify minimum size
-		home.setMinSize(tabs.getPrefWidth(), tabs.getPrefHeight());
 		info.setMinSize(tabs.getPrefWidth(), tabs.getPrefHeight());
 		messages.setMinSize(tabs.getPrefWidth(), tabs.getPrefHeight());
 		pastVisits.setMinSize(tabs.getPrefWidth(), tabs.getPrefHeight());
@@ -60,7 +78,6 @@ public class PatientScheduleVisit extends BorderPane {
 		backToHome.setMinSize(tabs.getPrefWidth(), tabs.getPrefHeight());
 		
 		// link source nodes with handler objects
-		home.setOnMouseClicked(new HomeHandler());
 		backToHome.setOnMouseClicked(new LogoutHandler());
 		info.setOnMouseClicked(new InfoHandler());
 		messages.setOnMouseClicked(new MessagesHandler());
@@ -68,154 +85,200 @@ public class PatientScheduleVisit extends BorderPane {
 		scheduleVisit.setOnMouseClicked(new ScheduleVisitHandler());
 		
 		// add elements to tabs
-		tabs.getChildren().addAll(home, info, messages, pastVisits, scheduleVisit, backToHome);
+		tabs.getChildren().addAll(info, messages, pastVisits, scheduleVisit, backToHome);
+		
+		
+		title.setFont(titleFont);
+		
+		
+		submit = new Button("Submit");
+		
+		timeField = new TextField();
+		reasonField = new TextField();
+		
+		dateInput = new DatePicker();
+		
+		
+		GridPane midGrid = new GridPane();
+		midGrid.setPadding(new Insets(10, 10, 10, 10));
+		midGrid.setVgap(10);
+		midGrid.setHgap(40);
+		
+		midGrid.add(title, 0, 0);
+		midGrid.add(date, 0, 1);
+		midGrid.add(dateInput, 0, 2);
+		midGrid.add(time, 0, 3);
+		midGrid.add(timeField, 0, 4);
+		midGrid.add(reason, 0, 5);
+		midGrid.add(reasonField, 0, 6);
+		midGrid.add(submit, 0, 7, 2, 1);
 				
 		// set elements to borderPane
 		this.setLeft(tabs);	
+		this.setCenter(midGrid);
 		this.setBackground(defaultBg);
 		this.getLeft().setStyle("-fx-background-color: darkgrey");
 		
+		submit.setOnMouseClicked(new SubmitHandler());
 		
 		
 	}
 	
-	// home
-	private class HomeHandler implements EventHandler<MouseEvent>
+	private class SubmitHandler implements EventHandler<MouseEvent>
 	{
-		public void handle(MouseEvent homeEvent)
+		public void handle(MouseEvent createEvent)
 		{
-			if (homeEvent.getEventType() == MouseEvent.MOUSE_CLICKED)
+			if (createEvent.getEventType() == MouseEvent.MOUSE_CLICKED)
 			{
-				// go to home screen 
-				PatientHome newPane;
-				try 
-				{
-					newPane = new PatientHome();
-					Scene newScene = new Scene(newPane, 700, 1000);
-					newScene.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
-					WelcomePage.getStage().setScene(newScene);
-				} catch (FileNotFoundException e) 
-				{
-					e.printStackTrace();
-				}
+				LocalDate i = dateInput.getValue();
+				
+				PatientVisit newVisit = new PatientVisit(i.toString(), timeField.getText(), reasonField.getText(), WelcomePage.getLoggedInPatient().concatenateNames());
+				WelcomePage.getLoggedInPatient().storeVisit(newVisit);
+				timeField.clear();
+				reasonField.clear();
+				
 			}
 		}
 	}
 	
 	// information
-	private class InfoHandler implements EventHandler<MouseEvent>
-	{
-		public void handle(MouseEvent infoEvent)
+	// home
+		private class HomeHandler implements EventHandler<MouseEvent>
 		{
-			if (infoEvent.getEventType() == MouseEvent.MOUSE_CLICKED)
+			public void handle(MouseEvent homeEvent)
 			{
-				// go to information screen 
-				PatientInformation newPane;
-				try 
+				if (homeEvent.getEventType() == MouseEvent.MOUSE_CLICKED)
 				{
-					newPane = new PatientInformation();
-					Scene newScene = new Scene(newPane, 700, 1000);
-					newScene.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
-					WelcomePage.getStage().setScene(newScene);
-				} catch (FileNotFoundException e) 
-				{
-					e.printStackTrace();
+					// go to home screen 
+					PatientHome newPane;
+					try 
+					{
+						newPane = new PatientHome();
+						Scene newScene = new Scene(newPane, 700, 1000);
+						newScene.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
+						WelcomePage.getStage().setScene(newScene);
+					} catch (FileNotFoundException e) 
+					{
+						e.printStackTrace();
+					}
 				}
 			}
 		}
-	}
-	
-	// messages
-	private class MessagesHandler implements EventHandler<MouseEvent>
-	{
-		public void handle(MouseEvent messageEvent)
+		
+		// information
+		private class InfoHandler implements EventHandler<MouseEvent>
 		{
-			if (messageEvent.getEventType() == MouseEvent.MOUSE_CLICKED)
+			public void handle(MouseEvent infoEvent)
 			{
-				// go to messages screen 
-				PatientMessages newPane;
-				try 
+				if (infoEvent.getEventType() == MouseEvent.MOUSE_CLICKED)
 				{
-					newPane = new PatientMessages();
-					Scene newScene = new Scene(newPane, 700, 1000);
-					newScene.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
-					WelcomePage.getStage().setScene(newScene);
-				} catch (FileNotFoundException e) 
-				{
-					e.printStackTrace();
+					// go to information screen 
+					PatientInformation newPane;
+					try 
+					{
+						newPane = new PatientInformation();
+						Scene newScene = new Scene(newPane, 700, 1000);
+						newScene.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
+						WelcomePage.getStage().setScene(newScene);
+					} catch (FileNotFoundException e) 
+					{
+						e.printStackTrace();
+					}
 				}
 			}
 		}
-	}
-	
-	// past visits
-	private class PastVisitsHandler implements EventHandler<MouseEvent>
-	{
-		public void handle(MouseEvent visitEvent)
+		
+		// messages
+		private class MessagesHandler implements EventHandler<MouseEvent>
 		{
-			if (visitEvent.getEventType() == MouseEvent.MOUSE_CLICKED)
+			public void handle(MouseEvent messageEvent)
 			{
-				// go to past visits screen 
-				PatientPastVisits newPane;
-				try 
+				if (messageEvent.getEventType() == MouseEvent.MOUSE_CLICKED)
 				{
-					newPane = new PatientPastVisits();
-					Scene newScene = new Scene(newPane, 700, 1000);
-					newScene.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
-					WelcomePage.getStage().setScene(newScene);
-				} catch (FileNotFoundException e) 
-				{
-					e.printStackTrace();
+					// go to messages screen 
+					PatientMessages newPane;
+					try 
+					{
+						newPane = new PatientMessages();
+						Scene newScene = new Scene(newPane, 700, 1000);
+						newScene.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
+						WelcomePage.getStage().setScene(newScene);
+					} catch (FileNotFoundException e) 
+					{
+						e.printStackTrace();
+					}
 				}
 			}
 		}
-	}
-	
-	
-	// schedule a visit
-	private class ScheduleVisitHandler implements EventHandler<MouseEvent>
-	{
-		public void handle(MouseEvent scheduleEvent)
+		
+		// past visits
+		private class PastVisitsHandler implements EventHandler<MouseEvent>
 		{
-			if (scheduleEvent.getEventType() == MouseEvent.MOUSE_CLICKED)
+			public void handle(MouseEvent visitEvent)
 			{
-				// go to schedule a visit screen 
-				PatientScheduleVisit newPane;
-				try 
+				if (visitEvent.getEventType() == MouseEvent.MOUSE_CLICKED)
 				{
-					newPane = new PatientScheduleVisit();
-					Scene newScene = new Scene(newPane, 700, 1000);
-					newScene.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
-					WelcomePage.getStage().setScene(newScene);
-				} catch (FileNotFoundException e) 
-				{
-					e.printStackTrace();
+					// go to past visits screen 
+					PatientPastVisits newPane;
+					try 
+					{
+						newPane = new PatientPastVisits();
+						Scene newScene = new Scene(newPane, 700, 1000);
+						newScene.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
+						WelcomePage.getStage().setScene(newScene);
+					} catch (FileNotFoundException e) 
+					{
+						e.printStackTrace();
+					}
 				}
 			}
 		}
-	}
-	
-	// logout
-	private class LogoutHandler implements EventHandler<MouseEvent>
-	{
-		public void handle(MouseEvent logoutEvent)
+		
+		
+		// schedule a visit
+		private class ScheduleVisitHandler implements EventHandler<MouseEvent>
 		{
-			if (logoutEvent.getEventType() == MouseEvent.MOUSE_CLICKED)
+			public void handle(MouseEvent scheduleEvent)
 			{
-				// go to login screen 
-				LoginPane newPane;
-				try 
+				if (scheduleEvent.getEventType() == MouseEvent.MOUSE_CLICKED)
 				{
-					newPane = new LoginPane();
-					Scene newScene = new Scene(newPane, 700, 1000);
-					newScene.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
-					WelcomePage.getStage().setScene(newScene);
-				} catch (FileNotFoundException e) 
-				{
-					e.printStackTrace();
-				};
+					// go to schedule a visit screen 
+					PatientScheduleVisit newPane;
+					try 
+					{
+						newPane = new PatientScheduleVisit();
+						Scene newScene = new Scene(newPane, 700, 1000);
+						newScene.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
+						WelcomePage.getStage().setScene(newScene);
+					} catch (FileNotFoundException e) 
+					{
+						e.printStackTrace();
+					}
+				}
 			}
 		}
-	}
+		
+		// logout
+		private class LogoutHandler implements EventHandler<MouseEvent>
+		{
+			public void handle(MouseEvent logoutEvent)
+			{
+				if (logoutEvent.getEventType() == MouseEvent.MOUSE_CLICKED)
+				{
+					// go to login screen 
+					LoginPane newPane;
+					try 
+					{
+						newPane = new LoginPane();
+						Scene newScene = new Scene(newPane, 700, 1000);
+						newScene.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
+						WelcomePage.getStage().setScene(newScene);
+					} catch (FileNotFoundException e) 
+					{
+						e.printStackTrace();
+					};
+				}
+			}
+		}
 		
 }

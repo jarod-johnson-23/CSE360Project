@@ -108,8 +108,8 @@ public class PatientInformation extends BorderPane
 
 		// define labels 
 		name = new Label("Name: " + patient.concatenateNames());
-		age = new Label("Age " + patient_age);
-		birthday = new Label("Birthday " + patient.getBday());
+		age = new Label("Age: " + patient_age);
+		birthday = new Label("Birthday: " + patient.getBday());
 		healthIssues = new Label("Health Issues: " + healthConcernsFormatted);
 		prevMeds = new Label("Previous Medications: " + prescriptionsFormatted);
 		historyOfImm = new Label("History of Immunization: " + vaccinesFormatted);

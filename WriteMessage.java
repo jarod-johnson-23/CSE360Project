@@ -27,14 +27,15 @@ import javafx.scene.text.Font;
 
 import javafx.scene.layout.GridPane;
 
-public class PatientMessages extends BorderPane {
+public class WriteMessage extends BorderPane {
 	private int width = 1500;
 	private int height = 1000;
-	private Button home, back, info, messages, pastVisits, scheduleVisit, backToHome, inbox, write;
-	private Label mTitle, from, subject, body, blank;
+	private Button home, back, info, messages, pastVisits, scheduleVisit, backToHome, inbox, write, send;
+	private Label mTitle, from, subject, body, blank, message_receiver, subject_line, message;
+	private TextField receiver, subjectField, text;
 	private Font titleFont;
 	
-	public PatientMessages() throws FileNotFoundException {
+	public WriteMessage() throws FileNotFoundException {
 		Patient patient = WelcomePage.getLoggedInPatient();
 		
 		// set default background
@@ -55,21 +56,42 @@ public class PatientMessages extends BorderPane {
 		
 		VBox moreTabs = new VBox();
 		moreTabs.setPadding(new Insets(50, 0, 20, -10));
-		moreTabs.setPrefSize(200,  65);
+		moreTabs.setPrefSize(200, 65);
 		
-		//define grid for center of screen
+		// define vBox
+		VBox writeMessage = new VBox();
+		
+		// adjust vBox padding and spacing
+		writeMessage.setPadding(new Insets(0, 10, 0, 0));
+	    writeMessage.setSpacing(10);
+		
+		// define grid for center of screen
 		GridPane grid = new GridPane();
 		grid.setPadding(new Insets(20, 50, 20, 20));
 		//grid.setBackground(whiteBg);
 		
+		// define labels
 		mTitle = new Label("");
 		from = new Label("From: ");
 		subject = new Label("Subject: ");
-		body = new Label("No Mail.");
+		body = new Label("");
 		blank = new Label("");
+		message_receiver = new Label("To: ");
+		subject_line = new Label("Subject: ");
+		message = new Label("Message: ");
+		
 		body.setWrapText(true);
 		body.setMaxWidth(400);
 		
+		// define TextFields
+		receiver = new TextField();
+		subjectField = new TextField();
+		text = new TextField();
+		
+		text.setMaxWidth(400);
+		text.setMaxHeight(200);
+				
+		// define buttons
 		home = new Button("Home");
 		info = new Button("Information");
 		messages = new Button("Messages");
@@ -79,6 +101,7 @@ public class PatientMessages extends BorderPane {
 		inbox = new Button("Inbox");
 		write = new Button("Write");
 		//sent = new Button("Sent");
+		send = new Button("Send");
 		
 		// specify minimum size
 		home.setMinSize(tabs.getPrefWidth(), tabs.getPrefHeight());
@@ -90,8 +113,10 @@ public class PatientMessages extends BorderPane {
 		inbox.setMinSize(tabs.getPrefWidth(), tabs.getPrefHeight());
 		write.setMinSize(tabs.getPrefWidth(), tabs.getPrefHeight());
 		//sent.setMinSize(tabs.getPrefWidth(), tabs.getPrefHeight());
-		
-		
+		send.setMinSize(tabs.getPrefWidth(), tabs.getPrefHeight());
+
+		writeMessage.getChildren().addAll(message_receiver, receiver, subject, subjectField, message, text, send);
+
 		// link source nodes with handler objects
 		home.setOnMouseClicked(new HomeHandler());
 		backToHome.setOnMouseClicked(new LogoutHandler());
@@ -99,6 +124,7 @@ public class PatientMessages extends BorderPane {
 		messages.setOnMouseClicked(new MessagesHandler());
 		pastVisits.setOnMouseClicked(new PastVisitsHandler());
 		scheduleVisit.setOnMouseClicked(new ScheduleVisitHandler());
+		send.setOnMouseClicked(new SendHandler());
 		
 		mTitle.setText("Messaging Center");
 		mTitle.setFont(titleFont);
@@ -108,7 +134,7 @@ public class PatientMessages extends BorderPane {
 		moreTabs.getChildren().addAll(inbox, write);
 		
 		grid.add(mTitle, 0, 0);
-		grid.add(body, 1, 1);
+		grid.add(writeMessage, 1, 1);
 		grid.add(moreTabs, 0, 1);
 		
 				
@@ -118,16 +144,12 @@ public class PatientMessages extends BorderPane {
 		this.getLeft().setStyle("-fx-background-color: darkgrey");
 		this.setCenter(grid);
 		
-		/*inbox.setOnAction(e -> {
-			// TODO
-		}); */
-		
-		write.setOnAction(e -> {
-			// go to write screen 
-			WriteMessage newPane;
+		inbox.setOnAction(e -> {
+			// go to inbox screen 
+			PatientMessages newPane;
 			try 
 			{
-				newPane = new WriteMessage();
+				newPane = new PatientMessages();
 				Scene newScene = new Scene(newPane, 700, 1000);
 				newScene.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
 				WelcomePage.getStage().setScene(newScene);
@@ -137,10 +159,37 @@ public class PatientMessages extends BorderPane {
 			}
 		});
 		
+		/*write.setOnAction(e -> {
+			// TODO
+		}); */
+		
 		/*sent.setOnAction(e -> {
 			// TODO
 		}); */
 		
+	}
+	
+	// send
+	private class SendHandler implements EventHandler<MouseEvent>
+	{
+		public void handle(MouseEvent sendEvent)
+		{
+			if (sendEvent.getEventType() == MouseEvent.MOUSE_CLICKED)
+			{
+				// go to home screen 
+				PatientMessages newPane;
+				try 
+				{
+					newPane = new PatientMessages();
+					Scene newScene = new Scene(newPane, 700, 1000);
+					newScene.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
+					WelcomePage.getStage().setScene(newScene);
+				} catch (FileNotFoundException e) 
+				{
+					e.printStackTrace();
+				}
+			}
+		}
 	}
 	
 	// home

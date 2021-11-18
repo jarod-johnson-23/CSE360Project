@@ -28,7 +28,6 @@ public class Patient {
     private String username;
     private String password;
     private DoctorNote[] doctorNoteArray = new DoctorNote[10];    // Array of doctor notes for patient
-
     // Default Constructor
     public Patient() {
         this.fName = null;
@@ -49,18 +48,15 @@ public class Patient {
         this.doctor = null;
         this.username = null;
         this.password = null;
-
         for (int i = 0; i < doctorNoteArray.length; i++) {
             doctorNoteArray[i] = new DoctorNote();
         }
-
         if  (prescriptions != null) {
             for (int i = 0; i < prescrListSize; i++) {
                 prescriptions.add(null);
             }
         }
     }
-
     // Constructor
     public Patient(String fName, String mName, String lName, int age, String birthday, String gender,
                    String address, String phoneNumber, String email, String pharmacy, List<Prescription> p_list, List<VitalsObject> v_list,
@@ -83,84 +79,67 @@ public class Patient {
         this.doctor = doctor;
         this.username = username;
         this.password = password;
-
         for (int i = 0; i < doctorNoteArray.length; i++) {
             doctorNoteArray[i] = new DoctorNote();
         }
-
         for (int i = 0; i < prescrListSize; i++) {
             prescriptions.add(p_list.get(i));
         }
     }
-
     //---------------------------------------------------------------------------------------------------
     //GETTER METHODS
-
     // Gets the patients username
     public String getUsername() {
         return username;
     }
-
     // Gets the patients password
     public String getPassword() {
         return password;
     }
-
     // Gets the patients first name
     public String getFName() {
         return fName;
     }
-
     // Gets the patients middle name
     public String getMName() {
         return mName;
     }
-
     // Gets the patients last name
     public String getLName() {
         return lName;
     }
-
     // Gets the patients age
     public int getAge() {
         return age;
     }
-
     // Gets the patients birthday
     public String getBday() {
         return birthday;
     }
-
     // Gets the patients gender
     public String getGender() {
         return gender;
     }
-
     // Gets the patients address
     public String getAddress() {
         return address;
     }
-
     // Gets the patients phone number
     public String getPhoneNumber() {
         return phoneNumber;
     }
-
     // Gets the patients email
     public String getEmail() {
         return email;
     }
-
     // Gets the patients pharmacy
     public String getPharmacy() {
         return pharmacy;
     }
-
     // Gets the patients doctor
     public Doctor getDoctor() {
         return doctor;
     }
-
     // Gets the patients issue
     public String getIssue(int index) {
         return healthConcerns[index];
@@ -170,20 +149,19 @@ public class Patient {
     public String[] getHealthConcerns() {
     	return healthConcerns;
     }
-
     // Gets the prescription list
     public List<Prescription> getPrescriptions() {
         return prescriptions;
     }
-    
+
     public List<VitalsObject> getVitalReadings() {
     	return vitals;
     }
-    
+
     public List<PhysicalExaminationObject> getPhysicals() {
     	return physicalExams;
     }
-    
+
     public List<PatientVisit> getVisitList() {
     	return visitList;
     }
@@ -302,7 +280,7 @@ public class Patient {
         prescriptions.add(p);
         prescrListSize++;
     }
-
+    
     // Sets the patients doctor note in their doctor note array
     public void setPatientDocNote(String subject, String date, String docNote, String signature) {
         int i = 0;
@@ -314,12 +292,14 @@ public class Patient {
         }
         
         doctorNoteArray[i].setDocNote(subject, date, docNote, signature);
+        
+        System.out.println("Note added");
     }
 
     // Gets the subject of patients doctor note
     public String getPatDocNoteSub(String date) {
         for (int i = 0; i < doctorNoteArray.length; i++) {
-            if (doctorNoteArray[i].getDate() == date) {
+            if (doctorNoteArray[i].getDate() != null && doctorNoteArray[i].getDate().equals(date)) {
                 return this.doctorNoteArray[i].getSubject();
             }
         }
@@ -329,7 +309,7 @@ public class Patient {
     // Gets the note of patients doctor note
     public String getPatDocNote(String date) {;
         for (int i = 0; i < doctorNoteArray.length; i++) {
-            if (doctorNoteArray[i].getDate() == date) {
+            if (doctorNoteArray[i].getDate() != null && doctorNoteArray[i].getDate().equals(date)) {
                 return this.doctorNoteArray[i].getNote();
             }
         }
@@ -339,8 +319,8 @@ public class Patient {
     // Gets the date of patients doctor note
     public String getPatDocNoteDate(String date) {
         for (int i = 0; i < doctorNoteArray.length; i++) {
-            if (doctorNoteArray[i].getDate() == date) {
-                return this.doctorNoteArray[i].getDate();
+            if (doctorNoteArray[i].getDate() != null && doctorNoteArray[i].getDate().equals(date)) {
+                return date;
             }
         }
         return "";
@@ -349,7 +329,7 @@ public class Patient {
     // Gets the signature of patients doctor note
     public String getPatDocNoteSig(String date) {
         for (int i = 0; i < doctorNoteArray.length; i++) {
-            if (doctorNoteArray[i].getDate() == date) {
+            if (doctorNoteArray[i].getDate() != null && doctorNoteArray[i].getDate().equals(date)) {
                 return this.doctorNoteArray[i].getSignature();
             }
         }
@@ -387,30 +367,30 @@ public class Patient {
         System.out.println("---------------------------------------------------------------------------------------------------------");
     }
     
-    // store vitals information
+ // store vitals information
     public void storeVitals(String heartRate, String weight, String bodyTemp, String respRate, String bloodPressure)
     {
     	VitalsObject newVitals = new VitalsObject(heartRate, weight, bodyTemp, respRate, bloodPressure, this.concatenateNames());
-    	
+
     	vitals.add(newVitals);
     }
-    
+
     // store vitals information
     public void storeVitals(VitalsObject newVitals)
     {
     	vitals.add(newVitals);
     }
-    
+
     // store new physical examination object
     public void storePhysExam(PhysicalExaminationObject newExam)
     {
     	physicalExams.add(newExam);
     }
-    
+
     public void storeVisit(PatientVisit newVisit) {
     	visitList.add(newVisit);
     }
-    
+
     // get patient allergies
     public String[] getAllergies()
     {

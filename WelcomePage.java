@@ -115,319 +115,304 @@ public class WelcomePage extends Application
 		window.show();
 		
 		// DATA MANIPULATION CODE --------------------------------------------------------------------------------------------------------------------------
-		// define doctors
-		drPractise = new Doctor("Mal Practise", "#1doctor", "password", practisePatients, 100, null);
-		drSeuss = new Doctor("Harold Seuss", "#2doctor", "greeneggsandham", seussPatients, 101, null);
-		fakeDoctor = new Doctor("fakeDoctor", "fake", "doctor", patients, 200, null);
-		
-		// set all patient objects to null
-		for(int i = 0; i < patients.length; i++) 
-		{
-			patients[i] = new Patient("-", "-", "-", 0, "-", "-", "-", "-", "-", "-", null, null, null, null, fakeDoctor, "-", "-");
-		}
-		
-		for(int i = 0; i < practisePatients.length; i++) 
-		{
-			practisePatients[i] = new Patient("-", "-", "-", 0, "-", "-", "-", "-", "-", "-", null, null, null, null, drPractise, "-", "-");
-			seussPatients[i] = new Patient("-", "-", "-", 0, "-", "-", "-", "-", "-", "-", null, null, null, null, drSeuss, "-", "-");
-		}
-		for(int i = 0; i < nurses.length; i++) {
-			nurses[i] = new Nurse(null, null, null, null, null, null);
-		}
-		
-		// input file initialized
-		File dataFile = new File("dataFile.txt");
-		Scanner scan = new Scanner(dataFile);
-		String tempStr;
-		String reciever;
-		String sender;
-		String subject;
-		String body;
-		String hRate;
-		String bWeight;
-		String temperature;
-		String rRate;
-		String bPressure;
-		String fullName;
-		String date;
-		String findings;
-		String signature;
-		String med;
-		String dosage;
-		String dDay;
-		String notes;
-		String pharm;
-		String time;
-		String reason;
-		int choice;
-		int importIndex = 0;
-		int nurseIndex = 0;
-		int vitalIndex = 0;
-
-		/*
-		 * Each patient object is stored line-by-line in this order:
-		 * 1) A 0 to indicate it is a patient object
-		 * 2) First name
-		 * 3) Middle name
-		 * 4) Last name
-		 * 5) Age
-		 * 6) Birthday
-		 * 7) gender
-		 * 8) address
-		 * 9) phone number
-		 * 10) email
-		 * 11) pharmacy
-		 * 12) a integer where 10 means the doctor is Dr.practise, and 20 means Dr. Seuss
-		 * 13) user name
-		 * 14) password
-		 * 15) health concerns, the health concerns end when "end" is found
-		 * 16) allergies, the allergies end when "done" is found
-		 * 
-		 * Each message object is stored like so:
-		 * 1) A 1 to indicate it is a message
-		 * 2) The recipient of the message
-		 * 3) The subject line
-		 * 4) A body of text
-		 * 5) The sender of the email
-		 * 
-		 * Each nurse object is stored like so:
-		 * 1) A 2 to indicate it is a nurse
-		 * 2) First name
-		 * 3) Last name
-		 * 4) username
-		 * 5) password
-		 * 6) email
-		 * 
-		 * Each vitals reading is stored like so:
-		 * 1) a 3 to indicate it is a vitals reading
-		 * 2) Heart Rate
-		 * 3) Body Weight
-		 * 4) Temperature
-		 * 5) Respiratory Rate
-		 * 6) Blood Pressure
-		 * 7) Patient's concatenated name
-		 * 
-		 * Each Physical Examination Object is stored like so:
-		 * 1) A 4 to indicate it is a physical examination object
-		 * 2) Date
-		 * 3) Findings
-		 * 4) Signature
-		 * 5) patient concatenated name
-		 * 
-		 * Each prescription is stored like so:
-		 * 1) A 5 to indicate it is a prescription
-		 * 2)Pharmacy Name
-		 * 3) Medication
-		 * 4) Dosage
-		 * 5) Dosage Per Day
-		 * 6) Notes
-		 * 7) Patient's concatenated name
-		 * 
-		 * Each doctor's note is stored like so:
-		 * 1) A 6 to indicate it is a doctor's note
-		 * 2) Subject
-		 * 3) Date
-		 * 4) Body of text
-		 * 5) Doctor's signature
-		 * 
-		 * Each patient visit is stored like so:
-		 * 1) A 7 to indicate it is a patientVisit
-		 * 2) Date
-		 * 3) Time
-		 * 4) Reason
-		 * 5) Patient's Concatenated name
-		 */
-		
-		
-		
-		if (dataFile.exists()) 
-		{
-			System.out.println("File name: " + dataFile.getName());
-		    System.out.println("Writeable: " + dataFile.canWrite());
-		    System.out.println("Readable " + dataFile.canRead());
-		    System.out.println("File size in bytes " + dataFile.length());
-			
-		    do 
-		    {
-				choice = Integer.parseInt(scan.nextLine());
-
-				if(choice == 0) {
-					tempStr = scan.nextLine();
-					if(tempStr.equals("null"))
-						tempStr = "-";
-					patients[importIndex].setFName(tempStr);
-					tempStr = scan.nextLine();
-					if(tempStr.equals("null"))
-						tempStr = "-";
-					patients[importIndex].setMName(tempStr);
-					tempStr = scan.nextLine();
-					if(tempStr.equals("null"))
-						tempStr = "-";
-					patients[importIndex].setLName(tempStr);
-					patients[importIndex].setAge(Integer.parseInt(scan.nextLine()));
-					tempStr = scan.nextLine();
-					if(tempStr.equals("null"))
-						tempStr = "-";
-					patients[importIndex].setBday(tempStr);
-					tempStr = scan.nextLine();
-					if(tempStr.equals("null"))
-						tempStr = "-";
-					patients[importIndex].setGender(tempStr);
-					tempStr = scan.nextLine();
-					if(tempStr.equals("null"))
-						tempStr = "-";
-					patients[importIndex].setAddr(tempStr);
-					tempStr = scan.nextLine();
-					if(tempStr.equals("null"))
-						tempStr = "-";
-					patients[importIndex].setPhone(tempStr);
-					tempStr = scan.nextLine();
-					if(tempStr.equals("null"))
-						tempStr = "-";
-					patients[importIndex].setEmail(tempStr);
-					tempStr = scan.nextLine();
-					if(tempStr.equals("null"))
-						tempStr = "-";
-					patients[importIndex].setPharmacy(tempStr);
-					if(Integer.parseInt(scan.nextLine()) == 10) {
-						patients[importIndex].setDoctor(drPractise);
-					} else {
-						patients[importIndex].setDoctor(drSeuss);
-					}
-					tempStr = scan.nextLine();
-					if(tempStr.equals("null"))
-						tempStr = "-";
-					patients[importIndex].setUsername(tempStr);
-					tempStr = scan.nextLine();
-					if(tempStr.equals("null"))
-						tempStr = "-";
-					patients[importIndex].setPassword(tempStr);
-					do {
-						tempStr = scan.nextLine();
-
-						if(tempStr.equals("end") == false) {
-
-							patients[importIndex].addIssue(tempStr);
-
-						}
-					} while(tempStr.equals("end") == false);
-					do {
-						tempStr = scan.nextLine();
-
-						if(tempStr.equals("done") == false) {
-
-							patients[importIndex].storeAllergies(tempStr);
-
-						}
-					} while(tempStr.equals("done") == false);
-					if(patients[importIndex].getDoctor() == drPractise) {
-						drPractise.addPatient(patients[importIndex]);
-					} else if(patients[importIndex].getDoctor() == drSeuss && patients[importIndex].getFName() != null){
-						drSeuss.addPatient(patients[importIndex]);
-					}
-					
-					importIndex++;
-
-				} else if(choice == 1) {
-					reciever = scan.nextLine();
-					subject = scan.nextLine();
-					body = scan.nextLine();
-					sender = scan.nextLine();
-					int patIndex = 999;
-					for(int i = 0; i < patients.length; i++) {
-						if(patients[i].getFName() != null) {
-							if(patients[i].concatenateNames().equalsIgnoreCase(sender)) {
-								patIndex = i;
-							}
-						}
-					}
-					if(patIndex != 999) {
-						messages.add(new Message(reciever, subject, body, patients[patIndex]));
-					}
-				} else if(choice == 2) {
-					tempStr = scan.nextLine();
-					
-					nurses[nurseIndex].setFName(tempStr);
-					tempStr = scan.nextLine();
-					
-					nurses[nurseIndex].setLName(tempStr);
-					tempStr = scan.nextLine();
-					
-					nurses[nurseIndex].setUsername(tempStr);
-					tempStr = scan.nextLine();
-					
-					nurses[nurseIndex].setPassword(tempStr);
-					tempStr = scan.nextLine();
-					
-					nurses[nurseIndex].setEmail(tempStr);
-					
-					nurseIndex++;
-				} else if(choice == 3) {
-					hRate = scan.nextLine();
-					bWeight = scan.nextLine();
-					temperature = scan.nextLine();
-					rRate = scan.nextLine();
-					bPressure = scan.nextLine();
-					fullName = scan.nextLine();
-					for(int i = 0; i < patients.length; i++) {
-						if(patients[i].concatenateNames().equals(fullName)) {
-							patients[i].storeVitals(hRate, bWeight, temperature, rRate, bPressure);
-						}
-					}
-				} else if(choice == 4) {
-					date = scan.nextLine();
-					findings = scan.nextLine();
-					signature = scan.nextLine();
-					fullName = scan.nextLine();
-					for(int i = 0; i < patients.length; i++) {
-						if(patients[i].concatenateNames().equals(fullName)) {
-							patients[i].storePhysExam(new PhysicalExaminationObject(patients[i],date, findings, signature));
-						}
-					}
-				} else if(choice == 5) {
-					pharm = scan.nextLine();
-					med = scan.nextLine();
-					dosage = scan.nextLine();
-					dDay = scan.nextLine();
-					notes = scan.nextLine();
-					fullName = scan.nextLine();
-					for(int i = 0; i < patients.length; i++) {
-						if(patients[i].concatenateNames().equals(fullName)) {
-							patients[i].addPrescription(new Prescription(patients[i], pharm, med, dosage, dDay, notes));
-						}
-					}
-				} else if(choice == 6) {
-					subject = scan.nextLine();
-					date = scan.nextLine();
-					body = scan.nextLine();
-					signature = scan.nextLine();
-					fullName = scan.nextLine();
-					for(int i = 0; i < patients.length; i++) {
-						if(patients[i].concatenateNames().equals(fullName)) {
-							patients[i].setPatientDocNote(subject, date, body, signature);
-						}
-					}
-				} else if(choice == 7) {
-					date = scan.nextLine();
-					time = scan.nextLine();
-					reason = scan.nextLine();
-					fullName = scan.nextLine();
-					for(int i = 0; i < patients.length; i++) {
-						if(patients[i].concatenateNames().equals(fullName)) {
-							patients[i].storeVisit(new PatientVisit(date, time, reason, fullName));
-						}
-					}
+				// define doctors
+				drPractise = new Doctor("Mal Practise", "#1doctor", "password", practisePatients, 100, null);
+				drSeuss = new Doctor("Harold Seuss", "#2doctor", "greeneggsandham", seussPatients, 101, null);
+				fakeDoctor = new Doctor("fakeDoctor", "fake", "doctor", patients, 200, null);
+				
+				// set all patient objects to null
+				for(int i = 0; i < patients.length; i++) 
+				{
+					patients[i] = new Patient("-", "-", "-", 0, "-", "-", "-", "-", "-", "-", null, null, null, null, fakeDoctor, "-", "-");
 				}
 				
-			} while(scan.hasNextLine());
+				for(int i = 0; i < practisePatients.length; i++) 
+				{
+					practisePatients[i] = new Patient("-", "-", "-", 0, "-", "-", "-", "-", "-", "-", null, null, null, null, drPractise, "-", "-");
+					seussPatients[i] = new Patient("-", "-", "-", 0, "-", "-", "-", "-", "-", "-", null, null, null, null, drSeuss, "-", "-");
+				}
+				for(int i = 0; i < nurses.length; i++) {
+					nurses[i] = new Nurse(null, null, null, null, null, null);
+				}
 
-		} else {
-			System.out.println("Doesnt exist");
-		}
-		
-		scan.close();
+				// input file initialized
+				File dataFile = new File("dataFile.txt");
+				Scanner scan = new Scanner(dataFile);
+				String tempStr;
+				String reciever;
+				String sender;
+				String subject;
+				String body;
+				String hRate;
+				String bWeight;
+				String temperature;
+				String rRate;
+				String bPressure;
+				String fullName;
+				String date;
+				String findings;
+				String signature;
+				String med;
+				String dosage;
+				String dDay;
+				String notes;
+				String pharm;
+				String time;
+				String reason;
+				int choice;
+				int importIndex = 0;
+				int nurseIndex = 0;
+				int vitalIndex = 0;
+				/*
+				 * Each patient object is stored line-by-line in this order:
+				 * 1) A 0 to indicate it is a patient object
+				 * 2) First name
+				 * 3) Middle name
+				 * 4) Last name
+				 * 5) Age
+				 * 6) Birthday
+				 * 7) gender
+				 * 8) address
+				 * 9) phone number
+				 * 10) email
+				 * 11) pharmacy
+				 * 12) a integer where 10 means the doctor is Dr.practise, and 20 means Dr. Seuss
+				 * 13) user name
+				 * 14) password
+				 * 15) health concerns, the health concerns end when "end" is found
+				 * 16) allergies, the allergies end when "done" is found
+				 * 
+				 * Each message object is stored like so:
+				 * 1) A 1 to indicate it is a message
+				 * 2) The recipient of the message
+				 * 3) The subject line
+				 * 4) A body of text
+				 * 5) The sender of the email
+				 * 
+				 * Each nurse object is stored like so:
+				 * 1) A 2 to indicate it is a nurse
+				 * 2) First name
+				 * 3) Last name
+				 * 4) username
+				 * 5) password
+				 * 6) email
+				 * 
+				 * Each vitals reading is stored like so:
+				 * 1) a 3 to indicate it is a vitals reading
+				 * 2) Heart Rate
+				 * 3) Body Weight
+				 * 4) Temperature
+				 * 5) Respiratory Rate
+				 * 6) Blood Pressure
+				 * 7) Patient's concatenated name
+				 * 
+				 * Each Physical Examination Object is stored like so:
+				 * 1) A 4 to indicate it is a physical examination object
+				 * 2) Date
+				 * 3) Findings
+				 * 4) Signature
+				 * 5) patient concatenated name
+				 * 
+				 * Each prescription is stored like so:
+				 * 1) A 5 to indicate it is a prescription
+				 * 2)Pharmacy Name
+			@@ -223,144 +226,139 @@
+				 * Each doctor's note is stored like so:
+				 * 1) A 6 to indicate it is a doctor's note
+				 * 2) Subject
+				 * 3) Date
+				 * 4) Body of text
+				 * 5) Doctor's signature
+				 * 
+				 * Each patient visit is stored like so:
+				 * 1) A 7 to indicate it is a patientVisit
+				 * 2) Date
+				 * 3) Time
+				 * 4) Reason
+				 * 5) Patient's Concatenated name
+				 */
+				
+				
+				
+				if (dataFile.exists()) 
+				{
+					System.out.println("File name: " + dataFile.getName());
+				    System.out.println("Writeable: " + dataFile.canWrite());
+				    System.out.println("Readable " + dataFile.canRead());
+				    System.out.println("File size in bytes " + dataFile.length());
+					
+				    do 
+				    {
+						choice = Integer.parseInt(scan.nextLine());
+						if(choice == 0) {
+							tempStr = scan.nextLine();
+							if(tempStr.equals("null"))
+								tempStr = "-";
+							patients[importIndex].setFName(tempStr);
+							tempStr = scan.nextLine();
+							if(tempStr.equals("null"))
+								tempStr = "-";
+							patients[importIndex].setMName(tempStr);
+							tempStr = scan.nextLine();
+							if(tempStr.equals("null"))
+								tempStr = "-";
+							patients[importIndex].setLName(tempStr);
+							patients[importIndex].setAge(Integer.parseInt(scan.nextLine()));
+							tempStr = scan.nextLine();
+							if(tempStr.equals("null"))
+								tempStr = "-";
+							patients[importIndex].setBday(tempStr);
+							tempStr = scan.nextLine();
+							if(tempStr.equals("null"))
+								tempStr = "-";
+							patients[importIndex].setGender(tempStr);
+							tempStr = scan.nextLine();
+							if(tempStr.equals("null"))
+								tempStr = "-";
+							patients[importIndex].setAddr(tempStr);
+							tempStr = scan.nextLine();
+							if(tempStr.equals("null"))
+								tempStr = "-";
+							patients[importIndex].setPhone(tempStr);
+							tempStr = scan.nextLine();
+							if(tempStr.equals("null"))
+								tempStr = "-";
+							patients[importIndex].setEmail(tempStr);
+							tempStr = scan.nextLine();
+							if(tempStr.equals("null"))
+								tempStr = "-";
+							patients[importIndex].setPharmacy(tempStr);
+							if(Integer.parseInt(scan.nextLine()) == 10) {
+								patients[importIndex].setDoctor(drPractise);
+							} else {
+								patients[importIndex].setDoctor(drSeuss);
+							}
+							tempStr = scan.nextLine();
+							if(tempStr.equals("null"))
+								tempStr = "-";
+							patients[importIndex].setUsername(tempStr);
+							tempStr = scan.nextLine();
+							if(tempStr.equals("null"))
+								tempStr = "-";
+							patients[importIndex].setPassword(tempStr);
+							do {
+								tempStr = scan.nextLine();
+								if(tempStr.equals("end") == false) {
+									patients[importIndex].addIssue(tempStr);
+								}
+							} while(tempStr.equals("end") == false);
+							do {
+								tempStr = scan.nextLine();
+								if(tempStr.equals("done") == false) {
+									patients[importIndex].storeAllergies(tempStr);
+								}
+							} while(tempStr.equals("done") == false);
+							if(patients[importIndex].getDoctor() == drPractise) {
+								drPractise.addPatient(patients[importIndex]);
+							} else if(patients[importIndex].getDoctor() == drSeuss && patients[importIndex].getFName() != null){
+								drSeuss.addPatient(patients[importIndex]);
+							}
+							
+							importIndex++;
+						} else if(choice == 1) {
+							reciever = scan.nextLine();
+							subject = scan.nextLine();
+							body = scan.nextLine();
+							sender = scan.nextLine();
+							int patIndex = 999;
+							for(int i = 0; i < patients.length; i++) {
+								if(patients[i].getFName() != null) {
+									if(patients[i].concatenateNames().equalsIgnoreCase(sender)) {
+										patIndex = i;
+									}
+								}
+							}
+							if(patIndex != 999) {
+								messages.add(new Message(reciever, subject, body, patients[patIndex]));
+							}
+						} else if(choice == 2) {
+							tempStr = scan.nextLine();
 
-	}
+							nurses[nurseIndex].setFName(tempStr);
+							tempStr = scan.nextLine();
+
+							nurses[nurseIndex].setLName(tempStr);
+							tempStr = scan.nextLine();
+
+							nurses[nurseIndex].setUsername(tempStr);
+							tempStr = scan.nextLine();
+
+							nurses[nurseIndex].setPassword(tempStr);
+							tempStr = scan.nextLine();
+
+							nurses[nurseIndex].setEmail(tempStr);
+
+							nurseIndex++;
+						} else if(choice == 3) {
+							hRate = scan.nextLine();
+							bWeight = scan.nextLine();
+							temperature = scan.nextLine();
+							rRate = scan.nextLine();
+							bPressure = scan.nextLine();
+							fullName = scan.nextLine();
+							for(int i = 0; i < patients.length; i++) {
+								if(patients[i].concatenateNames().equals(fullName)) {
+									patients[i].storeVitals(hRate, bWeight, temperature, rRate, bPressure);
+								}
+							}
+						} else if(choice == 4) {
+							date = scan.nextLine();
+							findings = scan.nextLine();
+							signature = scan.nextLine();
+							fullName = scan.nextLine();
+							for(int i = 0; i < patients.length; i++) {
+								if(patients[i].concatenateNames().equals(fullName)) {
+									patients[i].storePhysExam(new PhysicalExaminationObject(patients[i],date, findings, signature));
+								}
+							}
+						} else if(choice == 5) {
+							pharm = scan.nextLine();
+							med = scan.nextLine();
+							dosage = scan.nextLine();
+							dDay = scan.nextLine();
+							notes = scan.nextLine();
+							fullName = scan.nextLine();
+							for(int i = 0; i < patients.length; i++) {
+								if(patients[i].concatenateNames().equals(fullName)) {
+									patients[i].addPrescription(new Prescription(patients[i], pharm, med, dosage, dDay, notes));
+								}
+							}
+						} else if(choice == 6) {
+							subject = scan.nextLine();
+							date = scan.nextLine();
+							body = scan.nextLine();
+							signature = scan.nextLine();
+							fullName = scan.nextLine();
+							for(int i = 0; i < patients.length; i++) {
+								if(patients[i].concatenateNames().equals(fullName)) {
+									patients[i].setPatientDocNote(subject, date, body, signature);
+								}
+							}
+						} else if(choice == 7) {
+							date = scan.nextLine();
+							time = scan.nextLine();
+							reason = scan.nextLine();
+							fullName = scan.nextLine();
+							for(int i = 0; i < patients.length; i++) {
+								if(patients[i].concatenateNames().equals(fullName)) {
+									patients[i].storeVisit(new PatientVisit(date, time, reason, fullName));
+								}
+							}
+						}
+						
+					} while(scan.hasNextLine());
+				} else {
+					System.out.println("Doesnt exist");
+				}
+				
+				scan.close();
+			}
+			
 	
 	// main method
 	public static void main(String[] args)
@@ -765,7 +750,7 @@ public class WelcomePage extends Application
 			FileWriter outFile = new FileWriter("dataFile.txt");
 			BufferedWriter output = new BufferedWriter(outFile);
 			String[] allergy;
-			
+
 			for(int i = 0; i < patients.length; i++) {
 				int index = 0;
 				
@@ -799,10 +784,10 @@ public class WelcomePage extends Application
 					index++;
 				}
 				output.write("done\n");
-				
-				
+
+
 			}
-			
+
 			for(int i = 0; i < messages.size(); i++) {
 				output.write("1\n");
 				output.write(messages.get(i).getMessage_receiver() + "\n");
@@ -819,7 +804,7 @@ public class WelcomePage extends Application
 				output.write(nurses[i].getUsername() + "\n");
 				output.write(nurses[i].getPassword() + "\n");
 				output.write(nurses[i].getEmail() + "\n");
-				
+
 			}
 			VitalsObject tempVital;
 			for(int i = 0; i < patients.length; i++) {
@@ -880,9 +865,10 @@ public class WelcomePage extends Application
 						output.write(tempNotes[j].getSignature() + "\n");
 						output.write(patients[i].concatenateNames() + "\n");
 					}
-					
+
 				}
 			}
+			
 			PatientVisit tempVisit;
 			for(int i = 0; i < patients.length; i++) {
 				List<PatientVisit> tempList = patients[i].getVisitList();
@@ -897,8 +883,7 @@ public class WelcomePage extends Application
 					}
 				}
 			}
-			
-			
+
 			output.close();
 		} catch (IOException e1) {
 			e1.printStackTrace();
@@ -1060,5 +1045,6 @@ public class WelcomePage extends Application
 	public static void storeVisit(PatientVisit newVisit) {
 		WelcomePage.getLoggedInPatient().storeVisit(newVisit);
 	}
+	
 	
 }

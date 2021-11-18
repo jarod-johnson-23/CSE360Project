@@ -15,5 +15,17 @@ public class PhysicalExaminationObject {
 		this.findings = f;
 		this.signature = s;
 	}
+	public Patient getPatient() {
+		return patient;
+	}
+	public String getDate() {
+		return date;
+	}
+	public String getFindings() {
+		return findings;
+	}
+	public String getSignature() {
+		return signature;
+	}
 
 }

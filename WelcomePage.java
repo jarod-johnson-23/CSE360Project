@@ -158,6 +158,8 @@ public class WelcomePage extends Application
 		String dDay;
 		String notes;
 		String pharm;
+		String time;
+		String reason;
 		int choice;
 		int importIndex = 0;
 		int nurseIndex = 0;
@@ -180,8 +182,8 @@ public class WelcomePage extends Application
 		 * 13) user name
 		 * 14) password
 		 * 15) health concerns, the health concerns end when "end" is found
-		 * 16) allergies, the allergies end when "done" is found		 * 
-		 
+		 * 16) allergies, the allergies end when "done" is found
+		 * 
 		 * Each message object is stored like so:
 		 * 1) A 1 to indicate it is a message
 		 * 2) The recipient of the message
@@ -215,7 +217,7 @@ public class WelcomePage extends Application
 		 * 
 		 * Each prescription is stored like so:
 		 * 1) A 5 to indicate it is a prescription
-		 * 2) Pharmacy Name
+		 * 2)Pharmacy Name
 		 * 3) Medication
 		 * 4) Dosage
 		 * 5) Dosage Per Day
@@ -228,17 +230,28 @@ public class WelcomePage extends Application
 		 * 3) Date
 		 * 4) Body of text
 		 * 5) Doctor's signature
+		 * 
+		 * Each patient visit is stored like so:
+		 * 1) A 7 to indicate it is a patientVisit
+		 * 2) Date
+		 * 3) Time
+		 * 4) Reason
+		 * 5) Patient's Concatenated name
 		 */
+		
+		
+		
 		if (dataFile.exists()) 
 		{
 			System.out.println("File name: " + dataFile.getName());
 		    System.out.println("Writeable: " + dataFile.canWrite());
 		    System.out.println("Readable " + dataFile.canRead());
 		    System.out.println("File size in bytes " + dataFile.length());
-
+			
 		    do 
 		    {
 				choice = Integer.parseInt(scan.nextLine());
+
 				if(choice == 0) {
 					tempStr = scan.nextLine();
 					if(tempStr.equals("null"))
@@ -292,7 +305,9 @@ public class WelcomePage extends Application
 					patients[importIndex].setPassword(tempStr);
 					do {
 						tempStr = scan.nextLine();
+
 						if(tempStr.equals("end") == false) {
+
 							patients[importIndex].addIssue(tempStr);
 
 						}
@@ -311,8 +326,9 @@ public class WelcomePage extends Application
 					} else if(patients[importIndex].getDoctor() == drSeuss && patients[importIndex].getFName() != null){
 						drSeuss.addPatient(patients[importIndex]);
 					}
-
+					
 					importIndex++;
+
 				} else if(choice == 1) {
 					reciever = scan.nextLine();
 					subject = scan.nextLine();
@@ -350,7 +366,7 @@ public class WelcomePage extends Application
 					if(tempStr.equals("null"))
 						tempStr = null;
 					nurses[nurseIndex].setEmail(tempStr);
-
+					
 					nurseIndex++;
 				} else if(choice == 3) {
 					hRate = scan.nextLine();
@@ -361,7 +377,7 @@ public class WelcomePage extends Application
 					fullName = scan.nextLine();
 					for(int i = 0; i < patients.length; i++) {
 						if(patients[i].concatenateNames().equals(fullName)) {
-							patients[i].storeVitals(hRate, bWeight, temperature, rRate, bPressure, patients[i]);
+							patients[i].storeVitals(hRate, bWeight, temperature, rRate, bPressure);
 						}
 					}
 				} else if(choice == 4) {
@@ -395,18 +411,26 @@ public class WelcomePage extends Application
 					for(int i = 0; i < patients.length; i++) {
 						if(patients[i].concatenateNames().equals(fullName)) {
 							patients[i].setPatientDocNote(subject, date, body, signature);
-							System.out.println("Note = " + patients[i].getPatDocNote(date));
-							System.out.println("Note Date = " + patients[i].getPatDocNoteDate(date));
+						}
+					}
+				} else if(choice == 7) {
+					date = scan.nextLine();
+					time = scan.nextLine();
+					reason = scan.nextLine();
+					fullName = scan.nextLine();
+					for(int i = 0; i < patients.length; i++) {
+						if(patients[i].concatenateNames().equals(fullName)) {
+							patients[i].storeVisit(new PatientVisit(date, time, reason, fullName));
 						}
 					}
 				}
-
+				
 			} while(scan.hasNextLine());
 
 		} else {
 			System.out.println("Doesnt exist");
 		}
-
+		
 		scan.close();
 
 	}
@@ -747,7 +771,7 @@ public class WelcomePage extends Application
 			FileWriter outFile = new FileWriter("dataFile.txt");
 			BufferedWriter output = new BufferedWriter(outFile);
 			String[] allergy;
-
+			
 			for(int i = 0; i < patients.length; i++) {
 				int index = 0;
 				
@@ -781,10 +805,10 @@ public class WelcomePage extends Application
 					index++;
 				}
 				output.write("done\n");
-
-
+				
+				
 			}
-
+			
 			for(int i = 0; i < messages.size(); i++) {
 				output.write("1\n");
 				output.write(messages.get(i).getMessage_receiver() + "\n");
@@ -801,7 +825,7 @@ public class WelcomePage extends Application
 				output.write(nurses[i].getUsername() + "\n");
 				output.write(nurses[i].getPassword() + "\n");
 				output.write(nurses[i].getEmail() + "\n");
-
+				
 			}
 			VitalsObject tempVital;
 			for(int i = 0; i < patients.length; i++) {
@@ -862,10 +886,25 @@ public class WelcomePage extends Application
 						output.write(tempNotes[j].getSignature() + "\n");
 						output.write(patients[i].concatenateNames() + "\n");
 					}
-
+					
 				}
 			}
-
+			PatientVisit tempVisit;
+			for(int i = 0; i < patients.length; i++) {
+				List<PatientVisit> tempList = patients[i].getVisitList();
+				if(tempList != null) {
+					for(int j = 0; j < tempList.size(); j++) {
+						tempVisit = tempList.get(j);
+						output.write("7\n");
+						output.write(tempVisit.getDate() + "\n");
+						output.write(tempVisit.getTime() + "\n");
+						output.write(tempVisit.getReason() + "\n");
+						output.write(patients[i].concatenateNames() + "\n");
+					}
+				}
+			}
+			
+			
 			output.close();
 		} catch (IOException e1) {
 			e1.printStackTrace();
@@ -1024,5 +1063,8 @@ public class WelcomePage extends Application
 		}
 	}
 	
+	public static void storeVisit(PatientVisit newVisit) {
+		WelcomePage.getLoggedInPatient().storeVisit(newVisit);
+	}
 	
 }

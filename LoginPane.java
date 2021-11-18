@@ -184,6 +184,9 @@ public class LoginPane extends BorderPane
 				String inputUsername = usernameText.getText();
 				String inputPassword = passwordText.getText();
 				
+				usernameText.clear();
+				passwordText.clear();
+				
 				// get login index
 				index = WelcomePage.checkLogin(inputUsername, inputPassword);
 				

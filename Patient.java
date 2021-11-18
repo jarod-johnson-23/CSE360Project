@@ -18,6 +18,7 @@ public class Patient {
     private List<Prescription> prescriptions;
     private List<VitalsObject> vitals;
     private List<PhysicalExaminationObject> physicalExams;
+    private List<PatientVisit> visitList;
     private int prescrListSize;
     private String medications[] = new String[10];
     private String vaccines[] = new String[10];
@@ -43,6 +44,7 @@ public class Patient {
         this.prescriptions = new ArrayList<Prescription>();
         this.vitals = new ArrayList<VitalsObject>();
         this.physicalExams = new ArrayList<PhysicalExaminationObject>();
+        this.visitList = new ArrayList<PatientVisit>();
         this.prescrListSize = 0;
         this.doctor = null;
         this.username = null;
@@ -62,7 +64,7 @@ public class Patient {
     // Constructor
     public Patient(String fName, String mName, String lName, int age, String birthday, String gender,
                    String address, String phoneNumber, String email, String pharmacy, List<Prescription> p_list, List<VitalsObject> v_list,
-                   List<PhysicalExaminationObject> e_list, Doctor doctor, String username, String password) {
+                   List<PhysicalExaminationObject> e_list, List<PatientVisit> visitList, Doctor doctor, String username, String password) {
         this.fName = fName;
         this.mName = mName;
         this.lName = lName;
@@ -76,6 +78,7 @@ public class Patient {
         this.prescriptions = new ArrayList<Prescription>();
         this.vitals = new ArrayList<VitalsObject>();
         this.physicalExams = new ArrayList<PhysicalExaminationObject>();
+        this.visitList = new ArrayList<PatientVisit>();
         this.prescrListSize = prescriptions.size();
         this.doctor = doctor;
         this.username = username;
@@ -171,6 +174,18 @@ public class Patient {
     // Gets the prescription list
     public List<Prescription> getPrescriptions() {
         return prescriptions;
+    }
+    
+    public List<VitalsObject> getVitalReadings() {
+    	return vitals;
+    }
+    
+    public List<PhysicalExaminationObject> getPhysicals() {
+    	return physicalExams;
+    }
+    
+    public List<PatientVisit> getVisitList() {
+    	return visitList;
     }
 
     // Gets a specific prescription from precription list
@@ -287,7 +302,7 @@ public class Patient {
         prescriptions.add(p);
         prescrListSize++;
     }
-    
+
     // Sets the patients doctor note in their doctor note array
     public void setPatientDocNote(String subject, String date, String docNote, String signature) {
         int i = 0;
@@ -299,14 +314,12 @@ public class Patient {
         }
         
         doctorNoteArray[i].setDocNote(subject, date, docNote, signature);
-        
-        System.out.println("Note added");
     }
 
     // Gets the subject of patients doctor note
     public String getPatDocNoteSub(String date) {
         for (int i = 0; i < doctorNoteArray.length; i++) {
-            if (doctorNoteArray[i].getDate() != null && doctorNoteArray[i].getDate().equals(date)) {
+            if (doctorNoteArray[i].getDate() == date) {
                 return this.doctorNoteArray[i].getSubject();
             }
         }
@@ -316,7 +329,7 @@ public class Patient {
     // Gets the note of patients doctor note
     public String getPatDocNote(String date) {;
         for (int i = 0; i < doctorNoteArray.length; i++) {
-            if (doctorNoteArray[i].getDate() != null && doctorNoteArray[i].getDate().equals(date)) {
+            if (doctorNoteArray[i].getDate() == date) {
                 return this.doctorNoteArray[i].getNote();
             }
         }
@@ -326,8 +339,8 @@ public class Patient {
     // Gets the date of patients doctor note
     public String getPatDocNoteDate(String date) {
         for (int i = 0; i < doctorNoteArray.length; i++) {
-            if (doctorNoteArray[i].getDate() != null && doctorNoteArray[i].getDate().equals(date)) {
-                return date;
+            if (doctorNoteArray[i].getDate() == date) {
+                return this.doctorNoteArray[i].getDate();
             }
         }
         return "";
@@ -336,7 +349,7 @@ public class Patient {
     // Gets the signature of patients doctor note
     public String getPatDocNoteSig(String date) {
         for (int i = 0; i < doctorNoteArray.length; i++) {
-            if (doctorNoteArray[i].getDate() != null && doctorNoteArray[i].getDate().equals(date)) {
+            if (doctorNoteArray[i].getDate() == date) {
                 return this.doctorNoteArray[i].getSignature();
             }
         }
@@ -375,23 +388,17 @@ public class Patient {
     }
     
     // store vitals information
-    public void storeVitals(String heartRate, String weight, String bodyTemp, String respRate, String bloodPressure, Patient patient)
+    public void storeVitals(String heartRate, String weight, String bodyTemp, String respRate, String bloodPressure)
     {
-    	VitalsObject newVitals = new VitalsObject(heartRate, weight, bodyTemp, respRate, bloodPressure, patient);
+    	VitalsObject newVitals = new VitalsObject(heartRate, weight, bodyTemp, respRate, bloodPressure, this.concatenateNames());
     	
     	vitals.add(newVitals);
-    } 
+    }
     
     // store vitals information
     public void storeVitals(VitalsObject newVitals)
     {
     	vitals.add(newVitals);
-    }
-    
-    // get vitals
-    public List<VitalsObject> getVitalReadings()
-    {
-    	return vitals;
     }
     
     // store new physical examination object
@@ -400,10 +407,8 @@ public class Patient {
     	physicalExams.add(newExam);
     }
     
-    // get physical exams
-    public List<PhysicalExaminationObject> getPhysicals()
-    {
-    	return physicalExams; 
+    public void storeVisit(PatientVisit newVisit) {
+    	visitList.add(newVisit);
     }
     
     // get patient allergies
@@ -421,10 +426,7 @@ public class Patient {
         }
         allergies[i] = allergy;
     }
-    
-    // get doc array
     public DoctorNote[] getDocNoteArray() {
     	return doctorNoteArray;
     }
-
 }

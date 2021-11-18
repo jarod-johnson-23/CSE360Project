@@ -42,7 +42,7 @@ public class WelcomePage extends Application
 	private static ObservableList<String> items = FXCollections.<String>observableArrayList();
 	private static ListView<String> patientNames = new ListView<String>();
 	private static List<Message> messages = new ArrayList<Message>();
-	private static Patient patientLoggedIn = new Patient("", "", "", 0, "", "", "", "", "", "", null, null, null, null, "", "");
+	private static Patient patientLoggedIn = new Patient("", "", "", 0, "", "", "", "", "", "", null, null, null, null, null, "", "");
 	private static Nurse nurseLoggedIn = new Nurse(null, null, null, null, null, null);
 	private static Doctor doctorLoggedIn = new Doctor("Mal Practise", "#1doctor", "password", practisePatients, 100, null);
 	private static int loginFlag = 3; // 0 for patient, 1 for doctor, 2 for nurse, 3 for startup
@@ -123,17 +123,13 @@ public class WelcomePage extends Application
 		// set all patient objects to null
 		for(int i = 0; i < patients.length; i++) 
 		{
-			patients[i] = new Patient("-", "-", "-", 0, "-", "-", "-", "-", "-", "-", null, null, null, fakeDoctor, "-", "-");
+			patients[i] = new Patient("-", "-", "-", 0, "-", "-", "-", "-", "-", "-", null, null, null, null, fakeDoctor, "-", "-");
 		}
 		
 		for(int i = 0; i < practisePatients.length; i++) 
 		{
-			practisePatients[i] = new Patient("-", "-", "-", 0, "-", "-", "-", "-", "-", "-", null, null, null, drPractise, "-", "-");
-			seussPatients[i] = new Patient("-", "-", "-", 0, "-", "-", "-", "-", "-", "-", null, null, null, drSeuss, "-", "-");
-		}
-		
-		for(int i = 0; i < nurses.length; i++) {
-			nurses[i] = new Nurse("-", "-", "-", "-", "-", null);
+			practisePatients[i] = new Patient("-", "-", "-", 0, "-", "-", "-", "-", "-", "-", null, null, null, null, drPractise, "-", "-");
+			seussPatients[i] = new Patient("-", "-", "-", 0, "-", "-", "-", "-", "-", "-", null, null, null, null, drSeuss, "-", "-");
 		}
 		
 		// input file initialized
@@ -956,7 +952,7 @@ public class WelcomePage extends Application
 	public static Patient getPatientInfo(String username, String password)
 	{
 		// declare variables
-		Patient patient = new Patient(null, null, null, 0, null, null, null, null, null, null, null, null, null, null, null, null);
+		Patient patient = new Patient(null, null, null, 0, null, null, null, null, null, null, null, null, null, null, null, null, null);
 
 		// check patient information 
 		for (int i = 0; i < patients.length; i++)

@@ -407,4 +407,7 @@ public class Patient {
         }
         allergies[i] = allergy;
     }
+    public DoctorNote[] getDocNoteArray() {
+    	return doctorNoteArray;
+    }
 }

@@ -575,15 +575,17 @@ public class WelcomePage extends Application
 		
 		int i = 0;
 		
-		while(patients[i].getFName() != null) 
+		
+		while(!patients[i].getFName().equals("-")) 
 		{
 			i++;
 			
-			if(i >= patients.length) 
+			if(i == patients.length - 1) 
 			{
 				return -1;
 			}
 		}
+		
 		
 		patients[i].setFName(first);
 		patients[i].setMName(middle);
@@ -601,15 +603,13 @@ public class WelcomePage extends Application
 			patients[i].addIssue(parse.next());
 		}
 		
-		System.out.println(issues);
-		
 		patients[i].setDoctor(aDoctor);
 		
 		int j = 0;
 		
 		if(aDoctor == drPractise) 
 		{
-			while(practisePatients[j].getFName() != null) 
+			while(!practisePatients[j].getFName().equals("-")) 
 			{
 				j++;
 			}
@@ -620,7 +620,7 @@ public class WelcomePage extends Application
 		} 
 		else 
 		{
-			while(seussPatients[j].getFName() != null) 
+			while(!seussPatients[j].getFName().equals("-")) 
 			{
 				j++;
 			}

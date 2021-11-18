@@ -1,7 +1,7 @@
 package application;
 
 public class VitalsObject {
-	private String hRate, bWeight, temp, respRate, pressure;
+	private String hRate, bWeight, temp, respRate, pressure, patientName;
 	private Patient pat;
 	
 	public VitalsObject(String text, String text2, String text3, String text4, String text5, Patient patient) {
@@ -13,12 +13,13 @@ public class VitalsObject {
 		this.pat = patient;
 	}
 	
-	public VitalsObject(String text, String text2, String text3, String text4, String text5) {
+	public VitalsObject(String text, String text2, String text3, String text4, String text5, String patName) {
 		this.hRate = text;
 		this.bWeight = text2;
 		this.temp = text3;
 		this.respRate = text4;
 		this.pressure = text5;
+		this.patientName = patName;
 	}
 
 	public void setHeartRate(String r) {
@@ -45,5 +46,8 @@ public class VitalsObject {
 	}
 	public String getPressure() {
 		return pressure;
+	}
+	public String getRespRate() {
+		return respRate;
 	}
 }

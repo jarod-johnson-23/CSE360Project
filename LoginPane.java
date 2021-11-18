@@ -57,7 +57,7 @@ public class LoginPane extends BorderPane
 		Background backing = new Background(logInBgFill);
 		
 		// create square behind information text on WelcomePage screen
-		BackgroundFill textFlowBgFill = new BackgroundFill(Color.color(1, 0.7, 0.4, 0.75), new CornerRadii(30), new Insets(328, 0, 215, -50));
+		BackgroundFill textFlowBgFill = new BackgroundFill(Color.color(1, 0.7, 0.4, 0.75), new CornerRadii(30), new Insets(328, 150, 250, -50));
 		Background textFlowBacking = new Background(textFlowBgFill);
 		
 		// define title label
@@ -138,7 +138,7 @@ public class LoginPane extends BorderPane
 		
 		// define hBox for bottom buttons
 		HBox bottomScreen = new HBox();
-		bottomScreen.setSpacing(55);
+		bottomScreen.setSpacing(150);
 		bottomScreen.getChildren().addAll(about, staff, faq, report, privacy);
 		
 		// define WelcomePage borderPane
